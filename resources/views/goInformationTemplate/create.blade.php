@@ -29,12 +29,12 @@
                         <textarea type="text" class="form-control mytextarea" name="rules_regulations" rows="1" ></textarea>
                      </div>
                      <div class="form-group col-12">
-                        <label for="kind_information">Kind Information</label>
-                        <textarea type="text" class="form-control mytextarea" name="kind_information" rows="1" ></textarea>
-                     </div>
-                     <div class="form-group col-12">
                         <label for="before_kind_information">Training Institute Information</label>
                         <textarea type="text" id="" class="form-control mytextarea" name="before_kind_information" rows="1"></textarea>
+                     </div>
+                     <div class="form-group col-12">
+                        <label for="kind_information">Kind Information</label>
+                        <textarea type="text" class="form-control mytextarea" name="kind_information" rows="1" ></textarea>
                      </div>
                   </div>
                   <div class="row">

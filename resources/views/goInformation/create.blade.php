@@ -9,13 +9,34 @@
          <div class="card">
             <div class="card-header"> GO Information Setting </div>
             <div class="card-body">
-               <form name="goInformation-update" action="/goInformationTemplate/{{$goInformation->id}}" method ="POST" enctype="multipart/form-data">
+               <form name="goInformation-update" action="/goInformation" method ="POST" enctype="multipart/form-data">
                   {{ csrf_field() }}
-                  {{ method_field('PUT') }}
                   <div class="row">
-                     <div class="form-group col-4">
+                  @php
+                     $bn = new BanglaDate(time(), 0);
+                     $bdt = $bn->get_date();
+
+                     $text = sprintf( implode( ' ',  $bdt ) );
+
+                     $text2 = en2bnDate(date("j F Y"));
+                  @endphp
+
+                     <div class="form-group col-3">
+                        <input type="text" name="training_id" value="{{$training_id}}" hidden>
+                        <label for="go_number">GO Number</label>
+                        <input type="text" class="form-control" name="go_number" data-date-format="dd/mm/yyyy" value="" required>
+                     </div>
+                     <div class="form-group col-3">
                         <label for="publish_date">Publish Date</label>
-                        <input type="text" class="form-control datepicker" name="publish_date" data-date-format="dd/mm/yyyy" value="{{date_format(new DateTime($goInformation->publish_date), 'd-m-Y')}}" required readonly>
+                        <input type="text" class="form-control datepicker" name="publish_date" data-date-format="dd/mm/yyyy" value="{{date('d-m-Y')}}" required readonly>
+                     </div>
+                     <div class="form-group col-3">
+                        <label for="publish_date_bangla">Publish Date(@php echo $text @endphp)</label>
+                        <input type="text" class="form-control" name="publish_date_bangla" data-date-format="dd/mm/yyyy" value="{{$text}}" required>
+                     </div>
+                     <div class="form-group col-3">
+                        <label for="publish_date_english">Publish Date(@php echo $text2 @endphp)</label>
+                        <input type="text" class="form-control" name="publish_date_english" data-date-format="dd/mm/yyyy" value="{{$text2}}" required>
                      </div>
                      <div class="form-group col-12">
                         <label for="subject">Subject</label>

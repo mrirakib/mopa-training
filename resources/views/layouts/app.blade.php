@@ -118,10 +118,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if(Auth::user()->user_type == 2)
+                                        <a class="dropdown-item" href="\userProfile\create">Profile</a>
+                                    @endif
                                     @if(Auth::user()->user_type <= 2)
                                         <a class="dropdown-item" href="{{ route('register') }}">Create New Account</a>
                                         <a class="dropdown-item" href="\userlist">User List</a>
-
                                     @endif
                                     <a class="dropdown-item" href="{{ route('password.change') }}">Change password</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"

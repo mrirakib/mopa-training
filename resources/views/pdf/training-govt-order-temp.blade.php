@@ -18,17 +18,17 @@
 	</style>
 </head>
 <body>
-	<p style="margin: 0px 0px 0px 0px; font-size: 16px;text-align: center;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</p>
-	<p style="margin: 0px 0px 0px 0px;text-align: center;">জনপ্রশাসন মন্ত্রণালয়</p>
-	<p style="margin: 0px 0px 0px 0px;text-align: center;">{{$profile->department_bangla}}</p>
-	<p style="margin: 0px 0px 0px 0px; text-align: center;">www.mopa.gov.bd</p>
+	<p style="margin: 0px 0px 0px 250px; font-size: 16px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</p>
+	<p style="margin: 0px 0px 0px 276px;">জনপ্রশাসন মন্ত্রণালয়</p>
+	<p style="margin: 0px 0px 0px 260px;">অভ্যন্তরীণ প্রশিক্ষণ-১ শাখা</p>
+	<p style="margin: 0px 0px 0px 250px;">www.mopa.gov.bd</p>
 	<div style="/*border: 1px solid black;*/ float: left; width: 420px; height: 50px;">
-		<p style="margin-bottom: 0px;">স্মারক নং-@php echo $goInformation->go_number @endphp</p>
+		<p style="margin-bottom: 0px;">স্মারক নং-০৫.০০.০০০০.২০০.২৫.০২১.১৯.১৪১</p>
 	</div>
 	<div style="/*border: 1px solid black;*/ float: right; width: 200px; height: 50px; padding-left: 50px">
-		<p style="margin: 10px 0px -15px 80px; padding-bottom: -10px;">@php echo $goInformation->publish_date_bangla @endphp</p>
+		<p style="margin: 10px 0px -15px 80px; padding-bottom: -10px;">০২ কার্তিক ১৪২৭</p>
 		<p style="margin: 0px; margin-left: 40px;">তারিখ:------------------------</p>
-		<p style="margin: -9px 0px 0px 80px;">@php echo $goInformation->publish_date_english @endphp</p>
+		<p style="margin: -9px 0px 0px 80px;">১৮ অক্টোবর ২০২০</p>
 	</div>
 	<!-- <p style="float: right; margin: 0px 0px -7px 30px;">০২ কার্তিক ১৪২৭</p>
 	<p style="float: right; margin: 0px;">তারিখ: --------------------------</p>
@@ -103,26 +103,26 @@ echo $text;
 	</table>
 
 	<div style="line-height: 0.1;">@php echo $goInformation->rules_regulations @endphp</div>
-	<div style="width: 300px; float: right; /*border: 1px solid black;*/ height: 80px; padding-top: 60px;" >
-		<p style="margin: 0px; text-align: center;">(@php echo $profile->name_bangla @endphp)</p>
-		<p style="margin: 0px; text-align: center;">@php echo $profile->designation_bangla @endphp</p>
-		<p style="margin: 0px; text-align: center;">ফোনঃ @php echo en2bnNumber($profile->contact_no) @endphp</p>
-		<p style="margin: 0px; text-align: center;">ই-মেইলঃ @php echo $profile->email @endphp</p>
+	<div style="width: 300px; float: right; border: 1px solid black; height: 80px; padding-top: 60px;" >
+		<p style="margin: 0px; text-align: center;">(মোঃ আবদুর রউফ মিয়া)</p>
+		<p style="margin: 0px; text-align: center;">উপসচিব</p>
+		<p style="margin: 0px; text-align: center;">ফোনঃ =৮৮ ০২ ৯৫১৫৫২৫</p>
+		<p style="margin: 0px; text-align: center;">ই-মেইলঃ it1@mopa.gov.bd</p>
 	</div>
 	<div style="clear: both; line-height: 0.1;">@php echo $goInformation->before_kind_information @endphp</div>
 
 	<div style="/*border: 1px solid black;*/ float: left; width: 420px; height: 50px;">
-		<p style="margin-bottom: 0px;">স্মারক নং-@php echo $goInformation->go_number @endphp</p>
+		<p style="margin-bottom: 0px;">স্মারক নং-০৫.০০.০০০০.২০০.২৫.০২১.১৯.১৪১</p>
 	</div>
 	<div style="/*border: 1px solid black;*/ float: right; width: 200px; height: 50px; padding-left: 50px">
-		<p style="margin: 10px 0px -15px 80px; padding-bottom: -10px;">@php echo $goInformation->publish_date_bangla @endphp</p>
+		<p style="margin: 10px 0px -15px 80px; padding-bottom: -10px;">০২ কার্তিক ১৪২৭</p>
 		<p style="margin: 0px; margin-left: 40px;">তারিখ:------------------------</p>
-		<p style="margin: -9px 0px 0px 80px;">@php echo $goInformation->publish_date_english @endphp</p>
+		<p style="margin: -9px 0px 0px 80px;">১৮ অক্টোবর ২০২০</p>
 	</div>
 	<div style="line-height: 0.1;">@php echo $goInformation->kind_information @endphp</div>
-	<div style="width: 300px; float: right; /*border: 1px solid black;*/ height: 40px; padding-top: 60px;" >
-		<p style="margin: 0px; text-align: center;">(@php echo $profile->name_bangla @endphp)</p>
-		<p style="margin: 0px; text-align: center;">@php echo $profile->designation_bangla @endphp</p>
+	<div style="width: 300px; float: right; border: 1px solid black; height: 40px; padding-top: 60px;" >
+		<p style="margin: 0px; text-align: center;">(মোঃ আবদুর রউফ মিয়া)</p>
+		<p style="margin: 0px; text-align: center;">উপসচিব</p>
 	</div>
 </body>
 </html>

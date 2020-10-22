@@ -58,7 +58,11 @@ Route::resource('trainingType','TrainingTypeController');
 Route::resource('goInformationTemplate','GOInformationTemplateController');
 Route::resource('goInformation','GOInformationController');
 
-
+Route::get('goInformation/create/{id}','GOInformationController@create')->name('goInformation.create');
 
 Route::get('/training-govt-order/{id}','PDFController@training_govt_order');
+Route::get('/training-govt-order-temp/{id}','PDFController@training_govt_order_temp');
 Route::get('/training-govt-order2/{id}','PDFController@training_govt_order2');
+
+
+Route::resource('/userProfile', 'UserProfileController');

@@ -62,7 +62,7 @@ class GOInformationTemplateController extends Controller
 
         Session::flash('Msgsuccess', 'GO Information saved successfully.');
 
-        return redirect('/goInformation/'.$goInformation->id);
+        return redirect('/goInformationTemplate/'.$goInformation->id);
     }
 
     /**
