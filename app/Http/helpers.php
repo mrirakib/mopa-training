@@ -27,7 +27,9 @@
 			return false;
 	}
     function GOInformationFinal($training_id){
-        $goInfo = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $training_id)->where('status', 1)->first();
+        $training = Training::find($training_id);
+
+        $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->first();
         if($goInfo == NULL){
             return false;
         }

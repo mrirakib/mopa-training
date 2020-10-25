@@ -20,7 +20,7 @@
             <div class="card-header">Training List</div>
 
             <div class="card-body">
-               <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+               <table id="dtBasicExample" class="table table-striped table-bordered table-sm table" cellspacing="0" width="100%">
                   <thead>
                      <tr>
                         <th class="th-sm">Sl</th>
@@ -74,12 +74,12 @@
                         <td class="font-weight-bold text-center text-danger">Selection Completed</td>
                         <td>
                            <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
-                           <a class="btn btn-primary" href="#"><i class="fa fa-pencil"></i> Excel </a>
-                           @if(!GOInformationFinal($rowdata->id))
+                           <a class="btn btn-primary" href="/export/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Excel </a>
+                           @if(!GOInformationFinal($rowdata->id) && Auth::user()->user_type == 2)
                            <a class="btn btn-success" href="{{ route('goInformation.create', [$rowdata->id]) }}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a>
                            <a class="btn btn-success" href="/training-govt-order-temp/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> Temp GO </a>
                            <!-- <a class="btn btn-success" href="/goInformation.create/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a> -->
-                           @else
+                           @elseif(GOInformationFinal($rowdata->id))
                            <a class="btn btn-success" href="/training-govt-order/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>
                            @endif
                         </td>

@@ -30,7 +30,7 @@ class TrainingController extends Controller
         }elseif(Auth::user()->user_type == 2){
             $trainings = Training::where('admin_id', Auth::user()->id)->orderBy('status', 'ASC')->orderBy('id', 'DESC')->get();
         }else{
-            $trainings = Training::orderBy('id', 'DESC')->orderBy('id', 'DESC')->orderBy('status', 'DESC')->get();
+            $trainings = Training::orderBy('status', 'ASC')->orderBy('id', 'DESC')->get();
         }
 
         return view('training.index', compact('trainings'));

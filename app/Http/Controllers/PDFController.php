@@ -12,12 +12,15 @@ use App\Models\UserProfile;
 use App\User;
 use PDF;
 use Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CandidateListExport;
+use Session;
 
 class PDFController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'verify.admin']);
+        $this->middleware(['auth', 'verify.adminabove']);
     }
     /**
      * Display a listing of the resource.
@@ -26,26 +29,48 @@ class PDFController extends Controller
      */
     public function index()
     {
-        //
+        // $shows = NominationDetail::all();
+
+        // return view('Excel.list', compact('shows'));
     }
+
+    public function export($training_id) 
+    {
+        return Excel::download(new CandidateListExport($training_id), 'candidate_list_'.$training_id.'_'.date('d-m-Y').'.xlsx');
+    }
+
     public function training_govt_order($training_id)
     {
+        $training = Training::find($training_id);
+        if($training == null){
+            Session::flash('Msgerror', 'No Training Found.');
+            return redirect('/');
+        }
+        if(($training->admin_id != Auth::user()->id) && (Auth::user()->user_type == 2)){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
+        }
+
         $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
 
-        $training = Training::find($training_id);
-        $profile = UserProfile::where('user_id', Auth::user()->id)->where('status', 1)->first();
+        $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
 
 
         ////////////////////////////////////////
-        $goInformation = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $training_id)->where('status', 1)->first();
+        $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->first();
         
         if($goInformation == null){
-            $goInformation = GOInformationTemplate::where('admin_id', Auth::user()->id)->first();
+            if(Auth::user()->user_type == 2){
+                $goInformation = GOInformationTemplate::where('admin_id', $training->admin_id)->first();
 
-            if($goInformation == null){
-                return view('GOInformationTemplate.create');
-            }
-            if($goInformation->admin_id != Auth::user()->id){
+                if($goInformation == null){
+                    return view('GOInformationTemplate.create');
+                }
+                if($goInformation->admin_id != Auth::user()->id){
+                    return redirect('/');
+                }                
+            }else{
+                Session::flash('Msgerror', 'GO Information not found.');
                 return redirect('/');
             }
         }
