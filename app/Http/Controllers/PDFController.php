@@ -55,6 +55,20 @@ class PDFController extends Controller
 
         $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
 
+        if($profile == null){
+            if(Auth::user()->user_type == 1){
+                Session::flash('Msgerror', 'Signatory information not found. Admin of this training should fill in the signatory information first.');
+                return redirect('/');
+
+            }elseif(Auth::user()->user_type == 2){
+                Session::flash('Msgerror', 'Signatory information not found. Please fill in the signatory information then try again.');
+                return redirect('/userProfile/create');
+            }else{
+                return redirect('/');
+            }
+                return redirect('/');
+        }
+
 
         ////////////////////////////////////////
         $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->first();
@@ -110,22 +124,50 @@ class PDFController extends Controller
     }
     public function training_govt_order_temp($training_id)
     {
+        $training = Training::find($training_id);
+        if($training == null){
+            Session::flash('Msgerror', 'No Training Found.');
+            return redirect('/');
+        }
+        if(($training->admin_id != Auth::user()->id) && (Auth::user()->user_type == 2)){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
+        }
+
         $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
 
-        $training = Training::find($training_id);
+        $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
 
-        // $goInformation = GOInformationTemplate::find(5);
+        if($profile == null){
+            if(Auth::user()->user_type == 1){
+                Session::flash('Msgerror', 'Signatory information not found. Admin of this training should fill in the signatory information first.');
+                return redirect('/');
+
+            }elseif(Auth::user()->user_type == 2){
+                Session::flash('Msgerror', 'Signatory information not found. Please fill in the signatory information then try again.');
+                return redirect('/userProfile/create');
+            }else{
+                return redirect('/');
+            }
+                return redirect('/');
+        }
+
 
         ////////////////////////////////////////
-        $goInformation = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $training_id)->where('status', 0)->first();
+        $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->first();
         
         if($goInformation == null){
-            $goInformation = GOInformationTemplate::where('admin_id', Auth::user()->id)->first();
+            if(Auth::user()->user_type == 2){
+                $goInformation = GOInformationTemplate::where('admin_id', $training->admin_id)->first();
 
-            if($goInformation == null){
-                return view('GOInformationTemplate.create');
-            }
-            if($goInformation->admin_id != Auth::user()->id){
+                if($goInformation == null){
+                    return view('GOInformationTemplate.create');
+                }
+                if($goInformation->admin_id != Auth::user()->id){
+                    return redirect('/');
+                }                
+            }else{
+                Session::flash('Msgerror', 'GO Information not found.');
                 return redirect('/');
             }
         }
@@ -147,10 +189,9 @@ class PDFController extends Controller
         $mpdf->SetWatermarkText('DRAFT GO');
         $mpdf->showWatermarkText = true;
 
-
         $fileName = "document.pdf";
 
-        $html = \View::make('pdf.training-govt-order-temp', compact('nominations', 'training', 'goInformation'));
+        $html = \View::make('pdf.training-govt-order', compact('nominations', 'training', 'goInformation', 'profile'));
         $html = $html->render();
 
         // $mpdf->SetHeader('Chapter 1|Candidate List|{PAGENO}');

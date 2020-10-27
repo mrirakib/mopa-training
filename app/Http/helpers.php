@@ -14,6 +14,12 @@
 		else
 			return false;
 	}
+    function isAdminAbove(){
+        if(Auth::user()->user_type <= 2)
+            return true;
+        else
+            return false;
+    }
 	function isUser(){
 		if(Auth::user()->user_type == 3)
 			return true;
@@ -30,6 +36,17 @@
         $training = Training::find($training_id);
 
         $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->first();
+        if($goInfo == NULL){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    function GOInformationDraft($training_id){
+        $training = Training::find($training_id);
+
+        $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 0)->first();
         if($goInfo == NULL){
             return false;
         }

@@ -28,13 +28,14 @@ class CandidateListExport implements FromCollection, WithHeadings
     public function collection()
     {
         return NominationDetail::where('training_id', $this->training_id)->where('status', 1)->where('deleted_at', null)->get([
-            'name', 'name_bangla', 'designation', 'designation_bangla', 'contact_no', 'email', 'working_place'
+            'id_no', 'name', 'name_bangla', 'designation', 'designation_bangla', 'contact_no', 'email', 'working_place'
         ]);
     }
 
     public function headings(): array
         {
             return [
+                'Id',
                 'Name',
                 'Name Bangla',
                 'Designation',

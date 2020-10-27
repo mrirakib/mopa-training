@@ -43,8 +43,9 @@ class TrainingController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->user_type > 2){
-            return back();
+        if(!isAdmin()){
+            Session::flash('Msgerror', 'Access Denied');
+            return redirect('/');
         }
         return view('training.create');
     }
@@ -57,6 +58,11 @@ class TrainingController extends Controller
      */
     public function store(Request $request)
     {
+        if(!isAdmin()){
+            Session::flash('Msgerror', 'Access Denied');
+            return redirect('/');
+        }
+
         $training = new Training();
         $training->title = $request->title;
         $training->issue_no = $request->issue_no;
@@ -128,16 +134,16 @@ class TrainingController extends Controller
 
         // $training = Training::find($training->id);
         if($training->status != 0){
-            return back();
+            Session::flash('Msgerror', 'Access Denied. Training already marked as final.');
+            return redirect('/');
         }
-        if(isSuperAdmin()){
-            $flag = true;
-        }elseif(isAdmin() && trainingAuth($training)){
+        if(isAdmin() && trainingAuth($training)){
             $flag = true;
         }
 
         if(!$flag){
-            return back();
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
         }
 
         return view('training.edit', compact('training'));
@@ -152,6 +158,17 @@ class TrainingController extends Controller
      */
     public function update(Request $request, Training $training)
     {
+        $flag = false;
+
+        if(isAdmin() && trainingAuth($training)){
+            $flag = true;
+        }
+
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
+        }
+
         $delete_attachment = $request->delete_attachment;
 
         if($delete_attachment){
@@ -197,6 +214,23 @@ class TrainingController extends Controller
     public function publishTraining($training_id)
     {
         $training = Training::find($training_id);
+
+        if($training == null){
+            Session::flash('Msgerror', 'Training not found');
+            return redirect('/');
+        }
+
+        $flag = false;
+
+        if(isAdmin() && trainingAuth($training)){
+            $flag = true;
+        }
+
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
+        }
+
         $training->status = 1;
         $training->save();
 
@@ -205,6 +239,21 @@ class TrainingController extends Controller
     public function closeTraining($training_id)
     {
         $training = Training::find($training_id);
+        if($training == null){
+            Session::flash('Msgerror', 'Training not found');
+            return redirect('/');
+        }
+
+        $flag = false;
+
+        if(isAdmin() && trainingAuth($training)){
+            $flag = true;
+        }
+
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
+        }
         $training->status = 2;
         $training->save();
 
@@ -213,6 +262,21 @@ class TrainingController extends Controller
     public function deleteTraining($training_id)
     {
         $training = Training::find($training_id);
+        if($training == null){
+            Session::flash('Msgerror', 'Training not found');
+            return redirect('/');
+        }
+
+        $flag = false;
+
+        if(isAdmin() && trainingAuth($training)){
+            $flag = true;
+        }
+
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
+        }
         $training->status = 4;
         $training->save();
 
@@ -246,12 +310,25 @@ class TrainingController extends Controller
 
     public function trainingMakeFinal($training_id)
     {
-        if(isUser()){
-            return back();
+        $training = Training::find($training_id);
+
+        if($training == null){
+            Session::flash('Msgerror', 'Training not found');
+            return redirect('/');
+        }
+
+        $flag = false;
+
+        if(isAdmin() && trainingAuth($training)){
+            $flag = true;
+        }
+
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
         }
 
 
-        $training = Training::find($training_id);
         // $training = Training::where('id', $training_id)->where('status', 1)->get();
 
 

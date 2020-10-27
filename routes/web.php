@@ -67,6 +67,8 @@ Route::get('/training-govt-order2/{id}','PDFController@training_govt_order2');
 
 Route::resource('/userProfile', 'UserProfileController');
 
+Route::resource('/report', 'ReportController');
+
 // Route::get('selected_candidate_list', 'PDFController@index')->name('selected_candidate_list');
 
 Route::get('/export/{training_id}', 'PDFController@export');

@@ -72,33 +72,6 @@ echo $text;
 				<td>{{$rowdata->email}}</td>
 			</tr>
 			@endforeach
-			@foreach($nominations as $key => $rowdata)
-			<tr>
-				<td>@php echo en2bnNumber(++$key); @endphp.</td>
-				<td>{{$rowdata->name_bangla}} (@php echo en2bnNumber($rowdata->id_no); @endphp)</td>
-				<td>{{$rowdata->designation_bangla}} {{$rowdata->working_place}}</td>
-				<td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>
-				<td>{{$rowdata->email}}</td>
-			</tr>
-			@endforeach
-			@foreach($nominations as $key => $rowdata)
-			<tr>
-				<td>@php echo en2bnNumber(++$key); @endphp.</td>
-				<td>{{$rowdata->name_bangla}} (@php echo en2bnNumber($rowdata->id_no); @endphp)</td>
-				<td>{{$rowdata->designation_bangla}} {{$rowdata->working_place}}</td>
-				<td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>
-				<td>{{$rowdata->email}}</td>
-			</tr>
-			@endforeach
-			@foreach($nominations as $key => $rowdata)
-			<tr>
-				<td>@php echo en2bnNumber(++$key); @endphp.</td>
-				<td>{{$rowdata->name_bangla}} (@php echo en2bnNumber($rowdata->id_no); @endphp)</td>
-				<td>{{$rowdata->designation_bangla}} {{$rowdata->working_place}}</td>
-				<td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>
-				<td>{{$rowdata->email}}</td>
-			</tr>
-			@endforeach
 		</tbody>
 	</table>
 
@@ -119,6 +92,7 @@ echo $text;
 		<p style="margin: 0px; margin-left: 40px;">তারিখ:------------------------</p>
 		<p style="margin: -9px 0px 0px 80px;">@php echo $goInformation->publish_date_english @endphp</p>
 	</div>
+	<p style="margin-bottom: 0px;">অনুলিপিঃ সদয় অবগতির জন্য (জ্যেষ্ঠতার ভিত্তিতে নয়)</p>
 	<div style="line-height: 0.1;">@php echo $goInformation->kind_information @endphp</div>
 	<div style="width: 300px; float: right; /*border: 1px solid black;*/ height: 40px; padding-top: 60px;" >
 		<p style="margin: 0px; text-align: center;">(@php echo $profile->name_bangla @endphp)</p>

@@ -88,6 +88,8 @@
                                     <a class="dropdown-item" href="\training">List</a>
                                     @if(Auth::user()->user_type <= 2)
                                     <a class="dropdown-item" href="\training\create">Create</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="\report">Report</a>
                                     @endif
                                 </div>
                             </li>
