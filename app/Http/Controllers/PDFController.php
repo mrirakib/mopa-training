@@ -103,29 +103,6 @@ class PDFController extends Controller
         return Excel::download(new TrainingReportExport($results), 'training-report - '.date('d-m-Y').'.xlsx');
     }
 
-    function excelasfd()
-    {
-     $pdf_data = DB::table('importpdfs')->get()->toArray();
-     $pdf_array[] = array('Battery', 'No_of_questions_attempted', 'SAS', 'NPR', 'ST', 'GR');
-     foreach($pdf_data as $pdf)
-     {
-       $pdf_array[] = array(
-        'Battery'  => $pdf->Battery,
-       'No_of_questions_attempted'   => $pdf->No_of_questions_attempted,
-       'SAS'    => $pdf->SAS,
-        'NPR'  => $pdf->NPR,
-        'ST'   => $pdf->ST,
-        'GR'   => $pdf->GR
-        );
-   }
-    Excel::download('Pdf Data', function($excel) use ($pdf_array){
-    $excel->setTitle('Pdf Data');
-    $excel->sheet('Pdf Data', function($sheet) use ($pdf_array){
-    $sheet->fromArray($pdf_array, null, 'A1', false, false);
-      });
-    })->download('xlsx');
-   } 
-
     public function training_govt_order($training_id)
     {
         $training = Training::find($training_id);
@@ -196,19 +173,8 @@ class PDFController extends Controller
         $html = \View::make('pdf.training-govt-order', compact('nominations', 'training', 'goInformation', 'profile'));
         $html = $html->render();
 
-        // $mpdf->SetHeader('Chapter 1|Candidate List|{PAGENO}');
-        // $mpdf->SetFooter('Footer');
-        // $stylesheet = file_get_contents(url('/css/mpdf.css'));
-        // $mpdf->WriteHTML($stylesheet, 1);
-        // dd($training_id);
-
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
-        // $mpdf->Output($fileName, 'F');
-
-
-
-        // return view('pdf.training-govt-order', compact('nominations', 'training'));
     }
     public function training_govt_order_temp($training_id)
     {
@@ -282,18 +248,8 @@ class PDFController extends Controller
         $html = \View::make('pdf.training-govt-order', compact('nominations', 'training', 'goInformation', 'profile'));
         $html = $html->render();
 
-        // $mpdf->SetHeader('Chapter 1|Candidate List|{PAGENO}');
-        // $mpdf->SetFooter('Footer');
-        // $stylesheet = file_get_contents(url('/css/mpdf.css'));
-        // $mpdf->WriteHTML($stylesheet, 1);
-        // dd($training_id);
-
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
-
-
-
-        // return view('pdf.training-govt-order', compact('nominations', 'training'));
     }
     public function training_report_print(Request $request)
     {
@@ -367,10 +323,6 @@ class PDFController extends Controller
 
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
-
-
-
-        // return view('pdf.training-govt-order', compact('nominations', 'training'));
     }
     public function training_govt_order2($training_id)
     {
