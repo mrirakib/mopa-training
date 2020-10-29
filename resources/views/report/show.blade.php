@@ -21,55 +21,67 @@
             @endif
             <div class="card-header">Training Report</div>
             <div class="card-body">
-               <p style="margin-bottom: 0px;"><b>Title</b> : </p>
-               <p class="mb-0"><b>Issue No</b> : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Issue Date</b> :  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Archive Date</b> : </p>
-
-               
-
-               <p style="margin-bottom: 0px;">Remarks: </p>
+               <div class="row">
+                  <div class="col-10">
+                     <p style="margin-bottom: 0px;"><b>Search Key</b></p>
+                     <p style="margin-bottom: 0px;">@if($id_no != null)<b>Id No</b> : {{$id_no}}&nbsp;&nbsp; @endif @if($name != null)<b>Name</b> : {{$name}}&nbsp;&nbsp; @endif @if($designation != null)<b>Designation</b> : {{$designation}}&nbsp;&nbsp; @endif @if($contact_no != null)<b>Contact No</b> : {{$contact_no}}&nbsp;&nbsp; @endif @if($email != null)<b>Email</b> : {{$email}}&nbsp;&nbsp; @endif</p>
+                  </div>
+                  <div class="col-1">
+                     <form method="POST" target="_blank" action="/training-report-print" name="training-report-print">
+                        {{ csrf_field() }}
+                        <input type="text" name="id_no" value="{{$id_no}}" hidden>
+                        <input type="text" name="name" value="{{$name}}" hidden>
+                        <input type="text" name="designation" value="{{$designation}}" hidden>
+                        <input type="text" name="contact_no" value="{{$contact_no}}" hidden>
+                        <input type="text" name="email" value="{{$email}}" hidden>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Print </button>
+                     </form>
+                  </div>
+                  <div class="col-1">
+                     <form method="POST" action="/training-report-export" name="training-report-excel">
+                        {{ csrf_field() }}
+                        <input type="text" name="id_no" value="{{$id_no}}" hidden>
+                        <input type="text" name="name" value="{{$name}}" hidden>
+                        <input type="text" name="designation" value="{{$designation}}" hidden>
+                        <input type="text" name="contact_no" value="{{$contact_no}}" hidden>
+                        <input type="text" name="email" value="{{$email}}" hidden>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Excel </button>
+                     </form>
+                  </div>
+               </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 5px;">
                <div class="col-md-12">
                   <div class="card">
-                     <div class="card-header">Nomination Table </div>
+                     <!-- <div class="card-header">Report </div> -->
                      <div class="card-body">
-                        <form action = "/nomination" method = "POST">
-                           {{ csrf_field() }}
-                           <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-                              <thead>
-                                 <tr>
-                                    <th class="th-sm">Sl</th>
-                                    <th class="th-sm">Office</th>
-                                    <th class="th-sm">ID</th>
-                                    <th class="th-sm">Name</th>
-                                    <th class="th-sm">Name(Bangla)</th>
-                                    <th class="th-sm">Designation</th>
-                                    <th class="th-sm">Designation(Bangla)</th>
-                                    <th class="th-sm">Contact</th>
-                                    <th class="th-sm">Email</th>
-                                    <th class="th-sm">Working place</th>
-                                 </tr>
-                              </thead>
-                              <?php $i=1; ?>
-                              <tbody id="item_list_table_body">
-                                 @foreach($results as $rowdata)
-                                 <tr>
-                                    <td>{{$i++}}</td>
-                                    <td>{{$rowdata->getUserInfo->name}}</td>
-                                    <td>{{$rowdata->id_no}}</td>
-                                    <td>{{$rowdata->name}}</td>
-                                    <td>{{$rowdata->name_bangla}}</td>
-                                    <td>{{$rowdata->designation}}</td>
-                                    <td>{{$rowdata->designation_bangla}}</td>
-                                    <td>{{$rowdata->contact_no}}</td>
-                                    <td>{{$rowdata->email}}</td>
-                                    <td>{{$rowdata->working_place}}</td>
-                                 </tr>
-                                 @endforeach
-                              </tbody>
-                           </table>
-                           <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                        </form>
+                        <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                           <thead>
+                              <tr>
+                                 <th class="th-sm">ক্র. নং</th>
+                                 <th class="th-sm">ট্রেনিয়ের নাম</th>
+                                 <th class="th-sm">অফিস</th>
+                                 <th class="th-sm">নাম ও পরিচিতি নং</th>
+                                 <th class="th-sm">পদবী ও বর্তমান কর্রস্থল</th>
+                                 <th class="th-sm">মোবাইল</th>
+                                 <th class="th-sm">ই-মেইল</th>
+                              </tr>
+                           </thead>
+                           <?php $i=1; ?>
+                           <tbody id="item_list_table_body">
+                              @foreach($results as $rowdata)
+                              <tr>
+                                 <td>@php echo en2bnNumber($i++); @endphp</td>
+                                 <td>{{$rowdata->getTrainingInfo->title}}</td>
+                                 <td>{{$rowdata->getUserInfo->name}}</td>
+                                 <td>{{$rowdata->name_bangla}}(@php echo en2bnNumber($rowdata->id_no); @endphp)</td>
+                                 <td>{{$rowdata->designation_bangla}} ({{$rowdata->working_place}})</td>
+                                 <td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>
+                                 <td>{{$rowdata->email}}</td>
+                              </tr>
+                              @endforeach
+                           </tbody>
+                        </table>
                      </div>
                   </div>
                </div>
@@ -78,7 +90,7 @@
                <div class="card-body">
                   <div class="row">
                      <div class="col-4">
-                        <a class="btn btn-secondary" href="/"><i class="fa fa-arrow-left"></i> Back </a>
+                        <a class="btn btn-secondary" href="/report"><i class="fa fa-arrow-left"></i> Back </a>
                      </div>
                   </div>                  
                </div>

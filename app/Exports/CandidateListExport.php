@@ -18,9 +18,9 @@ class CandidateListExport implements FromCollection, WithHeadings
 
     protected $training_id;
 
-     function __construct($training_id) {
+    function __construct($training_id) {
         $this->training_id = $training_id;
-     }
+    }
 
     /**
     * @return \Illuminate\Support\Collection
@@ -33,16 +33,16 @@ class CandidateListExport implements FromCollection, WithHeadings
     }
 
     public function headings(): array
-        {
-            return [
-                'Id',
-                'Name',
-                'Name Bangla',
-                'Designation',
-                'Designation Bangla',
-                'Contact_no',
-                'Email',
-                'Working Place',
-            ];
-        }
+    {
+        return [
+            'Id',
+            'Name',
+            'Name Bangla',
+            'Designation',
+            'Designation Bangla',
+            'Contact_no',
+            'Email',
+            'Working Place',
+        ];
+    }
 }

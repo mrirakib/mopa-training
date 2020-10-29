@@ -14,4 +14,8 @@ class NominationDetail extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
+    public function getTrainingInfo()
+    {
+        return $this->belongsTo('App\Models\Training', 'training_id', 'id');
+    }
 }

@@ -79,7 +79,7 @@
                         <td class="font-weight-bold text-center text-danger">Selection Completed</td>
                         <td>
                            <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
-                           <a class="btn btn-primary" href="/export/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Excel </a>
+                           <a class="btn btn-primary" href="/candidate-list-export/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Excel </a>
                            @if(!GOInformationFinal($rowdata->id) && Auth::user()->user_type == 2)
                            <a class="btn btn-success" href="{{ route('goInformation.create', [$rowdata->id]) }}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a>
                            @if(GOInformationDraft($rowdata->id))

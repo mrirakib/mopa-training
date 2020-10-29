@@ -14,7 +14,9 @@ use PDF;
 use Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CandidateListExport;
+use App\Exports\TrainingReportExport;
 use Session;
+use DB;
 
 class PDFController extends Controller
 {
@@ -34,10 +36,95 @@ class PDFController extends Controller
         // return view('Excel.list', compact('shows'));
     }
 
-    public function export($training_id) 
+    public function candidate_list_export($training_id) 
     {
         return Excel::download(new CandidateListExport($training_id), 'candidate_list_'.$training_id.'_'.date('d-m-Y').'.xlsx');
     }
+
+    public function training_report_export(Request $request) 
+    {
+        ////////////////////////////////////////
+        if($request->id_no == null && $request->name == null && $request->designation == null && $request->contact_no == null && $request->email == null){
+            Session::flash('Msgerror', 'Please input at least 1 field.');
+            return redirect('/report');
+        }
+
+
+        if(Auth::user()->user_type == 1){
+            $training_ids = Training::where('status', 4)->pluck('id');
+        }else{
+            $training_ids = Training::where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
+        }
+
+        $q = NominationDetail::query();
+
+        $q->whereIn('training_id', $training_ids)->where('nomination_details.status', 1);
+
+        if ($request->id_no != null) {
+            $q->where('id_no', $request->id_no);
+
+        }
+
+        if ($request->name) {
+            $q->where('name', 'LIKE', '%'.$request->name.'%');
+
+        }
+
+        if ($request->designation) {
+            $q->where('designation', 'LIKE', '%'.$request->designation.'%');
+
+        }
+
+        if ($request->contact_no) {
+            $q->where('contact_no', 'LIKE', '%'.$request->contact_no.'%');
+
+        }
+
+        if ($request->email) {
+            $q->where('email', 'LIKE', '%'.$request->email.'%');
+        }
+
+        // $results = $q->select('id_no', 'name_bangla', 'designation_bangla', 'contact_no', 'email')->get();
+
+        $results = $q->leftJoin('trainings', 'nomination_details.training_id', '=', 'trainings.id')
+             ->select('title', 'id_no', 'name_bangla', 'designation_bangla', 'contact_no', 'email', 'working_place')->get();
+
+        // dd($results);
+
+        // $results = $q->select('training_id', 'id_no', 'name_bangla', 'designation_bangla', 'contact_no', 'email')->get();
+
+
+        $id_no = $request->id_no;
+        $name = $request->name;
+        $designation = $request->designation;
+        $contact_no = $request->contact_no;
+        $email = $request->email;
+        ////////////////////////////////////////
+        return Excel::download(new TrainingReportExport($results), 'training-report - '.date('d-m-Y').'.xlsx');
+    }
+
+    function excelasfd()
+    {
+     $pdf_data = DB::table('importpdfs')->get()->toArray();
+     $pdf_array[] = array('Battery', 'No_of_questions_attempted', 'SAS', 'NPR', 'ST', 'GR');
+     foreach($pdf_data as $pdf)
+     {
+       $pdf_array[] = array(
+        'Battery'  => $pdf->Battery,
+       'No_of_questions_attempted'   => $pdf->No_of_questions_attempted,
+       'SAS'    => $pdf->SAS,
+        'NPR'  => $pdf->NPR,
+        'ST'   => $pdf->ST,
+        'GR'   => $pdf->GR
+        );
+   }
+    Excel::download('Pdf Data', function($excel) use ($pdf_array){
+    $excel->setTitle('Pdf Data');
+    $excel->sheet('Pdf Data', function($sheet) use ($pdf_array){
+    $sheet->fromArray($pdf_array, null, 'A1', false, false);
+      });
+    })->download('xlsx');
+   } 
 
     public function training_govt_order($training_id)
     {
@@ -104,7 +191,7 @@ class PDFController extends Controller
         ]);
 
 
-        $fileName = "document.pdf";
+        $fileName = $profile->department.' '.date('d-m-Y').".pdf";
 
         $html = \View::make('pdf.training-govt-order', compact('nominations', 'training', 'goInformation', 'profile'));
         $html = $html->render();
@@ -117,6 +204,7 @@ class PDFController extends Controller
 
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
+        // $mpdf->Output($fileName, 'F');
 
 
 
@@ -189,7 +277,7 @@ class PDFController extends Controller
         $mpdf->SetWatermarkText('DRAFT GO');
         $mpdf->showWatermarkText = true;
 
-        $fileName = "document.pdf";
+        $fileName = $profile->department.' '.date('d-m-Y').".pdf";
 
         $html = \View::make('pdf.training-govt-order', compact('nominations', 'training', 'goInformation', 'profile'));
         $html = $html->render();
@@ -199,6 +287,83 @@ class PDFController extends Controller
         // $stylesheet = file_get_contents(url('/css/mpdf.css'));
         // $mpdf->WriteHTML($stylesheet, 1);
         // dd($training_id);
+
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($fileName, 'I');
+
+
+
+        // return view('pdf.training-govt-order', compact('nominations', 'training'));
+    }
+    public function training_report_print(Request $request)
+    {
+        ////////////////////////////////////////
+        if($request->id_no == null && $request->name == null && $request->designation == null && $request->contact_no == null && $request->email == null){
+            Session::flash('Msgerror', 'Please input at least 1 field.');
+            return redirect('/report');
+        }
+
+
+        if(Auth::user()->user_type == 1){
+            $training_ids = Training::where('status', 4)->pluck('id');
+        }else{
+            $training_ids = Training::where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
+        }
+
+        $q = NominationDetail::query();
+
+        $q->whereIn('training_id', $training_ids)->where('status', 1);
+
+        if ($request->id_no != null) {
+            $q->where('id_no', $request->id_no);
+
+        }
+
+        if ($request->name) {
+            $q->where('name', 'LIKE', '%'.$request->name.'%');
+
+        }
+
+        if ($request->designation) {
+            $q->where('designation', 'LIKE', '%'.$request->designation.'%');
+
+        }
+
+        if ($request->contact_no) {
+            $q->where('contact_no', 'LIKE', '%'.$request->contact_no.'%');
+
+        }
+
+        if ($request->email) {
+            $q->where('email', 'LIKE', '%'.$request->email.'%');
+        }
+
+        $results = $q->get();
+
+        $id_no = $request->id_no;
+        $name = $request->name;
+        $designation = $request->designation;
+        $contact_no = $request->contact_no;
+        $email = $request->email;
+        ////////////////////////////////////////
+
+
+        $mpdf = new \Mpdf\Mpdf([
+            'default_font' => "nikosh",
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 20,
+            'margin_bottom' => 15,
+            'margin_header' => 10,
+            'margin_footer' => 10,
+            'mode' => 'utf-8',
+            'format' => 'A4',
+        ]);
+
+        $fileName = 'Training Report '.date('d-m-Y').".pdf";
+
+        $html = \View::make('pdf.training-report-print', compact('results', 'id_no', 'name', 'designation', 'contact_no', 'email'));
+        $html = $html->render();
 
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');

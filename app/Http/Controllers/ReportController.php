@@ -67,27 +67,33 @@ class ReportController extends Controller
         }
 
         if ($request->name) {
-            $q->where('name', LIKE, '%'.$request->name.'%');
+            $q->where('name', 'LIKE', '%'.$request->name.'%');
 
         }
 
         if ($request->designation) {
-            $q->where('designation', LIKE, '%'.$request->designation.'%');
+            $q->where('designation', 'LIKE', '%'.$request->designation.'%');
 
         }
 
         if ($request->contact_no) {
-            $q->where('contact_no', LIKE, '%'.$request->contact_no.'%');
+            $q->where('contact_no', 'LIKE', '%'.$request->contact_no.'%');
 
         }
 
-        if ($request->designation) {
-            $q->where('email', LIKE, '%'.$request->designation.'%');
+        if ($request->email) {
+            $q->where('email', 'LIKE', '%'.$request->email.'%');
         }
 
         $results = $q->get();
 
-        return view('report.show', compact('results'));
+        $id_no = $request->id_no;
+        $name = $request->name;
+        $designation = $request->designation;
+        $contact_no = $request->contact_no;
+        $email = $request->email;
+
+        return view('report.show', compact('results', 'id_no', 'name', 'designation', 'contact_no', 'email'));
     }
 
     /**
