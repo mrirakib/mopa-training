@@ -103,6 +103,8 @@ class UserController extends Controller
         $user->status = $request->status;
         $user->save();
 
+        userlog('User information update '.$user->id);
+
         return back()->with('Msgsuccess', 'User Information updated successfully');
     }
 
@@ -127,6 +129,8 @@ class UserController extends Controller
         if($user == null){
             return redirect('/')->with('MsgError', "User not found");
         }
+
+        userlog('User password reset '.$user->id);
 
         return view('user.reset', compact('user'));
     }

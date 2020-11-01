@@ -62,6 +62,8 @@ class UserProfileController extends Controller
             $profile->email = $request->email;
             $profile->save();
 
+            userlog('User Profile information save '.$profile->id);
+
             Session::flash('Msgsuccess', 'Signatory information saved successfully.');
             return view('userProfile.show', compact('profile'));
         }else{
@@ -77,6 +79,8 @@ class UserProfileController extends Controller
             $profile->contact_no = $request->contact_no;
             $profile->email = $request->email;
             $profile->save();
+
+            userlog('User Profile information update '.$profile->id);
 
             Session::flash('Msgsuccess', 'Signatory information updated successfully.');
             return view('userProfile.show', compact('profile'));
@@ -143,6 +147,8 @@ class UserProfileController extends Controller
         $profile->contact_no = $request->contact_no;
         $profile->email = $request->email;
         $profile->save();
+
+        userlog('User Profile information update '.$profile->id);
 
         Session::flash('Msgsuccess', 'Signatory information updated successfully.');
         return view('userProfile.show', compact('profile'));

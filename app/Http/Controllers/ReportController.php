@@ -93,6 +93,8 @@ class ReportController extends Controller
         $contact_no = $request->contact_no;
         $email = $request->email;
 
+        userlog('Training Report create.');
+
         return view('report.show', compact('results', 'id_no', 'name', 'designation', 'contact_no', 'email'));
     }
 

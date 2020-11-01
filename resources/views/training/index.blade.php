@@ -57,7 +57,7 @@
                         <td class="text-center"> <?php if($attachmentinfo != ''){ ?> <a href="{{ asset('/upload/'.$attachmentinfo)}}" download="{{ asset('/upload/'.$attachmentinfo)}}"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:20px;"></i></a> <?php } ?> </td>
                         @if(isSuperAdmin() || isAdmin())
                         <?php if($rowdata->status == 0){ ?>
-                        <td class="font-weight-bold text-center text-primary">Draft(Click view button to Publish to Training)</td>
+                        <td class="font-weight-bold text-center text-primary">Draft(Click view button to Publish the Training)</td>
                         <td> 
                            <a class="btn btn-primary" href="/training/{{$rowdata->id}}/edit"><i class="fa fa-pencil"></i> Edit </a>
                            <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-eye"></i> View </a>
@@ -83,7 +83,7 @@
                            @if(!GOInformationFinal($rowdata->id) && Auth::user()->user_type == 2)
                            <a class="btn btn-success" href="{{ route('goInformation.create', [$rowdata->id]) }}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a>
                            @if(GOInformationDraft($rowdata->id))
-                           <a class="btn btn-success" href="/training-govt-order-temp/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> Temp GO </a>
+                           <a class="btn btn-success" href="/training-govt-order-temp/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> Draft GO </a>
                            @endif
                            <!-- <a class="btn btn-success" href="/goInformation.create/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a> -->
                            @elseif(GOInformationFinal($rowdata->id))

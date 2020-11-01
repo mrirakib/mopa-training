@@ -23,4 +23,9 @@ class Training extends Model
     {
         return $this->belongsTo('App\User', 'admin_id', 'id');
     }
+
+    public function goInformation()
+    {
+        return $this->belongsTo('App\Models\GOInformation', 'id', 'training_id');
+    }
 }

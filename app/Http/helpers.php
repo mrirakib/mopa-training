@@ -1,6 +1,18 @@
 <?php
 	use App\Models\Training;
     use App\Models\GOInformation;
+    use App\Models\UserLog;
+
+    function userlog($description){
+        $log = new UserLog();
+        $log->user_id = Auth::user()->id;
+        $log->description = $description;
+        $log->action_time = date('Y/m/d H:i:s');
+        $log->ip_address = request()->ip();
+        $log->save();
+
+        return true;
+    }
 	
 	function isSuperAdmin(){
 		if(Auth::user()->user_type == 1)

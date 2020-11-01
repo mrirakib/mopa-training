@@ -57,6 +57,8 @@ class TrainingTypeController extends Controller
         $trainingType->created_by = Auth::user()->id;
         $trainingType->save();
 
+        userlog('Training type create '.$trainingType->id);
+
         return redirect('/trainingType/'.$trainingType->id);
     }
 
@@ -95,6 +97,8 @@ class TrainingTypeController extends Controller
         $training_type->training_type = $request->training_type;
         $training_type->status = $request->status;
         $training_type->save();
+
+        userlog('Training type update '.$training_type->id);
 
         Session::flash('Msgsuccess', "Training type information updated successfully");
         return Redirect('trainingType/'.$trainingType->id);

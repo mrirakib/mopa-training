@@ -38,6 +38,8 @@ class PDFController extends Controller
 
     public function candidate_list_export($training_id) 
     {
+        userlog('Candidate list export. Training id: '.$training_id);
+
         return Excel::download(new CandidateListExport($training_id), 'candidate_list_'.$training_id.'_'.date('d-m-Y').'.xlsx');
     }
 
@@ -100,6 +102,9 @@ class PDFController extends Controller
         $contact_no = $request->contact_no;
         $email = $request->email;
         ////////////////////////////////////////
+
+        userlog('Training Report export.');
+
         return Excel::download(new TrainingReportExport($results), 'training-report - '.date('d-m-Y').'.xlsx');
     }
 
@@ -172,6 +177,8 @@ class PDFController extends Controller
 
         $html = \View::make('pdf.training-govt-order', compact('nominations', 'training', 'goInformation', 'profile'));
         $html = $html->render();
+
+        userlog('Training Go create.'. $training_id);
 
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
@@ -248,6 +255,8 @@ class PDFController extends Controller
         $html = \View::make('pdf.training-govt-order', compact('nominations', 'training', 'goInformation', 'profile'));
         $html = $html->render();
 
+        userlog('Training Draft Go create.'. $training_id);
+
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
     }
@@ -320,6 +329,8 @@ class PDFController extends Controller
 
         $html = \View::make('pdf.training-report-print', compact('results', 'id_no', 'name', 'designation', 'contact_no', 'email'));
         $html = $html->render();
+
+        userlog('Training Report pdf create.');
 
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');

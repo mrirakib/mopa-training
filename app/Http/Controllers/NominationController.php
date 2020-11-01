@@ -86,6 +86,8 @@ class NominationController extends Controller
 
         $nom_details = NominationDetail::insert($arrData);
 
+        userlog('Nomination information save. Training id: '.$request->training_id);
+
         return redirect('training')->with('Msgsuccess', 'Nomination information saved successfully');
 
     }
@@ -108,6 +110,8 @@ class NominationController extends Controller
         NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->whereNotIn('id', $id_no)->update(['status' => 0]);
 
         Training::where('id', $training_id)->update(['status' => 3]);
+
+        userlog('Candidate Selection save. Training id: '.$training_id);
 
         return redirect('/training/'.$training_id)->with('Msgsuccess', 'Candidate selection done successfully');
 

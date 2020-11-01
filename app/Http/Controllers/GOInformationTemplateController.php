@@ -60,6 +60,8 @@ class GOInformationTemplateController extends Controller
         $goInformation->before_kind_information = $request->before_kind_information;
         $goInformation->save();
 
+        userlog('GO information (template) save '.$goInformation->id);
+
         Session::flash('Msgsuccess', 'GO Information saved successfully.');
 
         return redirect('/goInformationTemplate/'.$goInformation->id);
@@ -107,6 +109,8 @@ class GOInformationTemplateController extends Controller
         $goInf->kind_information = $request->kind_information;
         $goInf->before_kind_information = $request->before_kind_information;
         $goInf->save();
+
+        userlog('GO information (template) update '.$goInf->id);
 
         Session::flash('Msgsuccess', 'GO Information updated successfully.');
         

@@ -85,6 +85,8 @@ class TrainingController extends Controller
             ])->save();
         }
 
+        userlog('Training create '.$training->id);
+
         return redirect('training');
     }
 
@@ -134,7 +136,7 @@ class TrainingController extends Controller
 
         // $training = Training::find($training->id);
         if($training->status != 0){
-            Session::flash('Msgerror', 'Access Denied. Training already marked as final.');
+            Session::flash('Msgerror', 'Access Denied.');
             return redirect('/');
         }
         if(isAdmin() && trainingAuth($training)){
@@ -198,6 +200,8 @@ class TrainingController extends Controller
             ])->save();
         }
 
+        userlog('Training update '.$training->id);
+
         return redirect('training');
     }
 
@@ -234,6 +238,8 @@ class TrainingController extends Controller
         $training->status = 1;
         $training->save();
 
+        userlog('Training publish '.$training->id);
+
         return redirect('training');
     }
     public function closeTraining($training_id)
@@ -257,6 +263,8 @@ class TrainingController extends Controller
         $training->status = 2;
         $training->save();
 
+        userlog('Training close '.$training->id);
+
         return redirect('training');
     }
     public function deleteTraining($training_id)
@@ -277,8 +285,10 @@ class TrainingController extends Controller
             Session::flash('Msgerror', 'Access Denied.');
             return redirect('/');
         }
-        $training->status = 4;
+        $training->status = 5;
         $training->save();
+
+        userlog('Training delete '.$training->id);
 
         return redirect('training');
     }
@@ -350,6 +360,8 @@ class TrainingController extends Controller
         }
 
         Training::where('id', $training_id)->update(['status' => 4]);
+
+        userlog('Training make final '.$training->id);
 
         return redirect('/training/'.$training_id)->with('Msgsuccess', 'Congratulations. Training process has finally finished.');
     }

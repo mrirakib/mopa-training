@@ -69,6 +69,7 @@ Route::post('/training-report-print','PDFController@training_report_print');
 Route::resource('/userProfile', 'UserProfileController');
 
 Route::resource('/report', 'ReportController');
+Route::resource('/go', 'GOController');
 
 // Route::get('selected_candidate_list', 'PDFController@index')->name('selected_candidate_list');
 
