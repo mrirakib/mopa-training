@@ -32,12 +32,12 @@
                         @if(Auth::user()->user_type == 1)
                         <th class="th-sm">Office</th>
                         @endif
-                        <th class="th-sm" style="width: 35%;">Title</th>
-                        <th class="th-sm">Issue Date</th>
-                        <th class="th-sm">Archive Date</th>
+                        <th class="th-sm" style="width: 45%;">Title</th>
+                        <th class="th-sm" style="width: 10%;">Issue Date</th>
+                        <!-- <th class="th-sm">Archive Date</th> -->
                         <th class="th-sm"></th>
                         <th class="th-sm">Status</th>
-                        <th class="th-sm" style="width: 20%;">Action</th>
+                        <th class="th-sm" style="">Action</th>
                      </tr>
                   </thead>
                   <?php $i=1; ?>
@@ -50,7 +50,7 @@
                         @endif
                         <td>{{$rowdata->title}}</td>
                         <td>{{date_format(new DateTime($rowdata->issue_date), 'd-m-Y')}}</td>
-                        <td>{{date_format(new DateTime($rowdata->archive_date), 'd-m-Y')}}</td>
+                        <!-- <td>{{date_format(new DateTime($rowdata->archive_date), 'd-m-Y')}}</td> -->
 
                         <?php $attachmentinfo = $rowdata->getAttachementInfo($rowdata->id); ?>
 
@@ -59,54 +59,52 @@
                         <?php if($rowdata->status == 0){ ?>
                         <td class="font-weight-bold text-center text-primary">Draft(Click view button to Publish the Training)</td>
                         <td> 
-                           <a class="btn btn-primary" href="/training/{{$rowdata->id}}/edit"><i class="fa fa-pencil"></i> Edit </a>
-                           <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-eye"></i> View </a>
+                           <a class="btn btn-primary btn-slim" href="/training/{{$rowdata->id}}/edit"><i class="fa fa-pencil"></i> Edit </a>
+                           <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-eye"></i> View </a>
                         </td>
                         <?php } elseif($rowdata->status == 1){ ?>
                         <td class="font-weight-bold text-center text-success">Open</td>
-                        <td> <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-eye"></i> View </a></td>
+                        <td> <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-eye"></i> View </a></td>
                         <?php } elseif($rowdata->status == 2) { ?>
                         <td class="font-weight-bold text-center text-danger">Closed</td>
                         <td>
-                           <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
+                           <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
                         </td>
                         <?php } elseif($rowdata->status == 3) { ?>
                         <td class="font-weight-bold text-center text-danger">Primary Selection</td>
                         <td>
-                           <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
+                           <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
                         </td>
                         <?php } elseif($rowdata->status == 4) { ?>
                         <td class="font-weight-bold text-center text-danger">Selection Completed</td>
                         <td>
-                           <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
-                           <a class="btn btn-primary" href="/candidate-list-export/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Excel </a>
+                           <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
+                           <a class="btn btn-primary btn-slim" href="/candidate-list-export/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Excel </a>
                            @if(!GOInformationFinal($rowdata->id) && Auth::user()->user_type == 2)
-                           <a class="btn btn-success" href="{{ route('goInformation.create', [$rowdata->id]) }}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a>
+                           <a class="btn btn-success btn-slim" href="{{ route('goInformation.create', [$rowdata->id]) }}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a>
                            @if(GOInformationDraft($rowdata->id))
-                           <a class="btn btn-success" href="/training-govt-order-temp/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> Draft GO </a>
+                           <a class="btn btn-success btn-slim" href="/training-govt-order-temp/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> Draft GO </a>
                            @endif
-                           <!-- <a class="btn btn-success" href="/goInformation.create/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a> -->
+                           <!-- <a class="btn btn-success btn-slim" href="/goInformation.create/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO Info </a> -->
                            @elseif(GOInformationFinal($rowdata->id))
-                           <a class="btn btn-success" href="/training-govt-order/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>
+                           <a class="btn btn-success btn-slim" href="/training-govt-order/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>
                            @endif
                         </td>
                         <?php } elseif($rowdata->status == 5) { ?>
                         <td class="font-weight-bold text-center text-danger">Deleted</td>
-                        <td> <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a></td>
+                        <td> <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a></td>
                         <?php } ?>
                         @else
                         <?php if($rowdata->status == 1){ ?>
                         <td class="font-weight-bold text-center text-success">Open</td>
-                        <td> <a class="btn btn-info" href="/nominationTraining/{{$rowdata->id}}"><i class="fa fa-eye"></i> Action </a></td>
+                        <td> <a class="btn btn-info btn-slim" href="/nominationTraining/{{$rowdata->id}}"><i class="fa fa-eye"></i> Action </a></td>
                         <?php } elseif($rowdata->status == 2) { ?>
                         <td class="font-weight-bold text-center text-danger">Closed</td>
-                        <!-- <td> <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a></td> -->
+                        <!-- <td> <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a></td> -->
                         <?php } ?>
                         @endif
-
                      </tr>
-                     @endforeach
-                     
+                     @endforeach                     
                   </tbody>
                </table>
             </div>

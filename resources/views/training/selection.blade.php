@@ -89,6 +89,30 @@
                   </div>
                </div>
             </div>
+            <!-- ///////////////////// -->
+            <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                  
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                      </div>
+                  
+                      <div class="modal-body">
+                          <p>You are about to delete one track, this procedure is irreversible.</p>
+                          <p>Do you want to proceed?</p>
+                          <p class="debug-url"></p>
+                      </div>
+                      
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                          <a class="btn btn-danger btn-ok">Delete</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- /////////////// -->
             <div class="card">
                <div class="card-body">
                   <div class="row">
@@ -100,9 +124,12 @@
                      </div>
                      <div class="col-8">
                         @if($training->status == 3)
-                        <a class="btn btn-danger pull-right" href="/training-make-final/{{$training->id}}"><i class="fa fa-pencil"></i> Make Final </a>
+                        <a class="btn btn-danger pull-right" href="/training-make-final/{{$training->id}}"><i class="fa fa-pencil"></i> Lock Selection </a>
                         @endif
                      </div>
+                     <button class="btn btn-default" data-href="/training/{{$training->id}}" data-toggle="modal" data-target="#confirm-delete">
+                             Delete record #54
+                         </button>
                   </div>                  
                </div>
             </div>

@@ -37,8 +37,8 @@
                         <td>{{$rowdata->training_type}}</td>
                         <td>@if($rowdata->status == 0) <span class="text-danger">Inactive</span>@elseif($rowdata->status == 1) <span class="text-success">Active</span>@endif</td>
                         <td> 
-                           <a class="btn btn-info" href="/trainingType/{{$rowdata->id}}/edit"><i class="fa fa-pencil"></i> Edit </a>
-                           <a class="btn btn-info" href="/trainingType/{{$rowdata->id}}"><i class="fa fa-eye"></i> Show </a>
+                           <a class="btn btn-info btn-slim" href="/trainingType/{{$rowdata->id}}/edit"><i class="fa fa-pencil"></i> Edit </a>
+                           <a class="btn btn-info btn-slim" href="/trainingType/{{$rowdata->id}}"><i class="fa fa-eye"></i> Show </a>
                         </td>
                      </tr>
                      @endforeach

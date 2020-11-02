@@ -35,6 +35,7 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}" defer></script>
     <script src="{{ asset('js/form-validation.js') }}"></script>
     <script src="https://cdn.tiny.cloud/1/ydybciykv3r9rxxxr18o2d80udshr95fnnk42xurxjdi27pr/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
       tinymce.init({
         selector: 'textarea.mytextarea',
@@ -87,7 +88,9 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="\training">List</a>
                                     @if(Auth::user()->user_type <= 2)
+                                    @if(Auth::user()->user_type == 2)
                                     <a class="dropdown-item" href="\training\create">Create</a>
+                                    @endif
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="\go">GO</a>
                                     <a class="dropdown-item" href="\report">Report</a>

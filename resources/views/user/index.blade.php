@@ -45,9 +45,9 @@
                         <td class="text-warning">Other</td>
                         @endif
                         <td> 
-                           <a class="btn btn-primary" href="/userlist/{{$rowdata->id}}/edit"><i class="fa fa-pencil"></i> Edit </a>
-                           <a class="btn btn-info" href="/userlist/{{$rowdata->id}}"><i class="fa fa-eye"></i> View </a>
-                           <a class="btn btn-success" href="/reset-password/{{$rowdata->id}}"><i class="fa fa-cogs"></i> Reset Password </a>
+                           <a class="btn btn-primary btn-slim" href="/userlist/{{$rowdata->id}}/edit"><i class="fa fa-pencil"></i> Edit </a>
+                           <a class="btn btn-info btn-slim" href="/userlist/{{$rowdata->id}}"><i class="fa fa-eye"></i> View </a>
+                           <a class="btn btn-success btn-slim" href="/reset-password/{{$rowdata->id}}"><i class="fa fa-cogs"></i> Reset Password </a>
                         </td>
                      </tr>
                      @endforeach

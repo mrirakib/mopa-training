@@ -29,22 +29,22 @@
                   <thead>
                      <tr>
                         <th class="th-sm">Sl</th>
-                        <th class="th-sm">Subject</th>
-                        <th class="th-sm">Publish Date</th>
+                        <th class="th-sm" style="width: 70%;">Subject</th>
+                        <th class="th-sm" style="width: 10%;">Publish Date</th>
                         <th class="th-sm">Action</th>
                      </tr>
                   </thead>
                   <?php $i=1; ?>
-                  <tbody>
+                  <tbody class="go-table">
                      @foreach($trainings as $rowdata)
                      <tr>
                         <td>{{$i++}}</td>
                         <td>@php echo $rowdata->goInformation->subject @endphp</td>
                         <td>{{date_format(new DateTime($rowdata->goInformation->publish_date), 'd-m-Y')}}</td>
                         <td>
-                           <a class="btn btn-info" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
-                           <a class="btn btn-primary" href="/candidate-list-export/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Excel </a>
-                           <a class="btn btn-success" href="/training-govt-order/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>
+                           <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
+                           <a class="btn btn-primary btn-slim" href="/candidate-list-export/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Excel </a>
+                           <a class="btn btn-success btn-slim" href="/training-govt-order/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>
                         </td>
                      </tr>
                      @endforeach

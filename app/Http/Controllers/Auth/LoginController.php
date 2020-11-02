@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
+use App\Rules\Captcha;
 
 class LoginController extends Controller
 {
@@ -42,6 +43,12 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        $this->validate($request, [
+                'email' => 'required|email|max:255',
+                'password' => 'required|string|min:6',
+                'g-recaptcha-response' => new Captcha(),
+            ]);
+
         $this->validateLogin($request);
 
         if ($this->hasTooManyLoginAttempts($request)) {
