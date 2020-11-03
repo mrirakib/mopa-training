@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Models\Training;
+use App\Models\TrainingType;
 use App\Models\Attachment;
 use App\Models\NominationDetail;
 use Illuminate\Http\Request;
@@ -26,11 +27,11 @@ class TrainingController extends Controller
     public function index()
     {
         if(Auth::user()->user_type == 3){
-            $trainings = Training::where('status', 1)->orderBy('id', 'DESC')->orderBy('status', 'DESC')->get();
+            $trainings = Training::orderBy('id', 'DESC')->get();
         }elseif(Auth::user()->user_type == 2){
-            $trainings = Training::where('admin_id', Auth::user()->id)->orderBy('status', 'ASC')->orderBy('id', 'DESC')->get();
+            $trainings = Training::where('admin_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
         }else{
-            $trainings = Training::orderBy('status', 'ASC')->orderBy('id', 'DESC')->get();
+            $trainings = Training::orderBy('id', 'DESC')->get();
         }
 
         return view('training.index', compact('trainings'));
@@ -47,7 +48,8 @@ class TrainingController extends Controller
             Session::flash('Msgerror', 'Access Denied');
             return redirect('/');
         }
-        return view('training.create');
+        $training_types = TrainingType::where('status', 1)->get();
+        return view('training.create', compact('training_types'));
     }
 
     /**
@@ -69,6 +71,7 @@ class TrainingController extends Controller
         $training->issue_date = date_format(date_create($request->issue_date),"Y/m/d");
         $training->archive_date = date_format(date_create($request->archive_date),"Y/m/d");
         $training->remarks = $request->remarks;
+        $training->training_type_id = $request->training_type_id;
         $training->status = 0;
         $training->admin_id = Auth::user()->id;
         $training->save();
@@ -124,6 +127,33 @@ class TrainingController extends Controller
         return view('training.show', compact('training', 'nominations'));
     }
 
+    public function trainingdetails($training_id)
+    {
+        $training = Training::find($training_id);
+
+        if($training == null){
+            Session::flash('Msgerror', 'Training not found.');
+            return rdirect('/');
+        }
+        
+        $flag = false;
+
+        if(isUser()){
+            $flag = true;
+        }
+        if($training->status > 1){
+            $flag = true;
+        }
+
+        if(!$flag){
+            return back();
+        }
+
+        $nominations = NominationDetail::where('training_id', $training->id)->where('user_id', Auth::user()->id)->where('deleted_at', NULL)->get();
+
+        return view('training.details', compact('training', 'nominations'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -148,7 +178,9 @@ class TrainingController extends Controller
             return redirect('/');
         }
 
-        return view('training.edit', compact('training'));
+        $training_types = TrainingType::where('status', 1)->get();
+
+        return view('training.edit', compact('training', 'training_types'));
     }
 
     /**
@@ -185,6 +217,7 @@ class TrainingController extends Controller
         $training->issue_date = date_format(date_create($request->issue_date),"Y/m/d");
         $training->archive_date = date_format(date_create($request->archive_date),"Y/m/d");
         $training->remarks = $request->remarks;
+        $training->training_type_id = $request->training_type_id;
         $training->status = 0;
         $training->save();
 

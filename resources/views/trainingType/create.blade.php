@@ -12,12 +12,14 @@
                <form name="training-type-create" action="/trainingType" method ="POST" enctype="multipart/form-data">
                   {{ csrf_field() }}
                   <div class="row">
-                     <div class="form-group col-12">
-                        <label for="title">Training Type</label>
-                        <textarea type="text" class="form-control" name="training_type" rows="1" required></textarea>
+                     <label for="status" class="col-md-4 col-form-label text-md-right">Training Type</label>
+                     <div class="form-group col-6">
+                        <input type="text" class="form-control form-control-sm" name="name" required>
                      </div>
                   </div>
                   <div class="row">
+                     <div class="col-4">
+                     </div>
                      <div class="col-3">
                         <button type="submit" class="btn btn-primary">Save</button>
                      </div>

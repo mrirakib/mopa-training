@@ -22,7 +22,7 @@
             <div class="card-header">Add Nominations </div>
             <div class="card-body">
                <p class="mb-0"><b>Title</b> : {{$training->title}}</p>
-               <p class="mb-0"><b>Issue No</b> : {{$training->issue_no}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Issue Date</b> : {{date_format(new DateTime($training->issue_date), 'd-m-Y')}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Archive Date</b> : {{date_format(new DateTime($training->archive_date), 'd-m-Y')}}</p>
+               <!-- <p class="mb-0"><b>Issue No</b> : {{$training->issue_no}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Issue Date</b> : {{date_format(new DateTime($training->issue_date), 'd-m-Y')}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Archive Date</b> : {{date_format(new DateTime($training->archive_date), 'd-m-Y')}}</p>
 
                <?php $attachmentinfo = $training->getAttachementInfo($training->id); ?>
 
@@ -30,48 +30,54 @@
                <p class="mb-0">Attachement: <a href="{{ asset('/upload/'.$attachmentinfo)}}" download="{{ asset('/upload/'.$attachmentinfo)}}"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:20px;"></i></a> </p>
                <?php } ?>
 
-               <p class="mb-0"><b>Remarks</b> : {{$training->remarks}}</p>
+               <p class="mb-0"><b>Remarks</b> : {{$training->remarks}}</p> -->
             </div>
             <div class="card-body pt-0">
                <div class="row">
                   <div class="form-group col-2">
                      <label class="required" for="id_no_1">ID</label>
-                     <input type="number" min="0" max="8" class="form-control" id="id_no_1" name="id_no_1" required>
+                     <input type="number" min="0" max="8" class="form-control form-control-sm" id="id_no_1" name="id_no_1" required>
                   </div>
                </div>
                <div class="row">
                   <div class="form-group col-6">
                      <label class="required" for="name_1">Name</label>
-                     <input type="text" class="form-control" id="name_1" name="name_1" required>
+                     <input type="text" class="form-control form-control-sm" id="name_1" name="name_1" required>
                   </div>
                   <div class="form-group col-6">
                      <label class="required" for="name_bangla_1">Name(Bangla)</label>
-                     <input type="text" class="form-control" id="name_bangla_1" name="name_bangla_1" required>
+                     <input type="text" class="form-control form-control-sm" id="name_bangla_1" name="name_bangla_1" required>
                   </div>
+               </div>
+               <div class="row">                  
                   <div class="form-group col-6">
                      <label class="required" for="designation_1">Designation</label>
-                     <input type="text" min="0" class="form-control" id="designation_1" name="designation_1" required>
+                     <input type="text" min="0" class="form-control form-control-sm" id="designation_1" name="designation_1" required>
                   </div>
                   <div class="form-group col-6">
                      <label class="required" for="designation_bangla_1">Designation(Bangla)</label>
-                     <input type="text" min="0" class="form-control" id="designation_bangla_1" name="designation_bangla_1" required>
-                  </div>
-                  <div class="form-group col-3">
-                     <label class="required" for="contact_no_1">Contact No</label>
-                     <input type="text" min="0" class="form-control" id="contact_no_1" name="contact_no_1" required>
-                  </div>
-                  <div class="form-group col-3">
-                     <label class="required" for="email_1">Email</label>
-                     <input type="email" class="form-control" id="email_1" name="email_1" required>
+                     <input type="text" min="0" class="form-control form-control-sm" id="designation_bangla_1" name="designation_bangla_1" required>
                   </div>
                   <div class="form-group col-6">
                      <label class="required" for="working_place_1">Current Working Place</label>
-                     <input type="text" min="0" class="form-control" id="working_place_1" name="working_place_1" required>
+                     <input type="text" min="0" class="form-control form-control-sm" id="working_place_1" name="working_place_1" required>
+                  </div>
+                  <div class="form-group col-6">
+                     <label class="required" for="working_place_bangla_1">Current Working Place(Bangla)</label>
+                     <input type="text" min="0" class="form-control form-control-sm" id="working_place_bangla_1" name="working_place_bangla_1" required>
+                  </div>
+                  <div class="form-group col-6">
+                     <label class="required" for="contact_no_1">Contact No</label>
+                     <input type="text" min="0" class="form-control form-control-sm" id="contact_no_1" name="contact_no_1" required>
+                  </div>
+                  <div class="form-group col-6">
+                     <label class="required" for="email_1">Email</label>
+                     <input type="email" class="form-control form-control-sm" id="email_1" name="email_1" required>
                   </div>
                </div>
                <div class="row">
                   <div class="col-12">
-                     <div><a onclick="addNomination()" class="btn btn-primary"><i class="fa fa-plus"></i> Add to List</a></div>
+                     <div><a onclick="addNomination()" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add to List</a></div>
                   </div>
                </div>
             </div>
@@ -95,9 +101,10 @@
                            <th class="th-sm">Name(Bangla)</th>
                            <th class="th-sm">Designation</th>
                            <th class="th-sm">Designation(Bangla)</th>
+                           <th class="th-sm">Working place</th>
+                           <th class="th-sm">Working place(Bangla)</th>
                            <th class="th-sm">Contact</th>
                            <th class="th-sm">Email</th>
-                           <th class="th-sm">Working place</th>
                            <th class="th-sm">Action</th>
                         </tr>
                      </thead>
@@ -127,6 +134,14 @@
                               {{$rowdata->designation_bangla}}
                            </td>
                            <td>
+                              <input type="text" class="form-control" name="working_place[]" value="{{$rowdata->working_place}}" required readonly hidden>
+                              {{$rowdata->working_place}}
+                           </td>                           
+                           <td>
+                              <input type="text" class="form-control" name="working_place_bangla[]" value="{{$rowdata->working_place_bangla}}" required readonly hidden>
+                              {{$rowdata->working_place_bangla}}
+                           </td>
+                           <td>
                               <input type="text" class="form-control" name="contact_no[]" value="{{$rowdata->contact_no}}" required readonly hidden>
                               {{$rowdata->contact_no}}
                            </td>
@@ -135,11 +150,7 @@
                               {{$rowdata->email}}
                            </td>
                            <td>
-                              <input type="text" class="form-control" name="working_place[]" value="{{$rowdata->working_place}}" required readonly hidden>
-                              {{$rowdata->working_place}}
-                           </td>
-                           <td>
-                              <a onclick="deleteRow(this);" class="btn btn-danger">Delete</a>
+                              <a onclick="deleteRow(this);" class="btn btn-danger btn-sm">Delete</a>
                            </td>
                         </tr>
                         @endforeach
@@ -162,6 +173,7 @@
       var contact_no_1 = document.getElementsByName("contact_no_1")[0].value;
       var email_1 = document.getElementsByName("email_1")[0].value;
       var working_place_1 = document.getElementsByName("working_place_1")[0].value;
+      var working_place_bangla_1 = document.getElementsByName("working_place_bangla_1")[0].value;
 
       if(id_no_1 == ''){
          alert('ID Number should not be empty.');
@@ -217,6 +229,11 @@
          $("#working_place_1").focus();
          exit();
       }
+      if(working_place_bangla_1 == ''){
+         alert('Working place (Bangla) should not be empty.');
+         $("#working_place_bangla_1").focus();
+         exit();
+      }
 
       
       // var transfer_history_id = $("input[name='transfer_history_id[]']")
@@ -244,7 +261,7 @@
       rowCount = rowCount-rowCount2+1;
 
 
-      $('#item_list_table_body').append('<tr><td>'+rowCount+'</td><td><input type="text" class="form-control" name="id_no[]" value="'+id_no_1+'" required readonly hidden>'+id_no_1+'</td><td><input type="text" class="form-control" name="name[]" value="'+name_1+'" required readonly hidden>'+name_1+'</td><td><input type="text" class="form-control" name="name_bangla[]" value="'+name_bangla_1+'" required readonly hidden>'+name_bangla_1+'</td><td><input type="text" class="form-control" name="designation[]" value="'+designation_1+'" required readonly hidden>'+designation_1+'</td><td><input type="text" class="form-control" name="designation_bangla[]" value="'+designation_bangla_1+'" required readonly hidden>'+designation_bangla_1+'</td><td><input type="text" class="form-control" name="contact_no[]" value="'+contact_no_1+'" required readonly hidden>'+contact_no_1+'</td><td><input type="text" class="form-control" name="email[]" value="'+email_1+'" required readonly hidden>'+email_1+'</td><td><input type="text" class="form-control" name="working_place[]" value="'+working_place_1+'" required readonly hidden>'+working_place_1+'</td><td> <a onclick="deleteRow(this);" class="btn btn-danger">Delete</a></td></tr>');
+      $('#item_list_table_body').append('<tr><td>'+rowCount+'</td><td><input type="text" class="form-control" name="id_no[]" value="'+id_no_1+'" required readonly hidden>'+id_no_1+'</td><td><input type="text" class="form-control" name="name[]" value="'+name_1+'" required readonly hidden>'+name_1+'</td><td><input type="text" class="form-control" name="name_bangla[]" value="'+name_bangla_1+'" required readonly hidden>'+name_bangla_1+'</td><td><input type="text" class="form-control" name="designation[]" value="'+designation_1+'" required readonly hidden>'+designation_1+'</td><td><input type="text" class="form-control" name="designation_bangla[]" value="'+designation_bangla_1+'" required readonly hidden>'+designation_bangla_1+'</td><td><input type="text" class="form-control" name="working_place[]" value="'+working_place_1+'" required readonly hidden>'+working_place_1+'</td><td><input type="text" class="form-control" name="working_place_bangla[]" value="'+working_place_bangla_1+'" required readonly hidden>'+working_place_bangla_1+'</td><td><input type="text" class="form-control" name="contact_no[]" value="'+contact_no_1+'" required readonly hidden>'+contact_no_1+'</td><td><input type="text" class="form-control" name="email[]" value="'+email_1+'" required readonly hidden>'+email_1+'</td><td> <a onclick="deleteRow(this);" class="btn btn-danger btn-sm">Delete</a></td></tr>');
 
       $("#id_no_1").val(null);
       $("#name_1").val(null);
@@ -254,6 +271,7 @@
       $("#contact_no_1").val(null);
       $("#email_1").val(null);
       $("#working_place_1").val(null);
+      $("#working_place_bangla_1").val(null);
    }
 
    function deleteRow(obj, withoutSL) {

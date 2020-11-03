@@ -48,3 +48,9 @@ table.dataTable thead th, table.dataTable tbody td{
 .go-table p{
    margin-bottom: 0px;
 }
+label{
+   margin-bottom: 0px;
+}
+.form-group{
+   margin-bottom: 4px;
+}

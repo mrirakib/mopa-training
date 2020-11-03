@@ -43,6 +43,7 @@ Route::get('/reset-password/{id}', 'Auth\ChangePasswordController@index2')->name
 Route::post('/reset-password', 'Auth\ChangePasswordController@update2')->name('password2.reset');
 
 Route::get('/getAdminUserList', 'TrainingController@getAdminUserList');
+Route::get('/trainingdetails/{id}', 'TrainingController@trainingdetails');
 
 Route::resource('/userlist', 'UserController');
 Route::get('/user-password-reset/{id}', 'UserController@userPasswordReset');

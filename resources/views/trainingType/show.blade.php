@@ -17,7 +17,7 @@
             <div class="card-body">
                <div class="row">
                   <div class="col-12">                     
-                     <p><b>Training Type</b> : {{$trainingType->training_type}}</p>
+                     <p><b>Training Type</b> : {{$trainingType->name}}</p>
                      <p><b>Created By</b> : {{$trainingType->getUserInfo->name}}</p>
                      <p><b>Create date</b> : {{date_format(new DateTime($trainingType->created_at), 'd-m-Y')}}</p>
                   </div>

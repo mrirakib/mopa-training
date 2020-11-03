@@ -19,10 +19,9 @@
                         {{ method_field('PUT') }}
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Training type') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('training_type') is-invalid @enderror" name="training_type" value="{{ $trainingType->training_type }}" required autocomplete="name" autofocus>
+                            <label for="status" class="col-md-4 col-form-label text-md-right">Training Type</label>
+                            <div class="form-group col-6">
+                                <input type="text" class="form-control form-control-sm" name="name" value="{{$trainingType->name}}" required>
                             </div>
                         </div>
                         <div class="form-group row">

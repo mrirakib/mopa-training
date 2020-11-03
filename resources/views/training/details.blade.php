@@ -32,7 +32,6 @@
 
                <p style="margin-bottom: 0px;">Remarks: {{$training->remarks}}</p>
             </div>
-            @if($training->status >= 1)
             <div class="row justify-content-center" style="margin-top: 5px;">
                <div class="col-md-12">
                   <div class="card">
@@ -45,33 +44,41 @@
                               <thead>
                                  <tr>
                                     <th class="th-sm">Sl</th>
+                                    <th class="th-sm">Status</th>
                                     <th class="th-sm">Office</th>
                                     <th class="th-sm">ID</th>
-                                    <th class="th-sm">Name</th>
                                     <th class="th-sm">Name(Bangla)</th>
-                                    <th class="th-sm">Designation</th>
                                     <th class="th-sm">Designation(Bangla)</th>
+                                    <th class="th-sm">Working place(Bangla)</th>
                                     <th class="th-sm">Contact</th>
                                     <th class="th-sm">Email</th>
-                                    <th class="th-sm">Working place</th>
-                                    <th class="th-sm">Working place(Bangla)</th>
                                  </tr>
                               </thead>
                               <?php $i=1; ?>
                               <tbody id="item_list_table_body">
                                  @foreach($nominations as $rowdata)
                                  <tr>
-                                    <td>{{$i++}}</td>
+                                    <td>@php echo en2bnNumber($i++); @endphp</td>
+                                    @if($training->status != 4)
+                                    <td>Nominated</td>
+                                    @else
+                                    @if($rowdata->status == 1)
+                                    <td class="text-success h3"><i class="fa fa-check-square"></i></td>
+                                    <!-- <td class="text-success"><i class="fa fa-check"></i></td> -->
+                                    <!-- <td class="text-success">Selected</td> -->
+                                    @else
+                                    <td class="text-danger h3"><i class="fa fa-times-circle"></i></td>
+                                    <!-- <td class="text-danger"><i class="fa fa-times"></i></td> -->
+                                    <!-- <td class="text-danger">Not Selected</td> -->
+                                    @endif
+                                    @endif
                                     <td>{{$rowdata->getUserInfo->name}}</td>
-                                    <td>{{$rowdata->id_no}}</td>
-                                    <td>{{$rowdata->name}}</td>
+                                    <td>@php echo en2bnNumber($rowdata->id_no); @endphp</td>
                                     <td>{{$rowdata->name_bangla}}</td>
-                                    <td>{{$rowdata->designation}}</td>
                                     <td>{{$rowdata->designation_bangla}}</td>
-                                    <td>{{$rowdata->contact_no}}</td>
-                                    <td>{{$rowdata->email}}</td>
-                                    <td>{{$rowdata->working_place}}</td>
                                     <td>{{$rowdata->working_place_bangla}}</td>
+                                    <td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>
+                                    <td>{{$rowdata->email}}</td>
                                  </tr>
                                  @endforeach
                               </tbody>
@@ -82,18 +89,10 @@
                   </div>
                </div>
             </div>
-            @endif
             <div class="card">
                <div class="card-body">
                   <div class="row">
                      <div class="col-4">
-                        @if($training->status == 0)
-                        <a class="btn btn-success" href="/publishTraining/{{$training->id}}"><i class="fa fa-check"></i> Publish </a>
-                        @endif
-                        @if($training->status == 1)
-                        <a class="btn btn-info" href="/closeTraining/{{$training->id}}"><i class="fa fa-pencil"></i> Close </a>
-                        <a class="btn btn-danger" href="/deleteTraining/{{$training->id}}"><i class="fa fa-times"></i> Delete </a>
-                        @endif
                         <a class="btn btn-secondary" href="/training"><i class="fa fa-arrow-left"></i> Back </a>
                      </div>
                   </div>                  

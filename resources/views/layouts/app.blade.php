@@ -80,7 +80,7 @@
                                 </li>
                             @endif -->
                         @else
-                            <!-- <li><a class="nav-link text-white" href="\training" style="font-size: 20px;">Training</a></li> -->
+                            <li><a class="nav-link text-white" href="\" style="font-size: 20px;">Home</a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 20px;">
                                   Training

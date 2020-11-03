@@ -48,6 +48,7 @@ class NominationController extends Controller
         $contact_no = $request->input('contact_no');
         $email = $request->input('email');
         $working_place = $request->input('working_place');
+        $working_place_bangla = $request->input('working_place_bangla');
 
         if($id_no == null){
             return back()->with('Msgerror', 'Nomination list is empty. Please add Officers information. Then click on submit');
@@ -81,6 +82,7 @@ class NominationController extends Controller
                 "contact_no" => $contact_no[$key],
                 "email" => $email[$key],
                 "working_place" => $working_place[$key],
+                "working_place_bangla" => $working_place_bangla[$key],
             );
         }
 

@@ -52,7 +52,7 @@ class TrainingTypeController extends Controller
             return back();
         }
         $trainingType = new TrainingType();
-        $trainingType->training_type = $request->training_type;
+        $trainingType->name = $request->name;
         $trainingType->status = 1;
         $trainingType->created_by = Auth::user()->id;
         $trainingType->save();
@@ -94,7 +94,7 @@ class TrainingTypeController extends Controller
     public function update(Request $request, TrainingType $trainingType)
     {
         $training_type = TrainingType::find($trainingType->id);
-        $training_type->training_type = $request->training_type;
+        $training_type->name = $request->name;
         $training_type->status = $request->status;
         $training_type->save();
 

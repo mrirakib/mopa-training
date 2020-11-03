@@ -97,10 +97,10 @@
                         @else
                         <?php if($rowdata->status == 1){ ?>
                         <td class="font-weight-bold text-center text-success">Open</td>
-                        <td> <a class="btn btn-info btn-slim" href="/nominationTraining/{{$rowdata->id}}"><i class="fa fa-eye"></i> Action </a></td>
-                        <?php } elseif($rowdata->status == 2) { ?>
+                        <td> <a class="btn btn-success btn-slim" href="/nominationTraining/{{$rowdata->id}}"><i class="fa fa-eye"></i> Action </a> </td>
+                        <?php } else { ?>
                         <td class="font-weight-bold text-center text-danger">Closed</td>
-                        <!-- <td> <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a></td> -->
+                        <td> <a class="btn btn-info btn-slim" href="/trainingdetails/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a></td>
                         <?php } ?>
                         @endif
                      </tr>
