@@ -117,6 +117,12 @@
                <div class="card-body">
                   <div class="row">
                      <div class="col-4">
+                        @if(GOInformationFinal($training->id))
+                        <a class="btn btn-success btn-slim" href="/training-govt-order/{{$training->id}}"><i class="fa fa-pencil"></i> GO(Bangla) </a>
+                        @endif
+                        @if(GOInformationFinalEnglish($training->id))
+                        <a class="btn btn-success btn-slim" href="/training-govt-order/{{$training->id}}"><i class="fa fa-pencil"></i> GO(English) </a>
+                        @endif
                         <a class="btn btn-secondary" href="/training"><i class="fa fa-arrow-left"></i> Back </a>
                         <!-- @if($training->status >= 2)
                         <a class="btn btn-success" href="/training-govt-order/{{$training->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>

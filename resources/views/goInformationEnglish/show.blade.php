@@ -32,6 +32,7 @@
                <div class="card-body">
                   <div class="row">
                      <div class="col-4">
+                        
                         <a class="btn btn-secondary" href="/"><i class="fa fa-arrow-left"></i> Back </a>
                      </div>
                   </div>                  

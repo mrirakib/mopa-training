@@ -94,6 +94,7 @@
                         <a class="btn btn-info" href="/closeTraining/{{$training->id}}"><i class="fa fa-pencil"></i> Close </a>
                         <a class="btn btn-danger" href="/deleteTraining/{{$training->id}}"><i class="fa fa-times"></i> Delete </a>
                         @endif
+                        
                         <a class="btn btn-secondary" href="/training"><i class="fa fa-arrow-left"></i> Back </a>
                      </div>
                   </div>                  
