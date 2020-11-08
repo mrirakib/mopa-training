@@ -7,7 +7,19 @@
    <div class="row justify-content-center">
       <div class="col-md-12">
          <div class="card">
-            <div class="card-header"> GO Information Setting Update</div>
+            @if(Session::has('Msgsuccess'))
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> {{Session::get('Msgsuccess')}}
+            </div>
+            @endif
+            @if(Session::has('Msgerror'))
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Error!</strong> {{Session::get('Msgerror')}}
+            </div>
+            @endif
+            <div class="card-header"> GO Information Setting Update (Bangla) </div>
             <div class="card-body">
                <form name="goInformation-update" action="/goInformation/{{$goInformation->id}}" method ="POST" enctype="multipart/form-data">
                   {{ csrf_field() }}

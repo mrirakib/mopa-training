@@ -47,7 +47,7 @@
     function GOInformationFinal($training_id){
         $training = Training::find($training_id);
 
-        $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->first();
+        $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->where('type', 1)->first();
         if($goInfo == NULL){
             return false;
         }
@@ -58,7 +58,29 @@
     function GOInformationDraft($training_id){
         $training = Training::find($training_id);
 
-        $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 0)->first();
+        $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 0)->where('type', 1)->first();
+        if($goInfo == NULL){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    function GOInformationFinalEnglish($training_id){
+        $training = Training::find($training_id);
+
+        $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->where('type', 2)->first();
+        if($goInfo == NULL){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    function GOInformationDraftEnglish($training_id){
+        $training = Training::find($training_id);
+
+        $goInfo = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 0)->where('type', 2)->first();
         if($goInfo == NULL){
             return false;
         }

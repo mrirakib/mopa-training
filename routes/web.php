@@ -59,11 +59,18 @@ Route::resource('trainingType','TrainingTypeController');
 Route::resource('goInformationTemplate','GOInformationTemplateController');
 Route::resource('goInformation','GOInformationController');
 
+Route::resource('goInformationTemplateEnglish','GOInformationTemplateEnglishController');
+Route::resource('goInformationEnglish','GOInformationEnglishController');
+
 Route::get('goInformation/create/{id}','GOInformationController@create')->name('goInformation.create');
+Route::get('goInformationEnglish/create/{id}','GOInformationEnglishController@create')->name('goInformationEnglish.create');
 
 Route::get('/training-govt-order/{id}','PDFController@training_govt_order');
 Route::get('/training-govt-order-temp/{id}','PDFController@training_govt_order_temp');
-Route::get('/training-govt-order2/{id}','PDFController@training_govt_order2');
+
+Route::get('/training-govt-order-english/{id}','PDFController@training_govt_order_english');
+Route::get('/training-govt-order-temp-english/{id}','PDFController@training_govt_order_temp_english');
+// Route::get('/training-govt-order2/{id}','PDFController@training_govt_order2');
 
 Route::post('/training-report-print','PDFController@training_report_print');
 

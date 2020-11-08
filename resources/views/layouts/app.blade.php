@@ -114,7 +114,8 @@
                                   Setting
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="\goInformationTemplate">GO Information</a>
+                                    <a class="dropdown-item" href="\goInformationTemplate">GO Information(Bangla)</a>
+                                    <a class="dropdown-item" href="\goInformationTemplateEnglish">GO Information(English)</a>
                                 </div>
                             </li>
                             @endif

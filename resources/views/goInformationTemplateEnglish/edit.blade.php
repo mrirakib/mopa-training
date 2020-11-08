@@ -19,7 +19,7 @@
                 <strong>Error!</strong> {{Session::get('Msgerror')}}
             </div>
             @endif
-            <div class="card-header"> GO Information Setting (Bangla)</div>
+            <div class="card-header"> GO Information Setting </div>
             <div class="card-body">
                <form name="goInformation-update" action="/goInformationTemplate/{{$goInformation->id}}" method ="POST" enctype="multipart/form-data">
                   {{ csrf_field() }}

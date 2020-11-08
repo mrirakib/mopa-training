@@ -9,7 +9,7 @@ use App\User;
 use Auth;
 use Session;
 
-class GOInformationController extends Controller
+class GOInformationEnglishController extends Controller
 {
     public function __construct()
     {
@@ -32,19 +32,19 @@ class GOInformationController extends Controller
      */
     public function create($training_id)
     {
-        $goInformation = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $training_id)->where('type', 1)->first();
+        $goInformation = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $training_id)->where('type', 2)->first();
 
         
         if($goInformation == null){
-            $goInformation = GOInformationTemplate::where('admin_id', Auth::user()->id)->where('type', 1)->first();
+            $goInformation = GOInformationTemplate::where('admin_id', Auth::user()->id)->where('type', 2)->first();
 
             if($goInformation == null){
-                return view('GOInformationTemplate.create');
+                return view('GOInformationTemplateEnglish.create');
             }
             if($goInformation->admin_id != Auth::user()->id){
                 return redirect('/');
             }
-            return view('GOInformation.create',compact('goInformation', 'training_id'));
+            return view('GOInformationEnglish.create',compact('goInformation', 'training_id'));
         }
 
         if($goInformation->admin_id != Auth::user()->id){
@@ -52,7 +52,8 @@ class GOInformationController extends Controller
             return redirect('/');
         }
 
-        return redirect('/goInformation/'.$goInformation->id.'/edit'); 
+
+        return redirect('/goInformationEnglish/'.$goInformation->id.'/edit'); 
     }
 
     /**
@@ -63,18 +64,16 @@ class GOInformationController extends Controller
      */
     public function store(Request $request)
     {
-        $goInformation = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $request->training_id)->where('type', 1)->first();
+        $goInformation = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $request->training_id)->where('type', 2)->first();
         
         if($goInformation == null){
             $goInformation = new GOInformation();
             $goInformation->admin_id = Auth::user()->id;
             $goInformation->publish_date = date_format(date_create($request->publish_date),"Y/m/d");
             $goInformation->status = 0;
-            $goInformation->type = 1;
+            $goInformation->type = 2;
             $goInformation->training_id = $request->training_id;
             $goInformation->go_number = $request->go_number;
-            $goInformation->publish_date_bangla = $request->publish_date_bangla;
-            $goInformation->publish_date_english = $request->publish_date_english;
             $goInformation->subject = $request->subject;
             $goInformation->details = $request->details;
             $goInformation->rules_regulations = $request->rules_regulations;
@@ -86,18 +85,16 @@ class GOInformationController extends Controller
 
             Session::flash('Msgsuccess', 'GO Information saved successfully.');
 
-            return redirect('/goInformation/'.$goInformation->id.'/edit');
+            return redirect('/goInformationEnglish/'.$goInformation->id.'/edit');
         }else{
-            $goInf = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $request->training_id)->where('type', 1)->first();
+            $goInf = GOInformation::where('admin_id', Auth::user()->id)->where('training_id', $request->training_id)->where('type', 2)->first();
 
             $goInf->admin_id = Auth::user()->id;
             $goInf->publish_date = date_format(date_create($request->publish_date),"Y/m/d");
             $goInf->status = 0;
-            $goInf->type = 1;
+            $goInf->type = 2;
             $goInf->training_id = $request->training_id;
             $goInf->go_number = $request->go_number;
-            $goInf->publish_date_bangla = $request->publish_date_bangla;
-            $goInf->publish_date_english = $request->publish_date_english;
             $goInf->subject = $request->subject;
             $goInf->details = $request->details;
             $goInf->rules_regulations = $request->rules_regulations;
@@ -109,7 +106,7 @@ class GOInformationController extends Controller
 
             Session::flash('Msgsuccess', 'GO Information updated successfully.');
             
-            return redirect('/goInformation/'.$goInf->id.'/edit');
+            return redirect('/goInformationEnglish/'.$goInf->id.'/edit');
         }
     }
 
@@ -123,7 +120,7 @@ class GOInformationController extends Controller
     {
         $gOInformation = GOInformation::find($go_inf);
 
-        return view('GOInformation.show', compact('gOInformation'));
+        return view('GOInformationEnglish.show', compact('gOInformation'));
     }
 
     /**
@@ -137,15 +134,15 @@ class GOInformationController extends Controller
         $goInformation = GOInformation::find($goInformation_id);
 
         if($goInformation == null){
-            $goInformation = GOInformationTemplate::where('admin_id', Auth::user()->id)->where('type', 1)->first();
+            $goInformation = GOInformationTemplate::where('admin_id', Auth::user()->id)->where('type', 2)->first();
 
             if($goInformation == null){
-                return view('GOInformationTemplate.create');
+                return view('GOInformationTemplateEnglish.create');
             }
             if($goInformation->admin_id != Auth::user()->id){
                 return redirect('/');
             }
-            return view('GOInformation.create',compact('goInformation', 'training_id'));
+            return view('GOInformationEnglish.create',compact('goInformation', 'training_id'));
         }
 
         if($goInformation->admin_id != Auth::user()->id){
@@ -158,7 +155,7 @@ class GOInformationController extends Controller
             return redirect('/');
         }
 
-        return view('GOInformation.edit', compact('goInformation'));
+        return view('GOInformationEnglish.edit', compact('goInformation'));
     }
 
     /**
@@ -186,11 +183,9 @@ class GOInformationController extends Controller
         $goInf->admin_id = Auth::user()->id;
         $goInf->publish_date = date_format(date_create($request->publish_date),"Y/m/d");
         $goInf->status = 0;
-        $goInf->type = 1;
+        $goInf->type = 2;
         $goInf->training_id = $request->training_id;
         $goInf->go_number = $request->go_number;
-        $goInf->publish_date_bangla = $request->publish_date_bangla;
-        $goInf->publish_date_english = $request->publish_date_english;
         $goInf->subject = $request->subject;
         $goInf->details = $request->details;
         $goInf->rules_regulations = $request->rules_regulations;
@@ -206,10 +201,11 @@ class GOInformationController extends Controller
             $goInf->save();
 
             Session::flash('Msgsuccess', 'GO Information locked. You can not update any information.');
-            return redirect('/goInformation/'.$goInf->id);
+            return redirect('/goInformationEnglish/'.$goInf->id);
         }
         
-        return redirect('/goInformation/'.$goInf->id.'/edit');
+
+        return redirect('/goInformationEnglish/'.$goInf->id.'/edit');
     }
 
     /**

@@ -40,13 +40,11 @@
                         <form action="/candidate-selection" method = "POST">
                            {{ csrf_field() }}
                            <input type="text" name="training_id" value="{{$training->id}}" hidden readonly required>
-                           <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                           <table id="dtBasicExample" class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%">
                               <thead>
                                  <tr>
                                     <th class="th-sm">Sl</th>
-                                    @if($training->status != 4)
                                     <th class="th-sm">Select</th>
-                                    @endif
                                     <th class="th-sm">Office</th>
                                     <th class="th-sm">ID</th>
                                     <th class="th-sm">Name</th>
@@ -63,11 +61,9 @@
                                  @foreach($nominations as $rowdata)
                                  <tr>
                                     <td>{{$i++}}</td>
-                                    @if($training->status != 4)
                                     <td>
-                                       <input type="checkbox" name="id_no[]" value="{{$rowdata->id}}" @if($rowdata->status == 1) checked @endif> <label></label>
+                                       <input type="checkbox" name="id_no[]" value="{{$rowdata->id_no}}" @if($rowdata->status == 1) checked @endif> <label></label>
                                     </td>
-                                    @endif
                                     <td>{{$rowdata->getUserInfo->name}}</td>
                                     <td>{{$rowdata->id_no}}</td>
                                     <td>{{$rowdata->name}}</td>
@@ -81,7 +77,7 @@
                                  @endforeach
                               </tbody>
                            </table>
-                           @if($training->status == 2 || $training->status == 3)
+                           @if($training->status == 2)
                            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Primary Selection</button>
                            @endif
                         </form>
@@ -89,47 +85,20 @@
                   </div>
                </div>
             </div>
-            <!-- ///////////////////// -->
-            <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                  <div class="modal-content">
-                  
-                      <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                          <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
-                      </div>
-                  
-                      <div class="modal-body">
-                          <p>You are about to delete one track, this procedure is irreversible.</p>
-                          <p>Do you want to proceed?</p>
-                          <p class="debug-url"></p>
-                      </div>
-                      
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                          <a class="btn btn-danger btn-ok">Delete</a>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- /////////////// -->
             <div class="card">
                <div class="card-body">
                   <div class="row">
                      <div class="col-4">
                         <a class="btn btn-secondary" href="/training"><i class="fa fa-arrow-left"></i> Back </a>
-                        <!-- @if($training->status >= 2)
-                        <a class="btn btn-success" href="/training-govt-order/{{$training->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>
-                        @endif -->
+                        @if($training->status >= 2)
+                        <a class="btn btn-success" href="/training-go/{{$training->id}}"><i class="fa fa-pencil"></i> GO </a>
+                        @endif
                      </div>
                      <div class="col-8">
                         @if($training->status == 3)
-                        <a class="btn btn-danger pull-right" href="/training-make-final/{{$training->id}}"><i class="fa fa-pencil"></i> Lock Selection </a>
+                        <a class="btn btn-danger pull-right" href="/training-make-final/{{$training->id}}"><i class="fa fa-pencil"></i> Make Final </a>
                         @endif
                      </div>
-                     <!-- <button class="btn btn-default" data-href="/training/{{$training->id}}" data-toggle="modal" data-target="#confirm-delete">
-                             Delete record #54
-                         </button> -->
                   </div>                  
                </div>
             </div>

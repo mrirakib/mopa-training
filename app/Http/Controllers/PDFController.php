@@ -260,6 +260,159 @@ class PDFController extends Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
     }
+
+    public function training_govt_order_english($training_id)
+    {
+        $training = Training::find($training_id);
+        if($training == null){
+            Session::flash('Msgerror', 'No Training Found.');
+            return redirect('/');
+        }
+        if(($training->admin_id != Auth::user()->id) && (Auth::user()->user_type == 2)){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
+        }
+
+        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
+
+        $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
+
+        if($profile == null){
+            if(Auth::user()->user_type == 1){
+                Session::flash('Msgerror', 'Signatory information not found. Admin of this training should fill in the signatory information first.');
+                return redirect('/');
+
+            }elseif(Auth::user()->user_type == 2){
+                Session::flash('Msgerror', 'Signatory information not found. Please fill in the signatory information then try again.');
+                return redirect('/userProfile/create');
+            }else{
+                return redirect('/');
+            }
+                return redirect('/');
+        }
+
+
+        ////////////////////////////////////////
+        $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->where('type', 2)->first();
+        
+        if($goInformation == null){
+            if(Auth::user()->user_type == 2){
+                $goInformation = GOInformationTemplate::where('admin_id', $training->admin_id)->where('type', 2)->first();
+
+                if($goInformation == null){
+                    return view('GOInformationTemplateEnglish.create');
+                }
+                if($goInformation->admin_id != Auth::user()->id){
+                    return redirect('/');
+                }                
+            }else{
+                Session::flash('Msgerror', 'GO Information not found.');
+                return redirect('/');
+            }
+        }
+        ////////////////////////////////////////
+
+
+        $mpdf = new \Mpdf\Mpdf([
+            'default_font' => "nikosh",
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 20,
+            'margin_bottom' => 15,
+            'margin_header' => 10,
+            'margin_footer' => 10,
+            'mode' => 'utf-8',
+            'format' => 'A4',
+        ]);
+
+
+        $fileName = $profile->department.' '.date('d-m-Y').".pdf";
+
+        $html = \View::make('pdf.training-govt-order-english', compact('nominations', 'training', 'goInformation', 'profile'));
+        $html = $html->render();
+
+        userlog('Training Go create.'. $training_id);
+
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($fileName, 'I');
+    }
+    public function training_govt_order_temp_english($training_id)
+    {
+        $training = Training::find($training_id);
+        if($training == null){
+            Session::flash('Msgerror', 'No Training Found.');
+            return redirect('/');
+        }
+        if(($training->admin_id != Auth::user()->id) && (Auth::user()->user_type == 2)){
+            Session::flash('Msgerror', 'Access Denied.');
+            return redirect('/');
+        }
+
+        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
+
+        $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
+
+        if($profile == null){
+            if(Auth::user()->user_type == 1){
+                Session::flash('Msgerror', 'Signatory information not found. Admin of this training should fill in the signatory information first.');
+                return redirect('/');
+
+            }elseif(Auth::user()->user_type == 2){
+                Session::flash('Msgerror', 'Signatory information not found. Please fill in the signatory information then try again.');
+                return redirect('/userProfile/create');
+            }else{
+                return redirect('/');
+            }
+                return redirect('/');
+        }
+
+
+        ////////////////////////////////////////
+        $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('type', 2)->first();
+        
+        if($goInformation == null){
+            if(Auth::user()->user_type == 2){
+                $goInformation = GOInformationTemplate::where('admin_id', $training->admin_id)->where('type', 2)->first();
+
+                if($goInformation == null){
+                    return view('GOInformationTemplateEnglish.create');
+                }
+                if($goInformation->admin_id != Auth::user()->id){
+                    return redirect('/');
+                }                
+            }else{
+                Session::flash('Msgerror', 'GO Information not found.');
+                return redirect('/');
+            }
+        }
+        ////////////////////////////////////////
+
+
+        $mpdf = new \Mpdf\Mpdf([
+            'default_font' => "nikosh",
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 20,
+            'margin_bottom' => 15,
+            'margin_header' => 10,
+            'margin_footer' => 10,
+            'mode' => 'utf-8',
+            'format' => 'A4',
+        ]);
+
+        $mpdf->SetWatermarkText('DRAFT GO');
+        $mpdf->showWatermarkText = true;
+
+        $fileName = $profile->department.' '.date('d-m-Y').".pdf";
+
+        $html = \View::make('pdf.training-govt-order-english', compact('nominations', 'training', 'goInformation', 'profile'));
+        $html = $html->render();
+
+        userlog('Training Draft Go create.'. $training_id);
+
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($fileName, 'I');
+    }
     public function training_report_print(Request $request)
     {
         ////////////////////////////////////////

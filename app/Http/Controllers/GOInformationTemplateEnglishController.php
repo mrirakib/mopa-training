@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Session;
 
-class GOInformationTemplateController extends Controller
+class GOInformationTemplateEnglishController extends Controller
 {
     public function __construct()
     {
@@ -20,16 +20,16 @@ class GOInformationTemplateController extends Controller
      */
     public function index()
     {
-        $goInformation = GOInformationTemplate::where('admin_id', Auth::user()->id)->where('type', 1)->first();
+        $goInformation = GOInformationTemplate::where('admin_id', Auth::user()->id)->where('type', 2)->first();
 
         if($goInformation == null){
-            return view('GOInformationTemplate.create');
+            return view('GOInformationTemplateEnglish.create');
         }
         if($goInformation->admin_id != Auth::user()->id){
             return redirect('/');
         }
 
-        return view('GOInformationTemplate.edit',compact('goInformation'));        
+        return view('GOInformationTemplateEnglish.edit',compact('goInformation'));        
     }
 
     /**
@@ -57,14 +57,14 @@ class GOInformationTemplateController extends Controller
         $goInformation->rules_regulations = $request->rules_regulations;
         $goInformation->kind_information = $request->kind_information;
         $goInformation->before_kind_information = $request->before_kind_information;
-        $goInformation->type = 1;
+        $goInformation->type = 2;
         $goInformation->save();
 
         userlog('GO information (template) save '.$goInformation->id);
 
         Session::flash('Msgsuccess', 'GO Information saved successfully.');
 
-        return redirect('/goInformationTemplate/'.$goInformation->id);
+        return redirect('/goInformationTemplateEnglish/'.$goInformation->id);
     }
 
     /**
@@ -77,7 +77,7 @@ class GOInformationTemplateController extends Controller
     {
         $gOInformation = GOInformationTemplate::find($gOInformation_id);
 
-        return view('GOInformationTemplate.show', compact('gOInformation'));
+        return view('GOInformationTemplateEnglish.show', compact('gOInformation'));
     }
 
     /**
@@ -100,21 +100,21 @@ class GOInformationTemplateController extends Controller
      */
     public function update(Request $request, $gOInformation_id)
     {
-        $goInf = GOInformationTemplate::where('admin_id', Auth::user()->id)->where('type', 1)->first();
+        $goInf = GOInformationTemplate::where('admin_id', Auth::user()->id)->where('type', 2)->first();
         $goInf->admin_id = Auth::user()->id;
         $goInf->subject = $request->subject;
         $goInf->details = $request->details;
         $goInf->rules_regulations = $request->rules_regulations;
         $goInf->kind_information = $request->kind_information;
         $goInf->before_kind_information = $request->before_kind_information;
-        $goInf->type = 1;
+        $goInf->type = 2;
         $goInf->save();
 
         userlog('GO information (template) update '.$goInf->id);
 
         Session::flash('Msgsuccess', 'GO Information updated successfully.');
         
-        return redirect('/goInformationTemplate/'.$goInf->id);
+        return redirect('/goInformationTemplateEnglish/'.$goInf->id);
     }
 
     /**

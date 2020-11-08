@@ -19,9 +19,9 @@
                 <strong>Error!</strong> {{Session::get('Msgerror')}}
             </div>
             @endif
-            <div class="card-header">GO Information</div>
+            <div class="card-header">GO Information (Bangla) </div>
             <div class="card-body">
-               <p style="margin-bottom: 0px;"><b>Date</b> : {{$gOInformation->publish_date}}</p>
+               <p style="margin-bottom: 0px;"><b>Sublish Date</b> : {{date_format(new DateTime($gOInformation->publish_date), 'd-m-Y')}}</p>
                <p style="margin-bottom: 0px;"><b>Subject</b> : @php echo $gOInformation->subject @endphp</p>
                <p style="margin-bottom: 0px;"><b>Details</b> : @php echo $gOInformation->details @endphp</p>
                <p style="margin-bottom: 0px;"><b>Rules and Regulations</b> : @php echo $gOInformation->rules_regulations @endphp</p>
