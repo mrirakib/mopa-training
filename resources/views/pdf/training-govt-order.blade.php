@@ -67,7 +67,7 @@ echo $text;
 			<tr>
 				<td>@php echo en2bnNumber(++$key); @endphp.</td>
 				<td>{{$rowdata->name_bangla}} (@php echo en2bnNumber($rowdata->id_no); @endphp)</td>
-				<td>{{$rowdata->designation_bangla}} {{$rowdata->working_place}}</td>
+				<td>{{$rowdata->designation_bangla}} {{$rowdata->working_place_bangla}}</td>
 				<td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>
 				<td>{{$rowdata->email}}</td>
 			</tr>

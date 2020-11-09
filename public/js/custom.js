@@ -1,5 +1,7 @@
 $(document).ready(function () {
-	$('#dtBasicExample').DataTable();
+	$('#dtBasicExample').DataTable({
+    "ordering": false,
+  });
 	$('.dataTables_length').addClass('bs-select');
 });
 $(".custom-file-input").on("change", function() {

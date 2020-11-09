@@ -73,11 +73,16 @@ Route::get('/training-govt-order-temp-english/{id}','PDFController@training_govt
 // Route::get('/training-govt-order2/{id}','PDFController@training_govt_order2');
 
 Route::post('/training-report-print','PDFController@training_report_print');
+Route::post('/training-report-print2','PDFController@training_report_print2');
 
 Route::resource('/userProfile', 'UserProfileController');
 
 Route::resource('/report', 'ReportController');
+Route::get('/report2', 'ReportController@index2');
+Route::post('/report2', 'ReportController@store2');
 Route::resource('/go', 'GOController');
+
+Route::get('/getGOInfo', 'ReportController@getGOInfo');
 
 // Route::get('selected_candidate_list', 'PDFController@index')->name('selected_candidate_list');
 

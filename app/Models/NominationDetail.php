@@ -18,4 +18,15 @@ class NominationDetail extends Model
     {
         return $this->belongsTo('App\Models\Training', 'training_id', 'id');
     }
+
+    public function getGOInfo($training_id)
+    {
+        $response = GOInformation::where('training_id', $training_id)->where('status', 1)->first();
+        if($response){
+            return $response->subject;
+        }
+        else{
+            return '';
+        }
+    }
 }

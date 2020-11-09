@@ -41,9 +41,13 @@
         selector: 'textarea.mytextarea',
         content_style: "body { line-height: 1; }",
         plugins: 'lists',
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect",
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | table | fontsizeselect",
         branding: false
       });
+
+      $(document).ready(function() {
+          $('table.display').DataTable();
+      } );
     </script>
 
   
@@ -94,6 +98,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="\go">GO</a>
                                     <a class="dropdown-item" href="\report">Report</a>
+                                    <a class="dropdown-item" href="\report2">Report Group</a>
                                     @endif
                                 </div>
                             </li>

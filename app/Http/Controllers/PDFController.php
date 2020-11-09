@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Training;
+use App\Models\TrainingType;
 use App\Models\Nomination;
 use App\Models\NominationDetail;
 use App\Models\GOInformationTemplate;
@@ -24,11 +25,7 @@ class PDFController extends Controller
     {
         $this->middleware(['auth', 'verify.adminabove']);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         // $shows = NominationDetail::all();
@@ -314,7 +311,7 @@ class PDFController extends Controller
 
 
         $mpdf = new \Mpdf\Mpdf([
-            'default_font' => "nikosh",
+            'default_font' => "times",
             'margin_left' => 15,
             'margin_right' => 15,
             'margin_top' => 20,
@@ -389,7 +386,7 @@ class PDFController extends Controller
 
 
         $mpdf = new \Mpdf\Mpdf([
-            'default_font' => "nikosh",
+            'default_font' => "times",
             'margin_left' => 15,
             'margin_right' => 15,
             'margin_top' => 20,
@@ -488,6 +485,86 @@ class PDFController extends Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
     }
+    public function training_report_print2(Request $request)
+    {
+        ////////////////////////////////////////
+        $training_type_id = $request->training_type_id;
+        $go_info_id = $request->go_info_id;
+        $report_type = $request->report_type;
+
+        if($training_type_id == null && $go_info_id == null && $report_type){
+            Session::flash('Msgerror', 'Please input at least 1 field.');
+            return redirect('/report2');
+        }
+
+        if($go_info_id != null){
+            if(Auth::user()->user_type == 1){
+                $training_ids = GOInformation::where('id', $go_info_id)->pluck('training_id');
+            }else{
+                $training_ids = GOInformation::where('id', $go_info_id)->pluck('training_id');
+            }
+        }elseif($training_type_id != null){
+            $q2 = Training::query();
+            $q2->where('status', 4);
+            if($training_type_id != 0){
+                $q2->where('training_type_id', $training_type_id);
+            }
+            if(Auth::user()->user_type == 2){
+                $q2->where('admin_id', Auth::user()->id);
+            }
+            $training_ids = $q2->pluck('id');
+        }
+
+        if($report_type == 2){
+            $q = NominationDetail::query();
+            $q->whereIn('training_id', $training_ids)->where('status', 1)->orderBy('training_id');
+            $results = $q->get();
+        }elseif($report_type == 1){
+            $q = NominationDetail::query();
+            $q->whereIn('training_id', $training_ids)->where('status', 1);
+            $q->select('training_id', DB::raw('count(*) as total'));
+            $q->groupBy('training_id');
+            $results = $q->get();
+        }
+        ////////////////////////////////////////
+
+
+        $mpdf = new \Mpdf\Mpdf([
+            'default_font' => "nikosh",
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 20,
+            'margin_bottom' => 15,
+            'margin_header' => 10,
+            'margin_footer' => 10,
+            'mode' => 'utf-8',
+            'format' => 'A4',
+        ]);
+
+        $fileName = 'Training Report '.date('d-m-Y').".pdf";
+        $training_type = TrainingType::find($training_type_id);
+        $go_info = TrainingType::find($go_info_id);
+
+        if($training_type_id > 0){
+            $training_type = $training_type->name;
+        }else{
+            $training_type = 'All';
+        }
+
+        if($report_type == 2){
+            $report_type = "Details";
+            $html = \View::make('pdf.training-report-print2', compact('results', 'training_type', 'go_info', 'report_type', 'go_info_id'));
+        }elseif($report_type == 1){
+            $report_type = "Summary";
+            $html = \View::make('pdf.training-report-print3', compact('results', 'training_type', 'go_info', 'report_type', 'go_info_id'));
+        }
+        $html = $html->render();
+
+        userlog('Training Report pdf create.');
+
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($fileName, 'I');
+    }
     public function training_govt_order2($training_id)
     {
         $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
@@ -495,67 +572,31 @@ class PDFController extends Controller
         return view('pdf.training-govt-order2', compact('nominations'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

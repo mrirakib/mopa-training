@@ -72,7 +72,7 @@
                                 <select class="form-control" name="user_type" id="user_type" required>
                                     <option value="">Select One</option>
                                     @if(Auth::user()->user_type == 1)
-                                    <option value="2">Admin</option>
+                                    <option value="2">Admin User</option>
                                     <option value="3">Normal User</option>
                                     @elseif(Auth::user()->user_type == 2)
                                     <option value="3" selected >Normal User</option>
