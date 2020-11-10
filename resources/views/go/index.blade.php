@@ -2,8 +2,12 @@
 @section('content')
 <style>
    .btn{
-   margin-bottom: 5px;
+      margin-bottom: 5px;
    }
+   p span  {
+      font-family: sans-serif !important;
+   }
+   
 </style>
 <div class="container">
    <div class="row justify-content-center">
@@ -47,7 +51,7 @@
                            @foreach($trainings as $rowdata)
                            <tr>
                               <td>{{$i++}}</td>
-                              <td>@php echo $rowdata->goInformation->subject @endphp</td>
+                              <td style="font-family: sans-serif !important;">@php echo $rowdata->goInformation->subject; @endphp</td>
                               <td>{{date_format(new DateTime($rowdata->goInformation->publish_date), 'd-m-Y')}}</td>
                               <td>
                                  <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
@@ -64,7 +68,7 @@
                         <thead>
                            <tr>
                               <th class="th-sm">Sl</th>
-                              <th class="th-sm" style="width: 70%;">Subject</th>
+                              <th class="th-sm" style="width: 70%; font-family: ; font-weight: bolder; font-size: 40px;">Subject</th>
                               <th class="th-sm" style="width: 10%;">Publish Date</th>
                               <th class="th-sm">Action</th>
                            </tr>

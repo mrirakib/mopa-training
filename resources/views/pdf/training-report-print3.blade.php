@@ -22,8 +22,9 @@
 	<p style="margin: 0px 0px 0px 0px;text-align: center;">জনপ্রশাসন মন্ত্রণালয়</p>
 	<p style="margin: 0px 0px 0px 0px; text-align: center;">www.mopa.gov.bd</p>
 	<p><b>Search Key</b></p>
-	<p><b>Training Type</b> : {{$training_type}}&nbsp;&nbsp; @if($go_info_id != null)<b>Training GO Title</b> : {{$go_info->subject}}&nbsp;&nbsp; @endif @if($report_type != null)<b>Report Type</b> : {{$report_type}}&nbsp;&nbsp; @endif</p>
-	
+	<p><b>Training Type</b> : {{$training_type}} &nbsp; &nbsp; &nbsp; <b>Report Type</b> : {{$report_type}}</p>
+	@if($go_info_id != null)<p><b>Training GO Title</b> : @php echo $go_info->subject; @endphp </p> @endif
+	<?php  $total = 0; ?>
 	<table style="width: 100%;">
 		<thead>
 			<tr>
@@ -36,10 +37,16 @@
 			@foreach($results as $key => $rowdata)
 			<tr>
 				<td>@php echo en2bnNumber(++$key); @endphp</td>
-				<td>{{$rowdata->getTrainingInfo->title}}</td>
-				<td>{{$rowdata->total}}</td>
+				<td>@php echo $rowdata->getGOInfo($rowdata->training_id); @endphp</td>
+				<td>@php echo en2bnNumber($rowdata->total); @endphp</td>
 			</tr>
+			@php $total += $rowdata->total; @endphp
 			@endforeach
+			<tr>
+			   <td></td>
+			   <td style="text-align: right;">মোটঃ</td>
+			   <td>@php echo en2bnNumber($total); @endphp</td>
+			</tr>
 		</tbody>
 	</table>
 </body>

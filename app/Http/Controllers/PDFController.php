@@ -257,7 +257,6 @@ class PDFController extends Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName, 'I');
     }
-
     public function training_govt_order_english($training_id)
     {
         $training = Training::find($training_id);
@@ -543,7 +542,7 @@ class PDFController extends Controller
 
         $fileName = 'Training Report '.date('d-m-Y').".pdf";
         $training_type = TrainingType::find($training_type_id);
-        $go_info = TrainingType::find($go_info_id);
+        $go_info = GOInformation::find($go_info_id);
 
         if($training_type_id > 0){
             $training_type = $training_type->name;

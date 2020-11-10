@@ -121,6 +121,15 @@ class ReportController extends Controller
             $training_ids = $q2->pluck('id');
         }
 
+        $training_type = TrainingType::find($training_type_id);
+        $go_info = GOInformation::find($go_info_id);
+
+        if($training_type_id > 0){
+            $training_type = $training_type->name;
+        }else{
+            $training_type = 'All';
+        }
+
         if($report_type == 2){
             $q = NominationDetail::query();
 
@@ -130,7 +139,9 @@ class ReportController extends Controller
 
             userlog('Training Report create.');
 
-            return view('report.show2', compact('results', 'training_type_id', 'go_info_id', 'report_type'));            
+            $report_type_text = "Details";
+
+            return view('report.show2', compact('results', 'training_type_id', 'training_type', 'go_info', 'report_type', 'go_info_id', 'report_type_text'));            
         }elseif($report_type == 1){
             $q = NominationDetail::query();
 
@@ -142,7 +153,9 @@ class ReportController extends Controller
 
             userlog('Training Report create.');
 
-            return view('report.show3', compact('results', 'training_type_id', 'go_info_id', 'report_type'));            
+            $report_type_text = "Summary";
+
+            return view('report.show3', compact('results', 'training_type_id', 'training_type', 'go_info', 'report_type', 'go_info_id', 'report_type_text'));            
         }
     }
 

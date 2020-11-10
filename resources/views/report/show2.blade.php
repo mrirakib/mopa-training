@@ -2,7 +2,12 @@
 
 
 @section('content')
-
+<style>
+   p span  {
+      font-family: sans-serif !important;
+      background: transparent !important;
+   }
+</style>
 <div class="container">
    <div class="row justify-content-center">
       <div class="col-md-12">
@@ -24,7 +29,8 @@
                <div class="row">
                   <div class="col-10">
                      <p style="margin-bottom: 0px;"><b>Search Key</b></p>
-                     <p style="margin-bottom: 0px;">@if($training_type_id != null)<b>Training Type</b> : {{$training_type_id}}&nbsp;&nbsp; @endif @if($go_info_id != null)<b>GO Title</b> : {{$go_info_id}}&nbsp;&nbsp; @endif @if($report_type != null)<b>Report Type</b> : {{$report_type}}&nbsp;&nbsp; @endif</p>
+                     <p><b>Training Type</b> : {{$training_type}} &nbsp; &nbsp; &nbsp; <b>Report Type</b> : {{$report_type_text}}</p>
+                     @if($go_info_id != null)<p><b>Training GO Title</b> : @php echo $go_info->subject; @endphp </p> @endif
                   </div>
                   <div class="col-1">
                      <form method="POST" target="_blank" action="/training-report-print2" name="training-report-print2">
@@ -35,7 +41,7 @@
                         <button type="submit" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Print </button>
                      </form>
                   </div>
-                  <div class="col-1">
+                  <!-- <div class="col-1">
                      <form method="POST" action="/training-report-export2" name="training-report-excel">
                         {{ csrf_field() }}
                         <input type="text" name="training_type_id" value="{{$training_type_id}}" hidden>
@@ -43,7 +49,7 @@
                         <input type="text" name="report_type" value="{{$report_type}}" hidden>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Excel </button>
                      </form>
-                  </div>
+                  </div> -->
                </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 5px;">
@@ -56,7 +62,7 @@
                               <tr>
                                  <th class="th-sm">ক্র. নং</th>
                                  <th class="th-sm">ট্রেনিয়ের নাম</th>
-                                 <th class="th-sm">অফিস</th>
+                                 <!-- <th class="th-sm">অফিস</th> -->
                                  <th class="th-sm">নাম ও পরিচিতি নং</th>
                                  <th class="th-sm">পদবী ও বর্তমান কর্রস্থল</th>
                                  <th class="th-sm">মোবাইল</th>
@@ -69,7 +75,7 @@
                               <tr>
                                  <td>@php echo en2bnNumber($i++); @endphp</td>
                                  <td>@php echo $rowdata->getGOInfo($rowdata->training_id); @endphp</td>
-                                 <td>{{$rowdata->getUserInfo->name}}</td>
+                                 <!-- <td>{{$rowdata->getUserInfo->name}}</td> -->
                                  <td>{{$rowdata->name_bangla}}(@php echo en2bnNumber($rowdata->id_no); @endphp)</td>
                                  <td>{{$rowdata->designation_bangla}} ({{$rowdata->working_place_bangla}})</td>
                                  <td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>

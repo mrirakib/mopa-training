@@ -47,6 +47,7 @@ table.dataTable thead th, table.dataTable tbody td{
 }
 .go-table p{
    margin-bottom: 0px;
+   font-family: sans-serif;
 }
 label{
    margin-bottom: 0px;
