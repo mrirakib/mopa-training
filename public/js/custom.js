@@ -3,6 +3,14 @@ $(document).ready(function () {
     "ordering": false,
   });
 	$('.dataTables_length').addClass('bs-select');
+
+  var dashboard_div_height1 = 0;
+  dashboard_div_height1 = $("#dashboard-div1").height();
+
+  $("#dashboard-div3").height(500);
+  $("#dashboard-div2").height(dashboard_div_height1);
+  $("#dashboard-div3").height(dashboard_div_height1);
+
 });
 $(".custom-file-input").on("change", function() {
   var fileName = $(this).val().split("\\").pop();

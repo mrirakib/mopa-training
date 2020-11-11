@@ -25,8 +25,15 @@ Auth::routes([
   'verify' => false, // Email Verification Routes...
 ]);
 
-Route::get('/home', 'TrainingController@index')->name('home');
-Route::get('/', 'TrainingController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/traininglist', 'TrainingController@index')->name('traininglist');
+
+// Route::get('/home', 'TrainingController@index')->name('home');
+// Route::get('/', 'TrainingController@index')->name('home');
+
+
 Route::resource('training','TrainingController');
 
 Route::get('/publishTraining/{id}', 'TrainingController@publishTraining')->name('publishTraining');
