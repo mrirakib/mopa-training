@@ -85,6 +85,7 @@
                         </div>
                      </div>
                   </div>
+                  @if(Auth::user()->user_type == 1)
                   <div class="col-md-4 mb-4">
                      <div class="card bg-light">
                         <div class="card-body text-center" id="dashboard-div3">
@@ -112,6 +113,7 @@
                         </div>
                      </div>
                   </div>
+                  @endif
                </div>
             </div>
          </div>
