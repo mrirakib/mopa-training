@@ -83,10 +83,10 @@
                            @if(!GOInformationFinal($rowdata->id) && Auth::user()->user_type == 2)
                            <a class="btn btn-success btn-slim" href="{{ route('goInformation.create', [$rowdata->id]) }}"><i class="fa fa-pencil"></i> GO Info </a>
                               @if(GOInformationDraft($rowdata->id))
-                              <a class="btn btn-success btn-slim" href="/training-govt-order-temp/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Draft GO </a>
+                              <a class="btn btn-success btn-slim" href="/training-govt-order-temp/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> Draft GO </a>
                               @endif
                            @elseif(GOInformationFinal($rowdata->id))
-                           <a class="btn btn-success btn-slim" href="/training-govt-order/{{$rowdata->id}}"><i class="fa fa-pencil"></i> GO </a>
+                           <a class="btn btn-success btn-slim" href="/training-govt-order/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>
                            @endif
 
                            @if(!GOInformationFinalEnglish($rowdata->id) && Auth::user()->user_type == 2)
