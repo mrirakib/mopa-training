@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Training;
-use App\Models\TrainingType;
+use App\Models\Organization;
 use App\Models\GOInformation;
 use App\Models\NominationDetail;
 use Illuminate\Support\Facades\Input;
@@ -27,9 +27,9 @@ class ReportController extends Controller
 
     public function index2()
     {
-        $training_types = TrainingType::where('status', 1)->get();
+        $organizations = Organization::where('status', 1)->get();
 
-        return view('report.create2', compact('training_types'));
+        return view('report.create2', compact('organizations'));
     }
 
     public function create()
@@ -94,11 +94,11 @@ class ReportController extends Controller
 
     public function store2(Request $request)
     {
-        $training_type_id = $request->training_type_id;
+        $organization_id = $request->organization_id;
         $go_info_id = $request->go_info_id;
         $report_type = $request->report_type;
 
-        if($training_type_id == null && $go_info_id == null && $report_type){
+        if($organization_id == null && $go_info_id == null && $report_type){
             Session::flash('Msgerror', 'Please input at least 1 field.');
             return redirect('/report2');
         }
@@ -109,11 +109,11 @@ class ReportController extends Controller
             }else{
                 $training_ids = GOInformation::where('id', $go_info_id)->pluck('training_id');
             }
-        }elseif($training_type_id != null){
+        }elseif($organization_id != null){
             $q2 = Training::query();
             $q2->where('status', 4);
-            if($training_type_id > 0){
-                $q2->where('training_type_id', $training_type_id);
+            if($organization_id > 0){
+                $q2->where('organization_id', $organization_id);
             }
             if(Auth::user()->user_type == 2){
                 $q2->where('admin_id', Auth::user()->id);
@@ -121,13 +121,13 @@ class ReportController extends Controller
             $training_ids = $q2->pluck('id');
         }
 
-        $training_type = TrainingType::find($training_type_id);
+        $organization = Organization::find($organization_id);
         $go_info = GOInformation::find($go_info_id);
 
-        if($training_type_id > 0){
-            $training_type = $training_type->name;
+        if($organization_id > 0){
+            $organization = $organization->name;
         }else{
-            $training_type = 'All';
+            $organization = 'All';
         }
 
         if($report_type == 2){
@@ -141,7 +141,7 @@ class ReportController extends Controller
 
             $report_type_text = "Details";
 
-            return view('report.show2', compact('results', 'training_type_id', 'training_type', 'go_info', 'report_type', 'go_info_id', 'report_type_text'));            
+            return view('report.show2', compact('results', 'organization_id', 'organization', 'go_info', 'report_type', 'go_info_id', 'report_type_text'));            
         }elseif($report_type == 1){
             $q = NominationDetail::query();
 
@@ -155,7 +155,7 @@ class ReportController extends Controller
 
             $report_type_text = "Summary";
 
-            return view('report.show3', compact('results', 'training_type_id', 'training_type', 'go_info', 'report_type', 'go_info_id', 'report_type_text'));            
+            return view('report.show3', compact('results', 'organization_id', 'organization', 'go_info', 'report_type', 'go_info_id', 'report_type_text'));            
         }
     }
 
@@ -181,25 +181,12 @@ class ReportController extends Controller
 
     public function getGOInfo(Request $request)
     {
-        // if($request->training_type_id == 0){
-        //     if(Auth::user()->user_type == 1){
-        //         $training_ids = Training::where('status', 4)->pluck('id');
-        //     }else{
-        //         $training_ids = Training::where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
-        //     }
-        // }else{
-        //     if(Auth::user()->user_type == 1){
-        //         $training_ids = Training::where('training_type_id', $request->training_type_id)->where('status', 4)->pluck('id');
-        //     }else{
-        //         $training_ids = Training::where('training_type_id', $request->training_type_id)->where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
-        //     }
-        // }
 
-        $training_type_id = $request->training_type_id;
+        $organization_id = $request->organization_id;
 
         $q = Training::query();
-        if($training_type_id > 0){
-            $q->where('training_type_id', $request->training_type_id);
+        if($organization_id > 0){
+            $q->where('organization_id', $request->organization_id);
         }
         if(Auth::user()->user_type == 2){
             $q->where('admin_id', Auth::user()->id);

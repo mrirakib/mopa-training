@@ -15,15 +15,46 @@
 
                 <div class="card-body">
                   <div class="row">
-                     <div class="col-6 text-right">
+                     <div class="col-4 text-right">
                         <img src="{{ asset('/img/pp.jpg')}}">
                      </div>
-                     <div class="col-6">
-                        <p><b>Name</b> : {{$user->name}}</p>
-                        <p><b>Email</b> : {{$user->email}}</p>
-                        <p><b>User Type</b> : @if($user->user_type == 2) Admin user @elseif($user->user_type == 3) User @endif</p>
-                        <p><b>Status</b> : @if($user->status == 0) <span class="text-warning">Not verified</span> @elseif($user->status == 1) <span class="text-success">Active</span> @elseif($user->status == 2) <span class="text-danger">Inactive</span> @endif</p>
-                        <p><b>Create date</b> : {{date_format(new DateTime($user->created_at), 'd-M-Y')}}</p>
+                     <div class="col-8">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 20%;">Office</td>
+                                    <td>{{$user->name}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">Office Bangla</td>
+                                    <td>{{$user->name_bangla}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">Section</td>
+                                    <td>{{$user->section}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">Section Bangla</td>
+                                    <td>{{$user->section_bangla}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">Email</td>
+                                    <td>{{$user->email}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">User Type</td>
+                                    <td>@if($user->user_type == 2) Admin user @elseif($user->user_type == 3) Normal User @endif</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">Status</td>
+                                    <td>@if($user->status == 0) <span class="text-warning">Not verified</span> @elseif($user->status == 1) <span class="text-success">Active</span> @elseif($user->status == 2) <span class="text-danger">Inactive</span> @endif</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">Create date</td>
+                                    <td>{{date_format(new DateTime($user->created_at), 'd-M-Y')}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                      </div>
                   </div>
                   <div class="row">

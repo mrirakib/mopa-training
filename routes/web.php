@@ -49,7 +49,7 @@ Route::post('/change-password', 'Auth\ChangePasswordController@update')->name('p
 Route::get('/reset-password/{id}', 'Auth\ChangePasswordController@index2')->name('password.reset');
 Route::post('/reset-password', 'Auth\ChangePasswordController@update2')->name('password2.reset');
 
-Route::get('/getAdminUserList', 'TrainingController@getAdminUserList');
+// Route::get('/getAdminUserList', 'TrainingController@getAdminUserList');
 Route::get('/trainingdetails/{id}', 'TrainingController@trainingdetails');
 
 Route::resource('/userlist', 'UserController');
@@ -60,7 +60,7 @@ Route::post('/user-password-reset', 'UserController@user-password-reset');
 Route::resource('nomination','NominationController');
 Route::post('/candidate-selection', 'NominationController@candidateSelection')->name('candidate-selection');
 
-Route::resource('trainingType','TrainingTypeController');
+Route::resource('organization','OrganizationController');
 
 
 Route::resource('goInformationTemplate','GOInformationTemplateController');

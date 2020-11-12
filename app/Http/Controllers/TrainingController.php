@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Models\Training;
-use App\Models\TrainingType;
+use App\Models\Organization;
 use App\Models\Attachment;
 use App\Models\NominationDetail;
 use Illuminate\Http\Request;
@@ -48,8 +48,8 @@ class TrainingController extends Controller
             Session::flash('Msgerror', 'Access Denied');
             return redirect('/');
         }
-        $training_types = TrainingType::where('status', 1)->get();
-        return view('training.create', compact('training_types'));
+        $organizations = Organization::where('status', 1)->get();
+        return view('training.create', compact('organizations'));
     }
 
     /**
@@ -71,7 +71,7 @@ class TrainingController extends Controller
         $training->issue_date = date_format(date_create($request->issue_date),"Y/m/d");
         $training->archive_date = date_format(date_create($request->archive_date),"Y/m/d");
         $training->remarks = $request->remarks;
-        $training->training_type_id = $request->training_type_id;
+        $training->organization_id = $request->organization_id;
         $training->status = 0;
         $training->admin_id = Auth::user()->id;
         $training->save();
@@ -178,9 +178,9 @@ class TrainingController extends Controller
             return redirect('/');
         }
 
-        $training_types = TrainingType::where('status', 1)->get();
+        $organizations = Organization::where('status', 1)->get();
 
-        return view('training.edit', compact('training', 'training_types'));
+        return view('training.edit', compact('training', 'organizations'));
     }
 
     /**
@@ -217,7 +217,7 @@ class TrainingController extends Controller
         $training->issue_date = date_format(date_create($request->issue_date),"Y/m/d");
         $training->archive_date = date_format(date_create($request->archive_date),"Y/m/d");
         $training->remarks = $request->remarks;
-        $training->training_type_id = $request->training_type_id;
+        $training->organization_id = $request->organization_id;
         $training->status = 0;
         $training->save();
 
@@ -399,16 +399,16 @@ class TrainingController extends Controller
         return redirect('/training/'.$training_id)->with('Msgsuccess', 'Congratulations. Training process has finally finished.');
     }
 
-    public function getAdminUserList(Request $request)
-    {
-        $admin_users = User::where('user_type', 2)->where('status', 1)->get();
+    // public function getAdminUserList(Request $request)
+    // {
+    //     $admin_users = User::where('user_type', 2)->where('status', 1)->get();
 
-        $i=1;
-        echo '<option value="0">Select One</option>';
-        foreach ( $admin_users as $value ):
+    //     $i=1;
+    //     echo '<option value="0">Select One</option>';
+    //     foreach ( $admin_users as $value ):
 
-            echo '<option value="' . $value->id . '">' . $value->name . '-' . $value->email . '</option>';
-        endforeach;
+    //         echo '<option value="' . $value->id . '">' . $value->name . '-' . $value->email . '</option>';
+    //     endforeach;
 
-    }
+    // }
 }

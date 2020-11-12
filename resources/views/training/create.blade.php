@@ -10,10 +10,10 @@
                   {{ csrf_field() }}
                   <div class="row">
                      <div class="form-group col-12">
-                        <label for="training_type_id">Training Type</label>
-                        <select name="training_type_id" class="form-control form-control-sm" required>
+                        <label for="organization_id">Organization</label>
+                        <select name="organization_id" class="form-control form-control-sm" required>
                            <option value="">Please Select</option>
-                           @foreach($training_types as $rowdata)
+                           @foreach($organizations as $rowdata)
                            <option value="{{$rowdata->id}}">{{$rowdata->name}}</option>
                            @endforeach
                         </select>

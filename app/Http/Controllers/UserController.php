@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Auth;
+use Session;
 
 class UserController extends Controller
 {
@@ -105,7 +106,9 @@ class UserController extends Controller
 
         userlog('User information update '.$user->id);
 
-        return back()->with('Msgsuccess', 'User Information updated successfully');
+        Session::flash('Msgsuccess', 'User Information updated successfully');
+
+        return redirect('/userlist/'.$id);
     }
 
     /**

@@ -29,13 +29,13 @@
                <div class="row">
                   <div class="col-10">
                      <p style="margin-bottom: 0px;"><b>Search Key</b></p>
-                     <p><b>Training Type</b> : {{$training_type}} &nbsp; &nbsp; &nbsp; <b>Report Type</b> : {{$report_type_text}}</p>
+                     <p><b>Organization</b> : {{$organization}} &nbsp; &nbsp; &nbsp; <b>Report Type</b> : {{$report_type_text}}</p>
                      @if($go_info_id != null)<p><b>Training GO Title</b> : @php echo $go_info->subject; @endphp </p> @endif
                   </div>
                   <div class="col-1">
                      <form method="POST" target="_blank" action="/training-report-print2" name="training-report-print">
                         {{ csrf_field() }}
-                        <input type="text" name="training_type_id" value="{{$training_type_id}}" hidden>
+                        <input type="text" name="organization_id" value="{{$organization_id}}" hidden>
                         <input type="text" name="go_info_id" value="{{$go_info_id}}" hidden>
                         <input type="text" name="report_type" value="{{$report_type}}" hidden>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i> Print </button>
@@ -44,7 +44,7 @@
                   <!-- <div class="col-1">
                      <form method="POST" action="/training-report-export2" name="training-report-excel">
                         {{ csrf_field() }}
-                        <input type="text" name="training_type_id" value="{{$training_type_id}}" hidden>
+                        <input type="text" name="organization_id" value="{{$organization_id}}" hidden>
                         <input type="text" name="go_info_id" value="{{$go_info_id}}" hidden>
                         <input type="text" name="report_type" value="{{$report_type}}" hidden>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Excel </button>

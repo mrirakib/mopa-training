@@ -95,8 +95,10 @@
                         @endif
                      </div>
                      <div class="col-8">
-                        @if($training->status == 3)
-                        <a class="btn btn-danger pull-right" href="/training-make-final/{{$training->id}}"><i class="fa fa-pencil"></i> Make Final </a>
+                        @(isAdmin())
+                           @if($training->status == 3)
+                           <a class="btn btn-danger pull-right" href="/training-make-final/{{$training->id}}"><i class="fa fa-pencil"></i> Make Final </a>
+                           @endif
                         @endif
                      </div>
                   </div>                  

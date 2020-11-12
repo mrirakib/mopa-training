@@ -22,7 +22,7 @@
 	<p style="margin: 0px 0px 0px 0px;text-align: center;">জনপ্রশাসন মন্ত্রণালয়</p>
 	<p style="margin: 0px 0px 0px 0px; text-align: center;">www.mopa.gov.bd</p>
 	<p><b>Search Key</b></p>
-	<p><b>Training Type</b> : {{$training_type}} &nbsp; &nbsp; &nbsp; <b>Report Type</b> : {{$report_type}}</p>
+	<p><b>Organization</b> : {{$organization}} &nbsp; &nbsp; &nbsp; <b>Report Type</b> : {{$report_type}}</p>
 	@if($go_info_id != null)<p><b>Training GO Title</b> : @php echo $go_info->subject; @endphp </p> @endif
 	<?php  $total = 0; ?>
 	<table style="width: 100%;">

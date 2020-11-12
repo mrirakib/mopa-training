@@ -14,11 +14,11 @@
                   {{ method_field('PUT') }}
                   <div class="row">
                      <div class="form-group col-12">
-                        <label for="training_type_id">Training Type</label>
-                        <select name="training_type_id" class="form-control form-control-sm" required>
+                        <label for="organization_id">Organization</label>
+                        <select name="organization_id" class="form-control form-control-sm" required>
                            <option value="">Please Select</option>
-                           @foreach($training_types as $rowdata)
-                           <option value="{{$rowdata->id}}" @if($rowdata->id == $training->training_type_id) selected @endif>{{$rowdata->name}}</option>
+                           @foreach($organizations as $rowdata)
+                           <option value="{{$rowdata->id}}" @if($rowdata->id == $training->organization_id) selected @endif>{{$rowdata->name}}</option>
                            @endforeach
                         </select>
                      </div>

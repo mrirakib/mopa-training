@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TrainingType extends Model
+class Organization extends Model
 {
-    protected $fillable = ['training_type','created_by','status'];
+    protected $fillable = ['name','name_bangla','email','contact_no','created_by','status'];
 
     public function getUserInfo()
     {

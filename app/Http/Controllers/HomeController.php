@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Models\Training;
-use App\Models\TrainingType;
-use App\Models\Attachment;
-use App\Models\NominationDetail;
 use App\Models\GOInformation;
 use Illuminate\Http\Request;
 use Auth;

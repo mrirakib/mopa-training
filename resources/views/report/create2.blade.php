@@ -23,12 +23,12 @@
                     <form method="POST" action="/report2" name="training-report">
                         {{ csrf_field() }}
                         <div class="form-group row">
-                            <label for="training_type_id" class="col-md-4 col-form-label text-md-right">Training Type</label>
+                            <label for="organization_id" class="col-md-4 col-form-label text-md-right">Organization</label>
                             <div class="col-md-6">
-                                <select name="training_type_id" class="form-control" onchange="getGOInfo(this.value)">
+                                <select name="organization_id" class="form-control" onchange="getGOInfo(this.value)">
                                    <option value="">Please Select</option>
                                    <option value="0">All</option>
-                                   @foreach($training_types as $rowdata)
+                                   @foreach($organizations as $rowdata)
                                    <option value="{{$rowdata->id}}">{{$rowdata->name}}</option>
                                    @endforeach
                                 </select>
@@ -65,8 +65,8 @@
     </div>
 </div>
 <script>
-    function getGOInfo(training_type_id){
-        if(training_type_id == ''){
+    function getGOInfo(organization_id){
+        if(organization_id == ''){
             $('#go_info').html('<option value="">Please Select</option>');
             return;
         }
@@ -74,7 +74,7 @@
             type: "GET",
             url: "{{URL::to('/')}}/getGOInfo",
             data: {
-                training_type_id: training_type_id
+                organization_id: organization_id
             },
             success: function(result) {
                 if (result != '') {

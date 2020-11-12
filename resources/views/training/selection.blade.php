@@ -117,11 +117,13 @@
                <div class="card-body">
                   <div class="row">
                      <div class="col-4">
-                        @if(GOInformationFinal($training->id))
-                        <a class="btn btn-success btn-slim" href="/training-govt-order/{{$training->id}}"><i class="fa fa-pencil"></i> GO(Bangla) </a>
-                        @endif
-                        @if(GOInformationFinalEnglish($training->id))
-                        <a class="btn btn-success btn-slim" href="/training-govt-order/{{$training->id}}"><i class="fa fa-pencil"></i> GO(English) </a>
+                        @if(isAdmin())
+                          @if(GOInformationFinal($training->id))
+                          <a class="btn btn-success btn-slim" href="/training-govt-order/{{$training->id}}"><i class="fa fa-pencil"></i> GO(Bangla) </a>
+                          @endif
+                          @if(GOInformationFinalEnglish($training->id))
+                          <a class="btn btn-success btn-slim" href="/training-govt-order/{{$training->id}}"><i class="fa fa-pencil"></i> GO(English) </a>
+                          @endif
                         @endif
                         <a class="btn btn-secondary" href="/training"><i class="fa fa-arrow-left"></i> Back </a>
                         <!-- @if($training->status >= 2)
@@ -129,9 +131,11 @@
                         @endif -->
                      </div>
                      <div class="col-8">
+                      @if(isAdmin())
                         @if($training->status == 3)
                         <a class="btn btn-danger pull-right" href="/training-make-final/{{$training->id}}"><i class="fa fa-pencil"></i> Lock Selection </a>
                         @endif
+                      @endif
                      </div>
                      <!-- <button class="btn btn-default" data-href="/training/{{$training->id}}" data-toggle="modal" data-target="#confirm-delete">
                              Delete record #54

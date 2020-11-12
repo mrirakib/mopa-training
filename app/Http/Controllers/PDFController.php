@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Training;
-use App\Models\TrainingType;
+use App\Models\Organization;
 use App\Models\Nomination;
 use App\Models\NominationDetail;
 use App\Models\GOInformationTemplate;
@@ -487,11 +487,11 @@ class PDFController extends Controller
     public function training_report_print2(Request $request)
     {
         ////////////////////////////////////////
-        $training_type_id = $request->training_type_id;
+        $organization_id = $request->organization_id;
         $go_info_id = $request->go_info_id;
         $report_type = $request->report_type;
 
-        if($training_type_id == null && $go_info_id == null && $report_type){
+        if($organization_id == null && $go_info_id == null && $report_type){
             Session::flash('Msgerror', 'Please input at least 1 field.');
             return redirect('/report2');
         }
@@ -502,11 +502,11 @@ class PDFController extends Controller
             }else{
                 $training_ids = GOInformation::where('id', $go_info_id)->pluck('training_id');
             }
-        }elseif($training_type_id != null){
+        }elseif($organization_id != null){
             $q2 = Training::query();
             $q2->where('status', 4);
-            if($training_type_id != 0){
-                $q2->where('training_type_id', $training_type_id);
+            if($organization_id != 0){
+                $q2->where('organization_id', $organization_id);
             }
             if(Auth::user()->user_type == 2){
                 $q2->where('admin_id', Auth::user()->id);
@@ -541,21 +541,21 @@ class PDFController extends Controller
         ]);
 
         $fileName = 'Training Report '.date('d-m-Y').".pdf";
-        $training_type = TrainingType::find($training_type_id);
+        $organization = Organization::find($organization_id);
         $go_info = GOInformation::find($go_info_id);
 
-        if($training_type_id > 0){
-            $training_type = $training_type->name;
+        if($organization_id > 0){
+            $organization = $organization->name;
         }else{
-            $training_type = 'All';
+            $organization = 'All';
         }
 
         if($report_type == 2){
             $report_type = "Details";
-            $html = \View::make('pdf.training-report-print2', compact('results', 'training_type', 'go_info', 'report_type', 'go_info_id'));
+            $html = \View::make('pdf.training-report-print2', compact('results', 'organization', 'go_info', 'report_type', 'go_info_id'));
         }elseif($report_type == 1){
             $report_type = "Summary";
-            $html = \View::make('pdf.training-report-print3', compact('results', 'training_type', 'go_info', 'report_type', 'go_info_id'));
+            $html = \View::make('pdf.training-report-print3', compact('results', 'organization', 'go_info', 'report_type', 'go_info_id'));
         }
         $html = $html->render();
 

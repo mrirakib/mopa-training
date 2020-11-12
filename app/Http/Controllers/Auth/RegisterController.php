@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Auth;
+use Session;
 
 class RegisterController extends Controller
 {
@@ -66,6 +67,9 @@ class RegisterController extends Controller
 
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'name_bangla' => ['required', 'string', 'max:255'],
+            'section' => ['required', 'string', 'max:255'],
+            'section_bangla' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'user_type' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -86,6 +90,9 @@ class RegisterController extends Controller
 
         User::create([
             'name' => $data['name'],
+            'name_bangla' => $data['name_bangla'],
+            'section' => $data['section'],
+            'section_bangla' => $data['section_bangla'],
             'email' => $data['email'],
             'user_type' => $data['user_type'],
             'created_by' => Auth::user()->id,
@@ -106,6 +113,9 @@ class RegisterController extends Controller
 
         //return $this->registered($request, $user)
         //                ?: redirect($this->redirectPath());
+
+        // Session::flash('Msgsuccess', 'User created successfully');
+
 
         return redirect(route('register'))->with('Msgsuccess', 'User created successfully');
     }

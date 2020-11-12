@@ -18,7 +18,8 @@
                   <thead>
                      <tr>
                         <th class="th-sm">Sl</th>
-                        <th class="th-sm">Name</th>
+                        <th class="th-sm">Office</th>
+                        <th class="th-sm">Section</th>
                         @if(Auth::user()->user_type == 1)
                         <th class="th-sm">Type</th>
                         @endif
@@ -33,6 +34,7 @@
                      <tr>
                         <td>{{$i++}}</td>
                         <td>{{$rowdata->name}}</td>
+                        <td>{{$rowdata->section}}</td>
                         @if(Auth::user()->user_type == 1)
                         <td>@if($rowdata->user_type == 2) Admin @elseif($rowdata->user_type == 3) User @endif</td>
                         @endif
