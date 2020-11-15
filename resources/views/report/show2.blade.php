@@ -1,11 +1,13 @@
 @extends('layouts.app')
-
-
 @section('content')
 <style>
    p span  {
       font-family: sans-serif !important;
       background: transparent !important;
+      margin-bottom: 0px;
+   }
+   p{
+      margin-bottom: 0px;
    }
 </style>
 <div class="container">
@@ -28,6 +30,7 @@
             <div class="card-body">
                <div class="row">
                   <div class="col-10">
+                     <p style="margin-bottom: 0px;"><b>User: {{Auth::user()->name}} ({{Auth::user()->section}}) &nbsp;&nbsp;&nbsp; User Type: @if(isSuperAdmin()) Super Admin @elseif(isAdmin()) Admin User @else Normal User @endif</b></p>
                      <p style="margin-bottom: 0px;"><b>Search Key</b></p>
                      <p><b>Organization</b> : {{$organization}} &nbsp; &nbsp; &nbsp; <b>Report Type</b> : {{$report_type_text}}</p>
                      @if($go_info_id != null)<p><b>Training GO Title</b> : @php echo $go_info->subject; @endphp </p> @endif

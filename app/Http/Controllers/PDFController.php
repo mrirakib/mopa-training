@@ -23,7 +23,7 @@ class PDFController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'verify.adminabove']);
+        $this->middleware(['auth']);
     }
 
     public function index()
@@ -418,10 +418,10 @@ class PDFController extends Controller
         }
 
 
-        if(Auth::user()->user_type == 1){
-            $training_ids = Training::where('status', 4)->pluck('id');
-        }else{
+        if(isAdmin()){
             $training_ids = Training::where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
+        }else{
+            $training_ids = Training::where('status', 4)->pluck('id');
         }
 
         $q = NominationDetail::query();
@@ -450,6 +450,10 @@ class PDFController extends Controller
 
         if ($request->email) {
             $q->where('email', 'LIKE', '%'.$request->email.'%');
+        }
+
+        if(isUser()){
+            $q->where('user_id', Auth::user()->id);
         }
 
         $results = $q->get();
@@ -517,10 +521,20 @@ class PDFController extends Controller
         if($report_type == 2){
             $q = NominationDetail::query();
             $q->whereIn('training_id', $training_ids)->where('status', 1)->orderBy('training_id');
+            
+            if(isUser()){
+                $q->where('user_id', Auth::user()->id);
+            }
+
             $results = $q->get();
         }elseif($report_type == 1){
             $q = NominationDetail::query();
             $q->whereIn('training_id', $training_ids)->where('status', 1);
+
+            if(isUser()){
+                $q->where('user_id', Auth::user()->id);
+            }
+
             $q->select('training_id', DB::raw('count(*) as total'));
             $q->groupBy('training_id');
             $results = $q->get();

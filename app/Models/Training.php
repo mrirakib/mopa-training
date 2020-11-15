@@ -28,4 +28,8 @@ class Training extends Model
     {
         return $this->belongsTo('App\Models\GOInformation', 'id', 'training_id');
     }
+
+    public function nominationsDetails(){
+        return $this->hasMany(NominationDetails::class,'training_id');
+    }
 }

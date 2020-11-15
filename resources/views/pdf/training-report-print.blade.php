@@ -27,23 +27,23 @@
 	<table style="width: 100%;">
 		<thead>
 			<tr>
-				<th style="text-align: center;">ক্র. নং</th>
-				<th style="text-align: center;">ট্রেনিয়ের নাম</th>
+				<th style="text-align: center; width: 5%;">ক্র. নং</th>
+				<th style="text-align: center;  width: 40%;">ট্রেনিয়ের নাম</th>
 				<th style="text-align: center;">অফিস</th>
 				<th style="text-align: center;">নাম ও পরিচিতি নং</th>
 				<th style="text-align: center;">পদবী ও বর্তমান কর্রস্থল</th>
 				<th style="text-align: center;">মোবাইল</th>
-				<th style="text-align: center;">ই-মেইল</th>
+				<th style="text-align: center; width: 10%;">ই-মেইল</th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($results as $key => $rowdata)
 			<tr>
 				<td>@php echo en2bnNumber(++$key); @endphp</td>
-				<td>{{$rowdata->getTrainingInfo->title}}</td>
+				<td>@php echo $rowdata->getGOInfo($rowdata->training_id); @endphp</td>
 				<td>{{$rowdata->getUserInfo->name}}</td>
 				<td>{{$rowdata->name_bangla}}(@php echo en2bnNumber($rowdata->id_no); @endphp)</td>
-				<td>{{$rowdata->designation_bangla}} ({{$rowdata->working_place}})</td>
+				<td>{{$rowdata->designation_bangla}} ({{$rowdata->working_place_bangla}})</td>
 				<td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>
 				<td>{{$rowdata->email}}</td>
 			</tr>

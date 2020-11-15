@@ -17,26 +17,22 @@ class ReportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'verify.adminabove']);
+        $this->middleware(['auth']);
     }
-
     public function index()
     {
         return view('report.create');
     }
-
     public function index2()
     {
         $organizations = Organization::where('status', 1)->get();
 
         return view('report.create2', compact('organizations'));
     }
-
     public function create()
     {
         //
     }
-
     public function store(Request $request)
     {
         if($request->id_no == null && $request->name == null && $request->designation == null && $request->contact_no == null && $request->email == null){
@@ -45,10 +41,10 @@ class ReportController extends Controller
         }
 
 
-        if(Auth::user()->user_type == 1){
-            $training_ids = Training::where('status', 4)->pluck('id');
-        }else{
+        if(isAdmin()){
             $training_ids = Training::where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
+        }else{
+            $training_ids = Training::where('status', 4)->pluck('id');
         }
 
         $q = NominationDetail::query();
@@ -77,6 +73,10 @@ class ReportController extends Controller
 
         if ($request->email) {
             $q->where('email', 'LIKE', '%'.$request->email.'%');
+        }
+
+        if(isUser()){
+            $q->where('user_id', Auth::user()->id);
         }
 
         $results = $q->get();
@@ -115,7 +115,7 @@ class ReportController extends Controller
             if($organization_id > 0){
                 $q2->where('organization_id', $organization_id);
             }
-            if(Auth::user()->user_type == 2){
+            if(isAdmin()){
                 $q2->where('admin_id', Auth::user()->id);
             }
             $training_ids = $q2->pluck('id');
@@ -135,6 +135,10 @@ class ReportController extends Controller
 
             $q->whereIn('training_id', $training_ids)->where('status', 1)->orderBy('training_id');
 
+            if(isUser()){
+                $q->where('user_id', Auth::user()->id);
+            }
+
             $results = $q->get();            
 
             userlog('Training Report create.');
@@ -144,6 +148,10 @@ class ReportController extends Controller
             return view('report.show2', compact('results', 'organization_id', 'organization', 'go_info', 'report_type', 'go_info_id', 'report_type_text'));            
         }elseif($report_type == 1){
             $q = NominationDetail::query();
+
+            if(isUser()){
+                $q->where('user_id', Auth::user()->id);
+            }
 
             $q->whereIn('training_id', $training_ids)->where('status', 1);
             $q->select('training_id', DB::raw('count(*) as total'));

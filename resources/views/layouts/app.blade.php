@@ -91,15 +91,15 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="\training">List</a>
-                                    @if(Auth::user()->user_type <= 2)
-                                    @if(Auth::user()->user_type == 2)
+                                    @if(isAdmin())
                                     <a class="dropdown-item" href="\training\create">Create</a>
                                     @endif
                                     <div class="dropdown-divider"></div>
+                                    @if(isAdminAbove())
                                     <a class="dropdown-item" href="\go">GO</a>
+                                    @endif
                                     <a class="dropdown-item" href="\report">Report</a>
                                     <a class="dropdown-item" href="\report2">Report Group</a>
-                                    @endif
                                 </div>
                             </li>
                             @if(Auth::user()->user_type == 1)
