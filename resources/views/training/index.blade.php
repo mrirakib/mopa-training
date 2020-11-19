@@ -81,12 +81,12 @@
                            <a class="btn btn-info btn-slim" href="/training/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a>
                            <a class="btn btn-primary btn-slim" href="/candidate-list-export/{{$rowdata->id}}"><i class="fa fa-pencil"></i> Excel </a>
                            @if(!GOInformationFinal($rowdata->id) && Auth::user()->user_type == 2)
-                           <a class="btn btn-success btn-slim" href="{{ route('goInformation.create', [$rowdata->id]) }}"><i class="fa fa-pencil"></i> GO Info </a>
+                           <a class="btn btn-success btn-slim" href="{{ route('goInformation.create', [$rowdata->id]) }}"><i class="fa fa-pencil"></i> GO Info(B) </a>
                               @if(GOInformationDraft($rowdata->id))
-                              <a class="btn btn-success btn-slim" href="/training-govt-order-temp/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> Draft GO </a>
+                              <a class="btn btn-success btn-slim" href="/training-govt-order-temp/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> Draft GO(B) </a>
                               @endif
                            @elseif(GOInformationFinal($rowdata->id))
-                           <a class="btn btn-success btn-slim" href="/training-govt-order/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO </a>
+                           <a class="btn btn-success btn-slim" href="/training-govt-order/{{$rowdata->id}}" target="_blank"><i class="fa fa-pencil"></i> GO(B) </a>
                            @endif
 
                            @if(!GOInformationFinalEnglish($rowdata->id) && Auth::user()->user_type == 2)

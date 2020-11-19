@@ -27,7 +27,7 @@
             @endif
             <div class="card-header"> Training Govt Order </div>
             <div class="card-body">
-               <ul class="nav nav-tabs" id="myTab" role="tablist">
+               <ul class="nav nav-tabs nav-pills nav-justified" id="myTab" role="tablist">
                   @php $i=1; @endphp
                   @foreach($organizations as $rowdata)
                   @if($i == 1)
@@ -43,12 +43,13 @@
                   
                   @endforeach
                </ul>
+               <br>
                <div class="tab-content" id="myTabContent">
                   @php $i=1; @endphp
                   @foreach($organizations as $rowdata)
                      @if($i == 1)
                         <div class="tab-pane fade show active" id="home-{{$rowdata->id}}" role="tabpanel" aria-labelledby="home-{{$rowdata->id}}-tab">
-                           <ul class="nav nav-tabs" id="myTab" role="tablist">
+                           <ul class="nav nav-tabs nav-pills nav-justified" id="myTab" role="tablist">
                               <li class="nav-item">
                                  <a class="nav-link active" id="gobangla{{$rowdata->id}}-tab" data-toggle="tab" href="#gobangla{{$rowdata->id}}" role="tab" aria-controls="gobangla{{$rowdata->id}}" aria-selected="true">GO(Bangla))</a>
                               </li>
@@ -115,7 +116,7 @@
                         </div>
                      @else
                         <div class="tab-pane fade" id="home-{{$rowdata->id}}" role="tabpanel" aria-labelledby="home-{{$rowdata->id}}-tab">
-                           <ul class="nav nav-tabs" id="myTab" role="tablist">
+                           <ul class="nav nav-tabs nav-pills nav-justified" id="myTab" role="tablist">
                               <li class="nav-item">
                                  <a class="nav-link active" id="gobangla{{$rowdata->id}}-tab" data-toggle="tab" href="#gobangla{{$rowdata->id}}" role="tab" aria-controls="gobangla{{$rowdata->id}}" aria-selected="true">GO(Bangla))</a>
                               </li>

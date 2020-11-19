@@ -49,10 +49,10 @@ class PDFController extends Controller
         }
 
 
-        if(Auth::user()->user_type == 1){
-            $training_ids = Training::where('status', 4)->pluck('id');
-        }else{
+        if(isAdmin()){
             $training_ids = Training::where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
+        }else{
+            $training_ids = Training::where('status', 4)->pluck('id');
         }
 
         $q = NominationDetail::query();
@@ -61,37 +61,30 @@ class PDFController extends Controller
 
         if ($request->id_no != null) {
             $q->where('id_no', $request->id_no);
-
         }
 
         if ($request->name) {
             $q->where('name', 'LIKE', '%'.$request->name.'%');
-
         }
 
         if ($request->designation) {
             $q->where('designation', 'LIKE', '%'.$request->designation.'%');
-
         }
 
         if ($request->contact_no) {
             $q->where('contact_no', 'LIKE', '%'.$request->contact_no.'%');
-
         }
 
         if ($request->email) {
             $q->where('email', 'LIKE', '%'.$request->email.'%');
         }
 
-        // $results = $q->select('id_no', 'name_bangla', 'designation_bangla', 'contact_no', 'email')->get();
+        if(isUser()){
+            $q->where('user_id', Auth::user()->id);
+        }
 
         $results = $q->leftJoin('trainings', 'nomination_details.training_id', '=', 'trainings.id')
-             ->select('title', 'id_no', 'name_bangla', 'designation_bangla', 'contact_no', 'email', 'working_place')->get();
-
-        // dd($results);
-
-        // $results = $q->select('training_id', 'id_no', 'name_bangla', 'designation_bangla', 'contact_no', 'email')->get();
-
+             ->select('title', 'id_no', 'name', 'designation', 'contact_no', 'email', 'working_place', 'name_bangla', 'designation_bangla', 'working_place_bangla')->get();
 
         $id_no = $request->id_no;
         $name = $request->name;

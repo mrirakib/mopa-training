@@ -21,8 +21,9 @@
 	<p style="margin: 0px 0px 0px 0px; font-size: 16px;text-align: center;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</p>
 	<p style="margin: 0px 0px 0px 0px;text-align: center;">জনপ্রশাসন মন্ত্রণালয়</p>
 	<p style="margin: 0px 0px 0px 0px; text-align: center;">www.mopa.gov.bd</p>
-	<p><b>Search Key</b></p>
-	<p>@if($id_no != null)<b>Id No</b> : {{$id_no}}&nbsp;&nbsp; @endif @if($name != null)<b>Name</b> : {{$name}}&nbsp;&nbsp; @endif @if($designation != null)<b>Designation</b> : {{$designation}}&nbsp;&nbsp; @endif @if($contact_no != null)<b>Contact No</b> : {{$contact_no}}&nbsp;&nbsp; @endif @if($email != null)<b>Email</b> : {{$email}}&nbsp;&nbsp; @endif</p>
+	<p style="margin-bottom: 0px;">User: {{Auth::user()->name}} ({{Auth::user()->section}}) &nbsp;&nbsp;&nbsp; User Type: @if(isSuperAdmin()) Super Admin @elseif(isAdmin()) Admin User @else Normal User @endif</p>
+	<p>Search Key</p>
+	<p>@if($id_no != null)Id No : {{$id_no}}&nbsp;&nbsp; @endif @if($name != null)Name : {{$name}}&nbsp;&nbsp; @endif @if($designation != null)Designation : {{$designation}}&nbsp;&nbsp; @endif @if($contact_no != null)Contact No : {{$contact_no}}&nbsp;&nbsp; @endif @if($email != null)Email : {{$email}}&nbsp;&nbsp; @endif</p>
 	
 	<table style="width: 100%;">
 		<thead>

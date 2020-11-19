@@ -27,10 +27,10 @@
 	<p style="margin: 0px 0px 0px 0px; font-size: 16px;text-align: center;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</p>
 	<p style="margin: 0px 0px 0px 0px;text-align: center;">জনপ্রশাসন মন্ত্রণালয়</p>
 	<p style="margin: 0px 0px 0px 0px; text-align: center;">www.mopa.gov.bd</p>
-	<p style="margin-bottom: 0px;"><b>User: {{Auth::user()->name}} ({{Auth::user()->section}}) &nbsp;&nbsp;&nbsp; User Type: @if(isSuperAdmin()) Super Admin @elseif(isAdmin()) Admin User @else Normal User @endif</b></p>
-	<p><b>Search Key</b></p>
-	<p><b>Organization</b> : {{$organization}} &nbsp; &nbsp; &nbsp; <b>Report Type</b> : {{$report_type}}</p>
-	@if($go_info_id != null)<p><b>Training GO Title</b> : @php echo $go_info->subject; @endphp </p> @endif
+	<p style="margin-bottom: 0px;">User: {{Auth::user()->name}} ({{Auth::user()->section}}) &nbsp;&nbsp;&nbsp; User Type: @if(isSuperAdmin()) Super Admin @elseif(isAdmin()) Admin User @else Normal User @endif</p>
+	<p>Search Key</p>
+	<p>Organization : {{$organization}} &nbsp; &nbsp; &nbsp; Report Type : {{$report_type}}</p>
+	@if($go_info_id != null)<p>Training GO Title : @php echo $go_info->subject; @endphp </p> @endif
 	<?php  $total = 0; ?>
 	<table style="width: 100%;">
 		<thead>

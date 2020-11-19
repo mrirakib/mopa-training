@@ -29,10 +29,13 @@ class TrainingReportExport implements FromCollection, WithHeadings
         return [
             'ট্রেনিয়ের নাম',
             'পরিচিতি নং',
-            'নাম',
-            'পদবী',
+            'Name',
+            'Designation',
             'মোবাইল',
             'ই-মেইল',
+            'Working Place',
+            'নাম',
+            'পদবী',
             'বর্তমান কর্রস্থল',
         ];
     }
