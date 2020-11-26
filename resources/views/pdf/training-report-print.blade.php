@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Ministry of Public Administration</title>
 	<style type="text/css">
 		
 		table thead th, table tbody td{

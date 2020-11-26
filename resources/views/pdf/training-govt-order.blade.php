@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Ministry of Public Administration</title>
 	<style type="text/css">
 		
 		table thead th, table tbody td{
@@ -14,6 +14,12 @@
 		table thead th, table tbody td {
 		  	vertical-align: top;
 		  	text-align: left;
+		}
+		p{
+			line-height: 1.5;
+		}
+		p span{
+			line-height: 1.5;
 		}
 	</style>
 </head>
@@ -67,7 +73,7 @@ echo $text;
 			<tr>
 				<td>@php echo en2bnNumber(++$key); @endphp.</td>
 				<td>{{$rowdata->name_bangla}} (@php echo en2bnNumber($rowdata->id_no); @endphp)</td>
-				<td>{{$rowdata->designation_bangla}} {{$rowdata->working_place_bangla}}</td>
+				<td>{{$rowdata->designation_bangla}} , {{$rowdata->working_place_bangla}}</td>
 				<td>@php echo en2bnNumber($rowdata->contact_no); @endphp</td>
 				<td>{{$rowdata->email}}</td>
 			</tr>

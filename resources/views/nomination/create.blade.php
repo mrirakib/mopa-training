@@ -34,7 +34,7 @@
             </div>
             <div class="card-body pt-0">
                <div class="row">
-                  <div class="form-group col-2">
+                  <div class="form-group col-lg-3 col-md-6 col-sm-6">
                      <label class="required" for="id_no_1">ID</label>
                      <input type="number" min="0" max="8" class="form-control form-control-sm" id="id_no_1" name="id_no_1" required>
                   </div>
@@ -89,7 +89,7 @@
          <div class="card">
             <div class="card-header">Nomination Table </div>
             <div class="card-body table-responsive">
-               <form action = "/nomination" method = "POST">
+               <form action = "/nomination" method = "POST" id="nominationTable">
                   {{ csrf_field() }}
                   <input type="text" name="training_id" value="{{$training->id}}" hidden readonly required>
                   <table id="" class="table table-striped table-bordered table-sm " cellspacing="0" width="100%">
@@ -251,13 +251,13 @@
       {
          alert("This ID already exit in list. Try for others");
          document.getElementByName("id_no_1").focus();
-         exit;
+         exit();
       } 
 
       $(".odd").remove();
 
-      var rowCount = $('#dtBasicExample tbody tr').length;
-      var rowCount2 = $('#dtBasicExample tbody tr.odd').length;
+      var rowCount = $('#nominationTable tbody tr').length;
+      var rowCount2 = $('#nominationTable tbody tr.odd').length;
       rowCount = rowCount-rowCount2+1;
 
 

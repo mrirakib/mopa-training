@@ -45,7 +45,11 @@
                                  <tr>
                                     <th class="th-sm">Sl</th>
                                     @if($training->status != 4)
-                                    <th class="th-sm">Select</th>
+                                    <!-- <th class="th-sm">Select</th> -->
+                                    <th class="th-sm"><div class="checkbox select-all">
+                                      <label for="all">Select all</label>
+                                      <input id="all" type="checkbox" />
+                                    </div></th>
                                     @endif
                                     <th class="th-sm">Office</th>
                                     <th class="th-sm">ID</th>
@@ -65,7 +69,9 @@
                                     <td>{{$i++}}</td>
                                     @if($training->status != 4)
                                     <td>
+                                      <div class="checkbox rows">
                                        <input type="checkbox" name="id_no[]" value="{{$rowdata->id}}" @if($rowdata->status == 1) checked @endif> <label></label>
+                                     </div>
                                     </td>
                                     @endif
                                     <td>{{$rowdata->getUserInfo->name}}</td>
@@ -147,5 +153,13 @@
       </div>
    </div>
 </div>
-
+<script>
+  $('#all').change(function(e) {
+    if (e.currentTarget.checked) {
+    $('.rows').find('input[type="checkbox"]').prop('checked', true);
+  } else {
+      $('.rows').find('input[type="checkbox"]').prop('checked', false);
+    }
+  });
+</script>
 @endsection
