@@ -11,6 +11,18 @@ $(document).ready(function () {
   $("#dashboard-div2").height(dashboard_div_height1);
   $("#dashboard-div3").height(dashboard_div_height1);
 
+  //Numeric value input only
+  //called when key is pressed in textbox
+    $("#contact_no_1").keypress(function (e) {
+       //if the letter is not digit then display error and don't type anything
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          //display error message
+          $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                 return false;
+      }
+     });
+  //Numeric value input only
+
 });
 $(".custom-file-input").on("change", function() {
   var fileName = $(this).val().split("\\").pop();

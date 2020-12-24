@@ -34,43 +34,73 @@
             </div>
             <div class="card-body pt-0">
                <div class="row">
-                  <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                  <div class="form-group col-lg-2 col-md-6 col-sm-6">
                      <label class="required" for="id_no_1">ID</label>
-                     <input type="number" min="0" max="8" class="form-control form-control-sm" id="id_no_1" name="id_no_1" required>
+                     <input type="number" min="0" max="999999" class="form-control form-control-sm" id="id_no_1" name="id_no_1" required>
+                  </div>
+                  <div class="form-group col-lg-2 col-md-6 col-sm-6">
+                     <label class="required" for="cadre_1">Cadre</label>
+                     <select class="form-control form-control-sm" name="cadre_1" id="cadre_1" required>
+                        <option value="">Select One</option>
+                        @foreach($cadre_lists as $rowdata)
+                        <option value="{{$rowdata->id}}" cadre-name="{{$rowdata->cadre_name}}">{{$rowdata->cadre_name}}</option>
+                        @endforeach
+                     </select>
+                  </div>
+                  <div class="form-group col-lg-2 col-md-6 col-sm-6">
+                     <label class="required" for="batch_1">Batch</label>
+                     <select class="form-control form-control-sm" name="batch_1" id="batch_1" required>
+                        <option value="">Select One</option>
+                        @for($i = 1; $i<=40; $i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                     </select>
+                  </div>
+                  <div class="form-group col-lg-2 col-md-6 col-sm-6">
+                     <label class="required" for="gender_1">Gender</label>
+                     <select class="form-control form-control-sm" name="gender_1" id="gender_1" required>
+                        <option value="">Select One</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                     </select>
+                  </div>
+                  <div class="form-group col-lg-2 col-md-6 col-sm-6">
+                     <label class="required" for="date_of_birth_1">Date of Birth</label>
+                     <input type="text" class="form-control form-control-sm datepicker" name="date_of_birth_1" id="date_of_birth_1" data-date-format="dd/mm/yyyy" required>
                   </div>
                </div>
                <div class="row">
-                  <div class="form-group col-6">
+                  <div class="form-group col-3">
                      <label class="required" for="name_1">Name</label>
                      <input type="text" class="form-control form-control-sm" id="name_1" name="name_1" required>
                   </div>
-                  <div class="form-group col-6">
+                  <div class="form-group col-3">
                      <label class="required" for="name_bangla_1">Name(Bangla)</label>
                      <input type="text" class="form-control form-control-sm" id="name_bangla_1" name="name_bangla_1" required>
                   </div>
-               </div>
-               <div class="row">                  
-                  <div class="form-group col-6">
+                  <div class="form-group col-3">
                      <label class="required" for="designation_1">Designation</label>
                      <input type="text" min="0" class="form-control form-control-sm" id="designation_1" name="designation_1" required>
                   </div>
-                  <div class="form-group col-6">
+                  <div class="form-group col-3">
                      <label class="required" for="designation_bangla_1">Designation(Bangla)</label>
                      <input type="text" min="0" class="form-control form-control-sm" id="designation_bangla_1" name="designation_bangla_1" required>
                   </div>
-                  <div class="form-group col-6">
+               </div>
+               <div class="row">
+                  <div class="form-group col-3">
                      <label class="required" for="working_place_1">Current Working Place</label>
                      <input type="text" min="0" class="form-control form-control-sm" id="working_place_1" name="working_place_1" required>
                   </div>
-                  <div class="form-group col-6">
+                  <div class="form-group col-3">
                      <label class="required" for="working_place_bangla_1">Current Working Place(Bangla)</label>
                      <input type="text" min="0" class="form-control form-control-sm" id="working_place_bangla_1" name="working_place_bangla_1" required>
                   </div>
-                  <div class="form-group col-6">
+                  <div class="form-group col-3">
                      <label class="required" for="contact_no_1">Contact No</label>
-                     <input type="text" min="0" class="form-control form-control-sm" id="contact_no_1" name="contact_no_1" required>
+                     <input type="text" class="form-control form-control-sm" id="contact_no_1" name="contact_no_1" maxlength="15" required><span id="errmsg"></span>
                   </div>
-                  <div class="form-group col-6">
+                  <div class="form-group col-3">
                      <label class="required" for="email_1">Email</label>
                      <input type="email" class="form-control form-control-sm" id="email_1" name="email_1" required>
                   </div>
@@ -105,6 +135,10 @@
                            <th class="th-sm">Working place(Bangla)</th>
                            <th class="th-sm">Contact</th>
                            <th class="th-sm">Email</th>
+                           <th class="th-sm">Cadre</th>
+                           <th class="th-sm">Batch</th>
+                           <th class="th-sm">Gender</th>
+                           <th class="th-sm">Date of Birth</th>
                            <th class="th-sm">Action</th>
                         </tr>
                      </thead>
@@ -150,6 +184,22 @@
                               {{$rowdata->email}}
                            </td>
                            <td>
+                              <input type="text" class="form-control" name="cadre_id[]" value="{{$rowdata->cadre_id}}" required readonly hidden>
+                              {{$rowdata->getCadreInfo->cadre_name}}
+                           </td>
+                           <td>
+                              <input type="text" class="form-control" name="batch[]" value="{{$rowdata->batch}}" required readonly hidden>
+                              {{$rowdata->batch}}
+                           </td>
+                           <td>
+                              <input type="text" class="form-control" name="gender[]" value="{{$rowdata->gender}}" required readonly hidden>
+                              {{$rowdata->gender}}
+                           </td>
+                           <td>
+                              <input type="text" class="form-control" name="date_of_birth[]" value="{{date_format(new DateTime($rowdata->date_of_birth), 'd-m-Y')}}" required readonly hidden>
+                              {{date_format(new DateTime($rowdata->date_of_birth), 'd-m-Y')}}
+                           </td>
+                           <td>
                               <a onclick="deleteRow(this);" class="btn btn-danger btn-sm">Delete</a>
                            </td>
                         </tr>
@@ -174,6 +224,11 @@
       var email_1 = document.getElementsByName("email_1")[0].value;
       var working_place_1 = document.getElementsByName("working_place_1")[0].value;
       var working_place_bangla_1 = document.getElementsByName("working_place_bangla_1")[0].value;
+      var cadre_1 = document.getElementsByName("cadre_1")[0].value;
+      var cadre_name = $("#cadre_1").find(':selected').attr('cadre-name');
+      var batch_1 = document.getElementsByName("batch_1")[0].value;
+      var gender_1 = document.getElementsByName("gender_1")[0].value;
+      var date_of_birth_1 = document.getElementsByName("date_of_birth_1")[0].value;
 
       if(id_no_1 == ''){
          alert('ID Number should not be empty.');
@@ -261,7 +316,7 @@
       rowCount = rowCount-rowCount2+1;
 
 
-      $('#item_list_table_body').append('<tr><td>'+rowCount+'</td><td><input type="text" class="form-control" name="id_no[]" value="'+id_no_1+'" required readonly hidden>'+id_no_1+'</td><td><input type="text" class="form-control" name="name[]" value="'+name_1+'" required readonly hidden>'+name_1+'</td><td><input type="text" class="form-control" name="name_bangla[]" value="'+name_bangla_1+'" required readonly hidden>'+name_bangla_1+'</td><td><input type="text" class="form-control" name="designation[]" value="'+designation_1+'" required readonly hidden>'+designation_1+'</td><td><input type="text" class="form-control" name="designation_bangla[]" value="'+designation_bangla_1+'" required readonly hidden>'+designation_bangla_1+'</td><td><input type="text" class="form-control" name="working_place[]" value="'+working_place_1+'" required readonly hidden>'+working_place_1+'</td><td><input type="text" class="form-control" name="working_place_bangla[]" value="'+working_place_bangla_1+'" required readonly hidden>'+working_place_bangla_1+'</td><td><input type="text" class="form-control" name="contact_no[]" value="'+contact_no_1+'" required readonly hidden>'+contact_no_1+'</td><td><input type="text" class="form-control" name="email[]" value="'+email_1+'" required readonly hidden>'+email_1+'</td><td> <a onclick="deleteRow(this);" class="btn btn-danger btn-sm">Delete</a></td></tr>');
+      $('#item_list_table_body').append('<tr><td>'+rowCount+'</td><td><input type="text" class="form-control" name="id_no[]" value="'+id_no_1+'" required readonly hidden>'+id_no_1+'</td><td><input type="text" class="form-control" name="name[]" value="'+name_1+'" required readonly hidden>'+name_1+'</td><td><input type="text" class="form-control" name="name_bangla[]" value="'+name_bangla_1+'" required readonly hidden>'+name_bangla_1+'</td><td><input type="text" class="form-control" name="designation[]" value="'+designation_1+'" required readonly hidden>'+designation_1+'</td><td><input type="text" class="form-control" name="designation_bangla[]" value="'+designation_bangla_1+'" required readonly hidden>'+designation_bangla_1+'</td><td><input type="text" class="form-control" name="working_place[]" value="'+working_place_1+'" required readonly hidden>'+working_place_1+'</td><td><input type="text" class="form-control" name="working_place_bangla[]" value="'+working_place_bangla_1+'" required readonly hidden>'+working_place_bangla_1+'</td><td><input type="text" class="form-control" name="contact_no[]" value="'+contact_no_1+'" required readonly hidden>'+contact_no_1+'</td><td><input type="text" class="form-control" name="email[]" value="'+email_1+'" required readonly hidden>'+email_1+'</td><td><input type="text" class="form-control" name="cadre_id[]" value="'+cadre_1+'" required readonly hidden>'+cadre_name+'</td><td><input type="text" class="form-control" name="batch[]" value="'+batch_1+'" required readonly hidden>'+batch_1+'</td><td><input type="text" class="form-control" name="gender[]" value="'+gender_1+'" required readonly hidden>'+gender_1+'</td><td><input type="text" class="form-control" name="date_of_birth[]" value="'+date_of_birth_1+'" required readonly hidden>'+date_of_birth_1+'</td><td> <a onclick="deleteRow(this);" class="btn btn-danger btn-sm">Delete</a></td></tr>');
 
       $("#id_no_1").val(null);
       $("#name_1").val(null);
@@ -272,6 +327,10 @@
       $("#email_1").val(null);
       $("#working_place_1").val(null);
       $("#working_place_bangla_1").val(null);
+      $("#cadre_1").val(null);
+      $("#batch_1").val(null);
+      $("#gender_1").val(null);
+      $("#date_of_birth_1").val(null);
    }
 
    function deleteRow(obj, withoutSL) {

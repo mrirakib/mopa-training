@@ -7,6 +7,8 @@ use App\Models\Training;
 use App\Models\Organization;
 use App\Models\Attachment;
 use App\Models\NominationDetail;
+use App\Models\CadreList;
+
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -348,7 +350,9 @@ class TrainingController extends Controller
 
         $nominations = NominationDetail::where('training_id', $training_id)->where('user_id', Auth::user()->id)->where('deleted_at', null)->get();
 
-        return view('nomination.create', compact('training', 'nominations'));
+        $cadre_lists = CadreList::get();
+
+        return view('nomination.create', compact('training', 'nominations', 'cadre_lists'));
     }
 
     public function trainingMakeFinal($training_id)

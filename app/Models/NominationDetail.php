@@ -18,6 +18,10 @@ class NominationDetail extends Model
     {
         return $this->belongsTo('App\Models\Training', 'training_id', 'id');
     }
+    public function getCadreInfo()
+    {
+        return $this->belongsTo('App\Models\CadreList', 'cadre_id', 'id');
+    }
 
     public function getGOInfo($training_id)
     {

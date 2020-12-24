@@ -55,3 +55,7 @@ label{
 .form-group{
    margin-bottom: 4px;
 }
+#errmsg
+{
+   color: red;
+}

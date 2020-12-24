@@ -49,6 +49,10 @@ class NominationController extends Controller
         $email = $request->input('email');
         $working_place = $request->input('working_place');
         $working_place_bangla = $request->input('working_place_bangla');
+        $cadre_id = $request->input('cadre_id');
+        $batch = $request->input('batch');
+        $gender = $request->input('gender');
+        $date_of_birth = $request->input('date_of_birth');
 
         if($id_no == null){
             return back()->with('Msgerror', 'Nomination list is empty. Please add Officers information. Then click on submit');
@@ -83,6 +87,10 @@ class NominationController extends Controller
                 "email" => $email[$key],
                 "working_place" => $working_place[$key],
                 "working_place_bangla" => $working_place_bangla[$key],
+                "cadre_id" => $cadre_id[$key],
+                "batch" => $batch[$key],
+                "gender" => $gender[$key],
+                "date_of_birth" => date_format(date_create($date_of_birth[$key]),"Y/m/d"),
             );
         }
 

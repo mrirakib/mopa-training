@@ -11,6 +11,7 @@
 
     <!-- Styles -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -32,6 +33,7 @@
 
     <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     <script src="{{ asset('js/custom.js') }}" defer></script>
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}" defer></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}" defer></script>
     <script src="{{ asset('js/form-validation.js') }}"></script>
     <script src="https://cdn.tiny.cloud/1/ydybciykv3r9rxxxr18o2d80udshr95fnnk42xurxjdi27pr/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
@@ -169,12 +171,10 @@
         </footer>
         <!-- Footer -->
     </div>
-       <script>
-                $('.datepicker').datepicker({
-                    dateFormat: "dd-mm-yy"
-                });
-        </script>
-                
-    </script>
+    <script>
+        $('.datepicker').datepicker({
+            dateFormat: "dd-mm-yy"
+        });
+    </script>                
 </body>
 </html>
