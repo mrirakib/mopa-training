@@ -72,6 +72,7 @@ class RegisterController extends Controller
             'section_bangla' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'user_type' => ['required'],
+            'user_level' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -95,6 +96,7 @@ class RegisterController extends Controller
             'section_bangla' => $data['section_bangla'],
             'email' => $data['email'],
             'user_type' => $data['user_type'],
+            'user_level' => $data['user_level'],
             'created_by' => Auth::user()->id,
             'status' => 1,
             'password' => Hash::make($data['password']),

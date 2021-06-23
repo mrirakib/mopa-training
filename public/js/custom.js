@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	$('#dtBasicExample').DataTable({
-    "ordering": false,
+    // "ordering": false,
   });
 	$('.dataTables_length').addClass('bs-select');
 
@@ -52,3 +52,4 @@ $('#confirm-delete').on('show.bs.modal', function(e) {
             
             $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
         });
+

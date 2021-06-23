@@ -43,7 +43,11 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">User Type</td>
-                                    <td>@if($user->user_type == 2) Admin user @elseif($user->user_type == 3) Normal User @endif</td>
+                                    <td>@if($user->user_type == 2) Admin user @elseif($user->user_type == 3) Approval Authority User @elseif($user->user_type == 4) Entry User @endif</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%;">User Level</td>
+                                    <td>@if($user->user_level == 0) Admin @elseif($user->user_level == 1) DC Office @elseif($user->user_level == 2) Ministry @endif</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 20%;">Status</td>

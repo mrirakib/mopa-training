@@ -18,7 +18,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
     
 
     <!-- Fonts -->
@@ -38,19 +38,21 @@
     <script src="{{ asset('js/form-validation.js') }}"></script>
     <script src="https://cdn.tiny.cloud/1/ydybciykv3r9rxxxr18o2d80udshr95fnnk42xurxjdi27pr/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 <script>
-      tinymce.init({
+    tinymce.init({
         selector: 'textarea.mytextarea',
         content_style: "body { line-height: 1; }",
         plugins: 'lists',
         toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | table | fontsizeselect",
         branding: false
-      });
+    });
 
-      $(document).ready(function() {
-          $('table.display').DataTable();
-      } );
-    </script>
+    $(document).ready(function() {
+        $('table.display').DataTable();
+    } );
+</script>
 
   
 </head>
@@ -92,9 +94,12 @@
                                   Training
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="\training">List</a>
+                                    <a class="dropdown-item" href="\training">Training List</a>
                                     @if(isAdmin())
-                                    <a class="dropdown-item" href="\training\create">Create</a>
+                                    <a class="dropdown-item" href="\training\create">Training Create</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="\trainingCalender">Calender List</a>
+                                    <a class="dropdown-item" href="\trainingCalender\create">Calender Create</a>
                                     @endif
                                     <div class="dropdown-divider"></div>
                                     @if(isAdminAbove())
@@ -112,6 +117,8 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="\organization">List</a>
                                     <a class="dropdown-item" href="\organization\create">Create</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="\userInstitute">Mapping</a>
                                 </div>
                             </li>
                             @endif
@@ -136,7 +143,7 @@
                                         <a class="dropdown-item" href="\userProfile\create">Profile</a>
                                     @endif
                                     @if(Auth::user()->user_type <= 2)
-                                        <a class="dropdown-item" href="{{ route('register') }}">Create New Account</a>
+                                        <a class="dropdown-item" href="{{ route('register') }}">Create New User</a>
                                         <a class="dropdown-item" href="\userlist">User List</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('password.change') }}">Change password</a>

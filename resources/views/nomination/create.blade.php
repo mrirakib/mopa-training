@@ -36,9 +36,9 @@
                <div class="row">
                   <div class="form-group col-lg-2 col-md-6 col-sm-6">
                      <label class="required" for="id_no_1">ID</label>
-                     <input type="number" min="0" max="999999" class="form-control form-control-sm" id="id_no_1" name="id_no_1" required>
+                     <input type="number" min="0" max="99999999" class="form-control form-control-sm" id="id_no_1" name="id_no_1" required>
                   </div>
-                  <div class="form-group col-lg-2 col-md-6 col-sm-6">
+                  <div class="form-group col-lg-3 col-md-6 col-sm-6">
                      <label class="required" for="cadre_1">Cadre</label>
                      <select class="form-control form-control-sm" name="cadre_1" id="cadre_1" required>
                         <option value="">Select One</option>
@@ -64,41 +64,41 @@
                         <option value="Female">Female</option>
                      </select>
                   </div>
-                  <div class="form-group col-lg-2 col-md-6 col-sm-6">
-                     <label class="required" for="date_of_birth_1">Date of Birth</label>
+                  <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                     <label class="required" for="date_of_birth_1">Date of Birth (dd-mm-yyyy)</label>
                      <input type="text" class="form-control form-control-sm datepicker" name="date_of_birth_1" id="date_of_birth_1" data-date-format="dd/mm/yyyy" required>
                   </div>
                </div>
                <div class="row">
                   <div class="form-group col-3">
-                     <label class="required" for="name_1">Name</label>
+                     <label class="required" for="name_1">Name(English)</label>
                      <input type="text" class="form-control form-control-sm" id="name_1" name="name_1" required>
                   </div>
+                  <div class="form-group col-3">
+                     <label class="required" for="designation_1">Designation(English)</label>
+                     <input type="text" min="0" class="form-control form-control-sm" id="designation_1" name="designation_1" required>
+                  </div>
+                  <div class="form-group col-3">
+                     <label class="required" for="working_place_1">Current Working Place(English)</label>
+                     <input type="text" min="0" class="form-control form-control-sm" id="working_place_1" name="working_place_1" required>
+                  </div>
+                  <div class="form-group col-3">
+                     <label class="required" for="contact_no_1">Contact No(English)</label>
+                     <input type="text" class="form-control form-control-sm" id="contact_no_1" name="contact_no_1" maxlength="15" required><span id="errmsg"></span>
+                  </div>
+               </div>
+               <div class="row">
                   <div class="form-group col-3">
                      <label class="required" for="name_bangla_1">Name(Bangla)</label>
                      <input type="text" class="form-control form-control-sm" id="name_bangla_1" name="name_bangla_1" required>
                   </div>
                   <div class="form-group col-3">
-                     <label class="required" for="designation_1">Designation</label>
-                     <input type="text" min="0" class="form-control form-control-sm" id="designation_1" name="designation_1" required>
-                  </div>
-                  <div class="form-group col-3">
                      <label class="required" for="designation_bangla_1">Designation(Bangla)</label>
                      <input type="text" min="0" class="form-control form-control-sm" id="designation_bangla_1" name="designation_bangla_1" required>
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="form-group col-3">
-                     <label class="required" for="working_place_1">Current Working Place</label>
-                     <input type="text" min="0" class="form-control form-control-sm" id="working_place_1" name="working_place_1" required>
                   </div>
                   <div class="form-group col-3">
                      <label class="required" for="working_place_bangla_1">Current Working Place(Bangla)</label>
                      <input type="text" min="0" class="form-control form-control-sm" id="working_place_bangla_1" name="working_place_bangla_1" required>
-                  </div>
-                  <div class="form-group col-3">
-                     <label class="required" for="contact_no_1">Contact No</label>
-                     <input type="text" class="form-control form-control-sm" id="contact_no_1" name="contact_no_1" maxlength="15" required><span id="errmsg"></span>
                   </div>
                   <div class="form-group col-3">
                      <label class="required" for="email_1">Email</label>

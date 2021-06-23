@@ -88,16 +88,26 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="user_type" class="col-md-4 col-form-label text-md-right">User Type<span class="text-danger">*</span></label>
+                            <label for="user_type" class="col-md-4 col-form-label-sm text-md-right">User Type<span class="text-danger">*</span></label>
                             <div class="col-md-6">
-                                <select class="form-control" name="user_type" id="user_type" required>
-                                    <!-- <option value="">Select One</option> -->
+                                <select class="form-control form-control-sm select2" name="user_type" id="user_type" required>
+                                    <option value="">Select One</option>
                                     @if(Auth::user()->user_type == 1)
                                     <option value="2" @if($user->user_type == 2) selected @endif>Admin User</option>
-                                    <option value="3" @if($user->user_type == 3) selected @endif>Normal User</option>
-                                    @elseif(Auth::user()->user_type == 2)
-                                    <option value="3" selected >Normal User</option>
                                     @endif
+                                    <option value="3" @if($user->user_type == 3) selected @endif>Approval Authority User</option>
+                                    <option value="4" @if($user->user_type == 4) selected @endif>Entry User</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="user_level" class="col-md-4 col-form-label-sm text-md-right">User Level<span class="text-danger">*</span></label>
+                            <div class="col-md-6">
+                                <select class="form-control form-control-sm select2" name="user_level" id="user_level" required>
+                                    <option value="">Select One</option>
+                                    <option value="0" @if($user->user_level == 0) selected @endif>Admin</option>
+                                    <option value="1" @if($user->user_level == 1) selected @endif>Ministry</option>
+                                    <option value="2" @if($user->user_level == 2) selected @endif>DC Office</option>
                                 </select>
                             </div>
                         </div>
@@ -124,4 +134,11 @@
         </div>
     </div>
 </div>
+<script>
+    $('.select2').select2({
+        width: '100%',
+        placeholder: "Select an Option",
+        allowClear: true
+    });
+</script>
 @endsection

@@ -95,3 +95,6 @@ Route::get('/getGOInfo', 'ReportController@getGOInfo');
 
 Route::get('/candidate-list-export/{training_id}', 'PDFController@candidate_list_export');
 Route::post('/training-report-export', 'PDFController@training_report_export');
+
+Route::resource('/userInstitute', 'UserInstituteController');
+Route::get('/get-user-institute-info','UserInstituteController@getUserInstituteInfo');

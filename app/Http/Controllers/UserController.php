@@ -110,6 +110,7 @@ class UserController extends Controller
         $user->section_bangla = $request->section_bangla;
         $user->email = $request->email;
         $user->user_type = $request->user_type;
+        $user->user_level = $request->user_level;
         $user->status = $request->status;
         $user->save();
 
