@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Models\Training;
 use App\Models\Organization;
+use App\Models\UserInstitute;
 use App\Models\Attachment;
 use App\Models\NominationDetail;
 use App\Models\CadreList;
+use App\Models\TrainingCalender;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -31,7 +33,9 @@ class TrainingController extends Controller
         if(Auth::user()->user_type == 3){
             $trainings = Training::orderBy('id', 'DESC')->get();
         }elseif(Auth::user()->user_type == 2){
-            $trainings = Training::where('admin_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
+            $organization_ids = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+
+            $trainings = Training::whereIn('organization_id', $organization_ids)->orderBy('id', 'DESC')->get();
         }else{
             $trainings = Training::orderBy('id', 'DESC')->get();
         }
@@ -67,16 +71,20 @@ class TrainingController extends Controller
             return redirect('/');
         }
 
-        $training = new Training();
-        $training->title = $request->title;
-        $training->issue_no = $request->issue_no;
-        $training->issue_date = date_format(date_create($request->issue_date),"Y/m/d");
-        $training->archive_date = date_format(date_create($request->archive_date),"Y/m/d");
-        $training->remarks = $request->remarks;
-        $training->organization_id = $request->organization_id;
-        $training->status = 0;
-        $training->admin_id = Auth::user()->id;
-        $training->save();
+        $trainingCalender = TrainingCalender::findOrFail($request->training_calender_id);
+        $trainingCalender->status = 2;
+        $trainingCalender->save();
+
+        $input = $request->all();
+        $input['issue_date'] = date_format(date_create($request->issue_date),"Y/m/d");
+        $input['application_start_date'] = date_format(date_create($request->application_start_date),"Y/m/d");
+        $input['application_end_date'] = date_format(date_create($request->application_end_date),"Y/m/d");
+        $input['training_start_date'] = date_format(date_create($request->training_start_date),"Y/m/d");
+        $input['training_end_date'] = date_format(date_create($request->training_end_date),"Y/m/d");
+        $input['status'] = 0;
+        $input['admin_id'] = Auth::user()->id;
+
+        $training = Training::create($input);
 
         $attachment1 = $request->file('attachment');
         if (isset($attachment1)) {
@@ -106,9 +114,11 @@ class TrainingController extends Controller
     {
         $flag = false;
 
+        $userInstituteIds = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+
         if(isSuperAdmin()){
             $flag = true;
-        }elseif(isAdmin() && trainingAuth($training)){
+        }elseif(isAdmin() && (array_search($training->organization_id, $userInstituteIds) !== false)){
             $flag = true;
         }elseif(isApprovalAuthority()){
             $flag = false;

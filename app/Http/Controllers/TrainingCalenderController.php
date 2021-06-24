@@ -65,7 +65,7 @@ class TrainingCalenderController extends Controller
         $data['application_end_date'] = date_format(date_create($request->application_end_date),"Y/m/d");
         $data['training_start_date'] = date_format(date_create($request->training_start_date),"Y/m/d");
         $data['training_end_date'] = date_format(date_create($request->training_end_date),"Y/m/d");
-        $data['status'] = 0;
+        $data['status'] = 1;
         $data['admin_id'] = Auth::id();
 
         $trainingCalender = TrainingCalender::create($data);
@@ -110,7 +110,10 @@ class TrainingCalenderController extends Controller
         $userInstitutes = UserInstitute::select('organization_id')->where('user_id', Auth::id())->get();
         $userInstituteIds = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
 
-        $flag = false;
+        if($trainingCalender->status != 1){
+            Session::flash('Msgerror', 'Access Denied');
+            return redirect('/');
+        }
 
         if (array_search($trainingCalender->organization_id, $userInstituteIds) !== false) {
             //Find
@@ -120,7 +123,6 @@ class TrainingCalenderController extends Controller
             Session::flash('Msgerror', 'Access Denied');
             return redirect('/');
         }
-
     }
 
     /**
@@ -143,7 +145,7 @@ class TrainingCalenderController extends Controller
         $data['application_end_date'] = date_format(date_create($request->application_end_date),"Y/m/d");
         $data['training_start_date'] = date_format(date_create($request->training_start_date),"Y/m/d");
         $data['training_end_date'] = date_format(date_create($request->training_end_date),"Y/m/d");
-        $data['status'] = 0;
+        $data['status'] = 1;
 
         $trainingCalender = TrainingCalender::findOrFail($trainingCalender->id);
 
@@ -178,4 +180,31 @@ class TrainingCalenderController extends Controller
     {
         //
     }
+
+    public function trainingCalenderPublish($trainingCalenderId){
+
+        if(!isAdmin()){
+            Session::flash('Msgerror', 'Access Denied');
+            return redirect('/');
+        }
+        
+        $trainingCalender = TrainingCalender::findOrFail($trainingCalenderId);
+
+        if($trainingCalender->status != 1){
+            Session::flash('Msgerror', 'Access Denied');
+            return redirect('/');
+        }
+
+        $userInstituteIds = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+
+        if (array_search($trainingCalender->organization_id, $userInstituteIds) !== false) {
+            //Find
+            return view('training.create', compact('trainingCalender'));
+        } else {
+            // Not Find
+            Session::flash('Msgerror', 'Access Denied');
+            return redirect('/');
+        }
+    }
+
 }

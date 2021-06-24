@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Training extends Model
 {
-    protected $fillable = ['title','issue_no','issue_date','archive_date','status','remarks','admin_id'];
+    protected $fillable = ['training_calender_id','status', 'title', 'issue_no', 'issue_date', 'application_start_date', 'application_end_date', 'training_start_date', 'training_end_date', 'organization_id'];
 
     
     public function getAttachementInfo($training_id)

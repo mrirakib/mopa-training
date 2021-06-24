@@ -53,7 +53,10 @@
                         <td class="text-center"> <?php if($attachmentinfo != ''){ ?> <a href="{{ asset('/upload/'.$attachmentinfo)}}" download="{{ asset('/upload/'.$attachmentinfo)}}"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:20px;"></i></a> <?php } ?> </td>
                         <td> 
                            <a class="btn btn-info btn-slim" href="/trainingCalender/{{$rowdata->id}}"><i class="fa fa-eye"></i> View </a>
+                           @if($rowdata->status == 1)
                            <a class="btn btn-success btn-slim" href="/trainingCalender/{{$rowdata->id}}/edit"><i class="fa fa-pencil"></i> Edit </a>
+                           <a class="btn btn-primary btn-slim" href="/trainingCalender/{{$rowdata->id}}/publish"><i class="fa fa-bullhorn" aria-hidden="true"></i> Publish </a>
+                           @endif
                         </td>
                      </tr>
                      @endforeach                     
