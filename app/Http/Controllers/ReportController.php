@@ -75,7 +75,7 @@ class ReportController extends Controller
             $q->where('email', 'LIKE', '%'.$request->email.'%');
         }
 
-        if(isUser()){
+        if(isApprovalAuthority()){
             $q->where('user_id', Auth::user()->id);
         }
 
@@ -135,7 +135,7 @@ class ReportController extends Controller
 
             $q->whereIn('training_id', $training_ids)->where('status', 1)->orderBy('training_id');
 
-            if(isUser()){
+            if(isApprovalAuthority()){
                 $q->where('user_id', Auth::user()->id);
             }
 
@@ -149,7 +149,7 @@ class ReportController extends Controller
         }elseif($report_type == 1){
             $q = NominationDetail::query();
 
-            if(isUser()){
+            if(isApprovalAuthority()){
                 $q->where('user_id', Auth::user()->id);
             }
 

@@ -98,3 +98,5 @@ Route::post('/training-report-export', 'PDFController@training_report_export');
 
 Route::resource('/userInstitute', 'UserInstituteController');
 Route::get('/get-user-institute-info','UserInstituteController@getUserInstituteInfo');
+
+Route::resource('/trainingCalender', 'TrainingCalenderController');

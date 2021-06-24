@@ -11,7 +11,7 @@ class Training extends Model
     
     public function getAttachementInfo($training_id)
     {
-    	$response = Attachment::where('training_id', $training_id)->where('status', 0)->first();
+    	$response = Attachment::where('reference_id', $training_id)->where('attachment_type', 1)->where('status', 1)->first();
         if($response){
         	return $response->filename;
         }

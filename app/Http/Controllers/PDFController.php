@@ -79,7 +79,7 @@ class PDFController extends Controller
             $q->where('email', 'LIKE', '%'.$request->email.'%');
         }
 
-        if(isUser()){
+        if(isApprovalAuthority()){
             $q->where('user_id', Auth::user()->id);
         }
 
@@ -445,7 +445,7 @@ class PDFController extends Controller
             $q->where('email', 'LIKE', '%'.$request->email.'%');
         }
 
-        if(isUser()){
+        if(isApprovalAuthority()){
             $q->where('user_id', Auth::user()->id);
         }
 
@@ -515,7 +515,7 @@ class PDFController extends Controller
             $q = NominationDetail::query();
             $q->whereIn('training_id', $training_ids)->where('status', 1)->orderBy('training_id');
             
-            if(isUser()){
+            if(isApprovalAuthority()){
                 $q->where('user_id', Auth::user()->id);
             }
 
@@ -524,7 +524,7 @@ class PDFController extends Controller
             $q = NominationDetail::query();
             $q->whereIn('training_id', $training_ids)->where('status', 1);
 
-            if(isUser()){
+            if(isApprovalAuthority()){
                 $q->where('user_id', Auth::user()->id);
             }
 

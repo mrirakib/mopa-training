@@ -27,12 +27,12 @@
 			return false;
 	}
     function isAdminAbove(){
-        if(Auth::user()->user_type <= 2)
+        if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2)
             return true;
         else
             return false;
     }
-	function isUser(){
+	function isApprovalAuthority(){
 		if(Auth::user()->user_type == 3)
 			return true;
 		else

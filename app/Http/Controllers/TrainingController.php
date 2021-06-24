@@ -85,8 +85,9 @@ class TrainingController extends Controller
             $attachment1->move($location, $filename);
             Attachment::create([
                 'filename' => $filename,
-                'status' => 0,
-                'training_id' => $training->id
+                'status' => 1,
+                'reference_id' => $training->id,
+                'attachment_type' => 1
             ])->save();
         }
 
@@ -109,7 +110,7 @@ class TrainingController extends Controller
             $flag = true;
         }elseif(isAdmin() && trainingAuth($training)){
             $flag = true;
-        }elseif(isUser()){
+        }elseif(isApprovalAuthority()){
             $flag = false;
         }
 
@@ -140,7 +141,7 @@ class TrainingController extends Controller
         
         $flag = false;
 
-        if(isUser()){
+        if(isApprovalAuthority()){
             $flag = true;
         }
         if($training->status > 1){
@@ -230,8 +231,9 @@ class TrainingController extends Controller
             $attachment1->move($location, $filename);
             Attachment::create([
                 'filename' => $filename,
-                'status' => 0,
-                'training_id' => $training->id
+                'status' => 1,
+                'reference_id' => $training->id,
+                'attachment_type' => 1
             ])->save();
         }
 
@@ -330,7 +332,7 @@ class TrainingController extends Controller
 
     public function nominationTraining($training_id)
     {
-        if(!isUser()){
+        if(!isApprovalAuthority()){
             return back();
         }
 
