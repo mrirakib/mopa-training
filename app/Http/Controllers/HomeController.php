@@ -89,6 +89,7 @@ class HomeController extends Controller
             $user_admin = 0;
             $user_normal = 0;
         }else{
+            
             return redirect('/training');
         }
 
