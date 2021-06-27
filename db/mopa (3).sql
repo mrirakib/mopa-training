@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2021 at 12:50 PM
+-- Generation Time: Jun 27, 2021 at 12:53 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -240,9 +240,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 CREATE TABLE `nominations` (
   `id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
-  `admin_id` int(11) NOT NULL,
+  `organization_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `status` int(11) NOT NULL COMMENT '0=draft, 1=final',
+  `status` int(11) NOT NULL COMMENT '0=entry, 1=send to approval authority, 2=approved by approval authority and send to admin, 3=not selected, 4=selected, 5=join in training, 6=completed',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -251,7 +251,7 @@ CREATE TABLE `nominations` (
 -- Dumping data for table `nominations`
 --
 
-INSERT INTO `nominations` (`id`, `training_id`, `admin_id`, `user_id`, `status`, `created_at`, `updated_at`) VALUES
+INSERT INTO `nominations` (`id`, `training_id`, `organization_id`, `user_id`, `status`, `created_at`, `updated_at`) VALUES
 (31, 39, 21, 25, 0, '2020-11-09 10:15:15', '2020-11-09 10:15:15'),
 (32, 40, 21, 25, 0, '2020-11-09 10:26:44', '2020-11-09 10:26:44'),
 (33, 41, 21, 25, 0, '2020-11-09 10:29:05', '2020-11-09 10:29:05'),
@@ -272,7 +272,9 @@ INSERT INTO `nominations` (`id`, `training_id`, `admin_id`, `user_id`, `status`,
 (48, 53, 21, 15, 0, '2021-06-13 10:32:01', '2021-06-13 10:32:01'),
 (49, 55, 12, 11, 0, '2021-06-16 04:29:51', '2021-06-16 04:29:51'),
 (50, 55, 12, 73, 0, '2021-06-17 04:53:55', '2021-06-17 04:53:55'),
-(51, 56, 12, 11, 0, '2021-06-21 09:34:14', '2021-06-21 09:34:14');
+(51, 56, 12, 11, 0, '2021-06-21 09:34:14', '2021-06-21 09:34:14'),
+(52, 54, 0, 86, 2, '2021-06-27 08:36:10', '2021-06-27 10:18:31'),
+(53, 64, 2, 86, 1, '2021-06-27 10:49:44', '2021-06-27 10:49:51');
 
 -- --------------------------------------------------------
 
@@ -282,10 +284,11 @@ INSERT INTO `nominations` (`id`, `training_id`, `admin_id`, `user_id`, `status`,
 
 CREATE TABLE `nomination_details` (
   `id` int(11) NOT NULL,
-  `status` int(11) NOT NULL COMMENT '0=not selected, 1=selected',
+  `status` int(11) NOT NULL COMMENT '0=entry, \r\n1=send to approval authority, \r\n2=approved by approval authority and send to admin,\r\n3=not selected,\r\n4=selected,\r\n5=join in training,\r\n6=completed',
+  `stage_status` int(11) NOT NULL DEFAULT 0,
   `training_id` int(11) NOT NULL,
   `nomination_id` int(11) NOT NULL,
-  `admin_id` int(11) NOT NULL,
+  `organization_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `id_no` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -309,69 +312,74 @@ CREATE TABLE `nomination_details` (
 -- Dumping data for table `nomination_details`
 --
 
-INSERT INTO `nomination_details` (`id`, `status`, `training_id`, `nomination_id`, `admin_id`, `user_id`, `id_no`, `name`, `name_bangla`, `designation`, `designation_bangla`, `contact_no`, `email`, `working_place`, `working_place_bangla`, `batch`, `cadre_id`, `gender`, `date_of_birth`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(50, 0, 39, 31, 21, 25, 700029, 'S.M. Mohaimen Likhon', 'এস. এম. মোহায়মেন লিখন', 'Assistant Programmer', 'সহকারী প্রোগ্রামার', '01521481414', 'asstprog6@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:15:15', '2020-11-09 10:38:55', NULL),
-(51, 1, 39, 31, 21, 25, 700030, 'Md. Rakibul Islam', 'মোঃ রাকিবুল ইসলাম', 'Assistant Programmer', 'সহকারী প্রোগ্রামার', '01741607831', 'asstprog6@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:15:15', '2020-11-09 10:38:55', NULL),
-(52, 1, 40, 32, 21, 25, 700029, 'S. M. Mohaimen Likhon', 'মোহায়মেন লিখন', 'Assistant Programmer', 'সহকারী প্রোগ্রামার', '01521481414', 'asstprog5@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:26:44', '2020-11-09 10:38:45', NULL),
-(53, 0, 40, 32, 21, 25, 700030, 'Md. Rakibul Islam', 'মোঃ রাকিবুল ইসলাম', 'Asst. Prog', 'সহকারী প্রোগ্রামার', '01741607831', 'asstprog6@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:26:44', '2020-11-09 10:38:45', NULL),
-(54, 1, 41, 33, 21, 25, 700000, 'Abir', 'আবির', 'Asst Prog', 'সহকারী প্রোগ্রামার', '01521101010', 'asstprog@mopa.gov.bd', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:29:05', '2020-11-09 10:38:35', NULL),
-(55, 0, 41, 33, 21, 25, 500001, 'Kabir', 'কবির', 'AP', 'সপ্র', '01521202020', 'asst@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:29:05', '2020-11-09 10:38:35', NULL),
-(56, 0, 46, 34, 17, 25, 50002, 'Dabir', 'দবির', 'AP', 'সপ্রো', '01521404040', 'asstprog@mopa.gov.bd', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:30:55', NULL, NULL),
-(57, 0, 46, 34, 17, 25, 720, 'Mamun', 'মামুন', 'AP', 'এপ্রো', '01741101010', 'ast@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:30:55', NULL, NULL),
-(58, 0, 45, 35, 17, 25, 7002, 'Milon', 'মিলন', 'AP', 'এপি', '01741202020', 'assdf@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:32:58', '2020-11-19 08:21:59', '2020-11-19 08:21:59'),
-(59, 0, 45, 35, 17, 25, 6952, 'Khaleq', 'খালেক', 'DS', 'উস', '01741505050', 'khaleq@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:32:58', '2020-11-19 08:21:59', '2020-11-19 08:21:59'),
-(60, 1, 44, 36, 21, 25, 70002, 'Dabir', 'দবির', 'PA', 'পিএ', '01741202020', 'pa@gmail.com', 'pacc', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:33:50', '2020-11-09 10:38:00', NULL),
-(61, 1, 43, 37, 21, 25, 701, 'Karim', 'করিম', 'ap', 'এপ', '01741606060', 'asdf@gmail.com', 'pacc', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:34:44', '2020-11-09 10:38:15', NULL),
-(62, 1, 42, 38, 21, 25, 520, 'Kabir', 'কবির', 'AP', 'এপ', '01741505050', 'asdf@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:35:38', '2020-11-09 10:38:24', NULL),
-(63, 1, 45, 35, 17, 25, 7002, 'Milon', 'মিলন', 'AP', 'এপি', '01741202020', 'assdf@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-19 08:21:59', '2020-11-19 08:30:06', NULL),
-(64, 1, 45, 35, 17, 25, 6952, 'Khaleq', 'খালেক', 'DS', 'উস', '01741505050', 'khaleq@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-19 08:21:59', '2020-11-19 08:30:06', NULL),
-(65, 0, 45, 35, 17, 25, 1200, 'ABM Michael', 'এবিএম মাইকেল', 'DD', 'ডিডি', '01254402010', 'manfn@mnanfnb.com', 'Rnagamati', 'রাঙামাটি', 0, 0, '', NULL, '2020-11-19 08:21:59', '2020-11-19 08:30:06', NULL),
-(66, 1, 45, 39, 17, 26, 21554, 'DM John', 'ডিএম জন', 'DD', 'ডিডি', '101010101000', 'dm@gff.com', 'Jessore', 'যশোর', 0, 0, '', NULL, '2020-11-19 08:26:48', '2020-11-19 08:30:06', NULL),
-(67, 0, 48, 40, 21, 25, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-11-23 08:14:56', '2020-11-23 08:24:31', '2020-11-23 08:24:31'),
-(68, 0, 48, 40, 21, 25, 5840, 'Dr. Md. Abdul mannan', 'ড. মোঃ আব্দুল মান্নান', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mannan@gmail.com', 'Additional Divisional Commissioner office, Rajshahi Division, Rajshahi', 'অতিরিক্ত বিভাগীয় কমিশনার অফিস, রাজশাহী বিভাগ, রাজশাহী', 0, 0, '', NULL, '2020-11-23 08:14:56', '2020-11-23 08:24:31', '2020-11-23 08:24:31'),
-(69, 0, 48, 40, 21, 25, 5905, 'Dr. Nasim Ahmed', 'ড. নাছিম আহমেদ', 'Joint Secreraty', 'যুগ্মসচিব', '01741607831', 'nasim@gmail.com', 'Bangladesh Road Transport Corporation', 'বাংলাদেশ সরক পরিবহন কর্পোরেশন', 0, 0, '', NULL, '2020-11-23 08:14:56', '2020-11-23 08:24:31', '2020-11-23 08:24:31'),
-(70, 0, 48, 40, 21, 25, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-11-23 08:24:31', '2020-11-23 09:31:20', '2020-11-23 09:31:20'),
-(71, 0, 48, 40, 21, 25, 5840, 'Dr. Md. Abdul mannan', 'ড. মোঃ আব্দুল মান্নান', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mannan@gmail.com', 'Additional Divisional Commissioner office, Rajshahi Division, Rajshahi', 'অতিরিক্ত বিভাগীয় কমিশনার অফিস, রাজশাহী বিভাগ, রাজশাহী', 0, 0, '', NULL, '2020-11-23 08:24:31', '2020-11-23 09:31:20', '2020-11-23 09:31:20'),
-(72, 0, 48, 40, 21, 25, 5905, 'Dr. Nasim Ahmed', 'ড. নাছিম আহমেদ', 'Joint Secreraty', 'যুগ্মসচিব', '01741607831', 'nasim@gmail.com', 'Bangladesh Road Transport Corporation', 'বাংলাদেশ সরক পরিবহন কর্পোরেশন', 0, 0, '', NULL, '2020-11-23 08:24:31', '2020-11-23 09:31:20', '2020-11-23 09:31:20'),
-(73, 0, 48, 40, 21, 25, 6043, 'Md. Mostafa Kamal Mojumder', 'মোঃ মোস্তফা কামাল মজুমদার', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mostafa@gmail.com', 'Bangladesh Land Port Authority', 'বাংলাদেশ স্থলবন্দর কর্তৃপক্ষ', 0, 0, '', NULL, '2020-11-23 08:24:31', '2020-11-23 09:31:20', '2020-11-23 09:31:20'),
-(74, 0, 48, 40, 21, 25, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
-(75, 0, 48, 40, 21, 25, 5840, 'Dr. Md. Abdul mannan', 'ড. মোঃ আব্দুল মান্নান', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mannan@gmail.com', 'Additional Divisional Commissioner office, Rajshahi Division, Rajshahi', 'অতিরিক্ত বিভাগীয় কমিশনার অফিস, রাজশাহী বিভাগ, রাজশাহী', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
-(76, 0, 48, 40, 21, 25, 5905, 'Dr. Nasim Ahmed', 'ড. নাছিম আহমেদ', 'Joint Secreraty', 'যুগ্মসচিব', '01741607831', 'nasim@gmail.com', 'Bangladesh Road Transport Corporation', 'বাংলাদেশ সরক পরিবহন কর্পোরেশন', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
-(77, 0, 48, 40, 21, 25, 6043, 'Md. Mostafa Kamal Mojumder', 'মোঃ মোস্তফা কামাল মজুমদার', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mostafa@gmail.com', 'Bangladesh Land Port Authority', 'বাংলাদেশ স্থলবন্দর কর্তৃপক্ষ', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
-(78, 0, 48, 40, 21, 25, 6068, 'Md. Abdur Rouf', 'মোহাম্মদ আবদুর রউফ', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'rouf@gmail.com', 'Transit Development Project', 'ট্রানজিট ডেভেলপমেন্ট প্রজেক্ট', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
-(79, 0, 48, 40, 21, 25, 6282, 'Zahir Rayhan', 'জহির রায়হান', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Anti-Corruption Commission', 'দুর্নীতি দমন কমিশন', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
-(80, 0, 48, 40, 21, 25, 6252, 'Farjana Momotaz', 'ফারজানা মমতাজ', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Power Division', 'বিদ্যুৎ বিভাগ', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
-(81, 1, 48, 40, 21, 25, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(82, 1, 48, 40, 21, 25, 5840, 'Dr. Md. Abdul mannan', 'ড. মোঃ আব্দুল মান্নান', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mannan@gmail.com', 'Additional Divisional Commissioner office, Rajshahi Division, Rajshahi', 'অতিরিক্ত বিভাগীয় কমিশনার অফিস, রাজশাহী বিভাগ, রাজশাহী', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(83, 1, 48, 40, 21, 25, 5905, 'Dr. Nasim Ahmed', 'ড. নাছিম আহমেদ', 'Joint Secreraty', 'যুগ্মসচিব', '01741607831', 'nasim@gmail.com', 'Bangladesh Road Transport Corporation', 'বাংলাদেশ সরক পরিবহন কর্পোরেশন', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(84, 1, 48, 40, 21, 25, 6043, 'Md. Mostafa Kamal Mojumder', 'মোঃ মোস্তফা কামাল মজুমদার', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mostafa@gmail.com', 'Bangladesh Land Port Authority', 'বাংলাদেশ স্থলবন্দর কর্তৃপক্ষ', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(85, 1, 48, 40, 21, 25, 6068, 'Md. Abdur Rouf', 'মোহাম্মদ আবদুর রউফ', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'rouf@gmail.com', 'Transit Development Project', 'ট্রানজিট ডেভেলপমেন্ট প্রজেক্ট', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(86, 1, 48, 40, 21, 25, 6282, 'Zahir Rayhan', 'জহির রায়হান', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Anti-Corruption Commission', 'দুর্নীতি দমন কমিশন', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(87, 1, 48, 40, 21, 25, 6252, 'Farjana Momotaz', 'ফারজানা মমতাজ', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Power Division', 'বিদ্যুৎ বিভাগ', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(88, 1, 48, 40, 21, 25, 6271, 'Fatima Rahim Vima', 'ফাতেমা রহিম ভীমা', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Finance Division', 'অর্থ বিভাগ', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(89, 1, 48, 40, 21, 25, 6298, 'Shoyaib Ahmed Khan', 'শোয়াইব আহমাদ খান', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Wedge Earner Welfare Board', 'ওয়েজ আর্নার্স কল্যাণ বোর্ড', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(90, 1, 48, 40, 21, 25, 6319, 'Syed Md. Nurul Basir', 'সৈয়দ মো: নুরুল বাসির', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Department of Social Services', 'সমাজসেবা অধিদপ্তর', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
-(91, 1, 49, 41, 21, 73, 6068, 'Md. Abdur Rouf', 'মোহাম্মদ আবদুর রউফ', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'rouf@gmail.com', 'Transit Development Project', 'ট্রানজিট', 0, 0, '', NULL, '2020-12-10 08:02:31', '2020-12-10 08:05:54', NULL),
-(92, 1, 49, 42, 21, 72, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-12-10 08:03:21', '2020-12-10 08:05:54', NULL),
-(93, 1, 51, 43, 21, 72, 700030, 'Md. Rakibul Islam', 'মোঃ রাকিবুল', 'Assistant Programmer', 'সহকারী প্রোগ্রামার', '01741607831', 'asstprog6@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-12-10 08:57:34', '2020-12-10 09:00:22', NULL),
-(94, 1, 51, 44, 21, 73, 700029, 'S. M. Mohaimen Likhon', 'লিখর', 'Asst Prog', 'সহকারী প্রোগ্রামার', '01521481414', 'likhon@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-12-10 08:59:15', '2020-12-10 09:00:22', NULL),
-(95, 0, 46, 45, 17, 72, 3434, 'asd asd fadf a', 'sdf asdf', 'f asdf asdf a', 'f asdf asdf', '01741607831', 'asdfasdf@asdfasdf.asdf', 'a sdf asdf', 'asdf asdf asdf', 2, 2, 'Male', '2020-12-01', '2020-12-24 05:12:35', '2020-12-24 05:38:05', '2020-12-24 05:38:05'),
-(96, 0, 46, 45, 17, 72, 2563, 'a sdf asdf', 'asd asdf asdf', 'asd fasd f', 'asdf asdf asdf', '01741607831', 'asdfasdf@asdfasdf.com', 'asd fasdf as', 'df asdf asdf', 1, 3, 'Female', '2020-12-01', '2020-12-24 05:12:35', '2020-12-24 05:38:05', '2020-12-24 05:38:05'),
-(97, 0, 46, 45, 17, 72, 3434, 'asd asd fadf a', 'sdf asdf', 'f asdf asdf a', 'f asdf asdf', '01741607831', 'asdfasdf@asdfasdf.asdf', 'a sdf asdf', 'asdf asdf asdf', 2, 2, 'Male', '2020-12-01', '2020-12-24 05:38:32', NULL, NULL),
-(98, 0, 46, 45, 17, 72, 2563, 'a sdf asdf', 'asd asdf asdf', 'asd fasd f', 'asdf asdf asdf', '01741607831', 'asdfasdf@asdfasdf.com', 'asd fasdf as', 'df asdf asdf', 1, 3, 'Female', '2020-12-01', '2020-12-24 05:38:32', NULL, NULL),
-(99, 0, 52, 46, 13, 72, 700030, 'asdf asd asdf', 'asd asd fasd', 'fasdf asdf', 'asd asd asdf', '01741607831', 'asdasdf@asdfads.asdf', 'asd fasdf asd', 'fasd asdf asdf', 33, 2, 'Male', '2020-12-01', '2020-12-24 05:42:22', '2020-12-24 05:42:28', '2020-12-24 05:42:28'),
-(100, 0, 52, 46, 13, 72, 23343, 'asd asd asdf', 'asd asd', 'fasdf asdf', 'asdf asd', '01741607831', 'fasdf2@asdf.com', 'aasdfasdf', 'asdfasdf', 38, 3, 'Male', '2020-12-01', '2020-12-24 05:42:22', '2020-12-24 05:42:28', '2020-12-24 05:42:28'),
-(101, 0, 52, 46, 13, 72, 700030, 'asdf asd asdf', 'asd asd fasd', 'fasdf asdf', 'asd asd asdf', '01741607831', 'asdasdf@asdfads.asdf', 'asd fasdf asd', 'fasd asdf asdf', 33, 2, 'Male', '2020-12-01', '2020-12-24 05:42:28', NULL, NULL),
-(102, 0, 52, 46, 13, 72, 23343, 'asd asd asdf', 'asd asd', 'fasdf asdf', 'asdf asd', '01741607831', 'fasdf2@asdf.com', 'aasdfasdf', 'asdfasdf', 38, 3, 'Male', '2020-12-01', '2020-12-24 05:42:28', NULL, NULL),
-(103, 0, 52, 47, 13, 15, 700030, 'Rakib', 'রাকিব', 'Asst Prog', 'সহকারী প্রোগ্রামার', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 38, 1, 'Male', '2021-06-13', '2021-06-13 10:24:00', '2021-06-13 10:24:10', '2021-06-13 10:24:10'),
-(104, 0, 52, 47, 13, 15, 700030, 'Rakib', 'রাকিব', 'Asst Prog', 'সহকারী প্রোগ্রামার', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 38, 1, 'Male', '2021-06-13', '2021-06-13 10:24:10', NULL, NULL),
-(105, 1, 53, 48, 21, 15, 700030, 'Rakib', 'রাকিব', 'AP', 'এপি', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 36, 1, 'Male', '1989-07-09', '2021-06-13 10:32:01', '2021-06-13 10:32:53', NULL),
-(106, 1, 55, 49, 12, 11, 20551, 'Md. Abdul Mannan', 'জনাব আবদুল মান্নান', 'Senior assistant Secretary', 'সিনিয়র সহকারী প্রধান', '01741607831', 'mannan@gmail.com', 'Finance Division, Finance ministry', 'অর্থ বিভাগ, অর্থ মন্ত্রণালয়', 34, 2, 'Male', '1989-06-16', '2021-06-16 04:29:51', '2021-06-17 05:01:14', NULL),
-(107, 1, 55, 49, 12, 11, 20561, 'Md. Tanjim', 'জনাব মোঃ তানজীম', 'Senior Assistant Secretary', 'বিশেষ ভারপ্রাপ্ত কর্মকর্তা (সিনিয়র সহকারী প্রধান)', '0155339322', 'tanjim@gmail.com', 'Mopa', 'জনপ্রশাসন মন্ত্রণালয় পিআরআরসি, কক্সবাজার', 34, 2, 'Male', '1989-06-09', '2021-06-16 04:29:51', '2021-06-17 05:01:14', NULL),
-(108, 0, 55, 50, 12, 73, 20569, 'Sabina Yasmin', 'জনাব সাবিনা ইয়াসমিন', 'Senior Assistant Secretary', 'সিনিয়র সহকারী প্রধান', '01717362364', 'sabina@gmail.com', 'Finance Ministry', 'অর্থ বিভাগ, অর্থ মন্ত্রণালয়', 34, 2, 'Male', '1988-09-09', '2021-06-17 04:53:55', '2021-06-17 05:01:14', NULL),
-(109, 1, 55, 50, 12, 73, 20570, 'Md. Kamruul Islam', 'মোঃ কামরুল ইসলাম', 'Senior Assistant Secretary', 'সিনিয়র সহকারী সচিব', '01710631161', 'kamrul@gmail.com', 'OSD', 'সিনিয়র সহকারী (বিশেষ ভারপ্রাপ্ত কর্মকর্তা)', 34, 2, 'Male', '1988-08-09', '2021-06-17 04:53:55', '2021-06-17 05:01:14', NULL),
-(110, 1, 56, 51, 12, 11, 700030, 'Rakib', 'রাকিব', 'Assistant Commissioner', 'সহকারী কমিশনার', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 34, 2, 'Male', '1987-06-21', '2021-06-21 09:34:14', '2021-06-21 09:44:20', NULL),
-(111, 0, 56, 51, 12, 11, 20551, 'Mannan', 'জনাব আবদুল মান্নান', 'Asst. Chief', 'সিনিয়র সহকারী প্রধান', '01741303030', 'mri.rakib2@gmail.com', 'Finance Ministry', 'অর্থ বিভাগ, অর্থ মন্ত্রণালয়', 34, 2, 'Male', '1988-06-08', '2021-06-21 09:34:14', '2021-06-21 09:44:20', NULL);
+INSERT INTO `nomination_details` (`id`, `status`, `stage_status`, `training_id`, `nomination_id`, `organization_id`, `user_id`, `id_no`, `name`, `name_bangla`, `designation`, `designation_bangla`, `contact_no`, `email`, `working_place`, `working_place_bangla`, `batch`, `cadre_id`, `gender`, `date_of_birth`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(50, 0, 0, 39, 31, 21, 25, 700029, 'S.M. Mohaimen Likhon', 'এস. এম. মোহায়মেন লিখন', 'Assistant Programmer', 'সহকারী প্রোগ্রামার', '01521481414', 'asstprog6@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:15:15', '2020-11-09 10:38:55', NULL),
+(51, 1, 0, 39, 31, 21, 25, 700030, 'Md. Rakibul Islam', 'মোঃ রাকিবুল ইসলাম', 'Assistant Programmer', 'সহকারী প্রোগ্রামার', '01741607831', 'asstprog6@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:15:15', '2020-11-09 10:38:55', NULL),
+(52, 1, 0, 40, 32, 21, 25, 700029, 'S. M. Mohaimen Likhon', 'মোহায়মেন লিখন', 'Assistant Programmer', 'সহকারী প্রোগ্রামার', '01521481414', 'asstprog5@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:26:44', '2020-11-09 10:38:45', NULL),
+(53, 0, 0, 40, 32, 21, 25, 700030, 'Md. Rakibul Islam', 'মোঃ রাকিবুল ইসলাম', 'Asst. Prog', 'সহকারী প্রোগ্রামার', '01741607831', 'asstprog6@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:26:44', '2020-11-09 10:38:45', NULL),
+(54, 1, 0, 41, 33, 21, 25, 700000, 'Abir', 'আবির', 'Asst Prog', 'সহকারী প্রোগ্রামার', '01521101010', 'asstprog@mopa.gov.bd', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:29:05', '2020-11-09 10:38:35', NULL),
+(55, 0, 0, 41, 33, 21, 25, 500001, 'Kabir', 'কবির', 'AP', 'সপ্র', '01521202020', 'asst@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:29:05', '2020-11-09 10:38:35', NULL),
+(56, 0, 0, 46, 34, 17, 25, 50002, 'Dabir', 'দবির', 'AP', 'সপ্রো', '01521404040', 'asstprog@mopa.gov.bd', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:30:55', NULL, NULL),
+(57, 0, 0, 46, 34, 17, 25, 720, 'Mamun', 'মামুন', 'AP', 'এপ্রো', '01741101010', 'ast@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:30:55', NULL, NULL),
+(58, 0, 0, 45, 35, 17, 25, 7002, 'Milon', 'মিলন', 'AP', 'এপি', '01741202020', 'assdf@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:32:58', '2020-11-19 08:21:59', '2020-11-19 08:21:59'),
+(59, 0, 0, 45, 35, 17, 25, 6952, 'Khaleq', 'খালেক', 'DS', 'উস', '01741505050', 'khaleq@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:32:58', '2020-11-19 08:21:59', '2020-11-19 08:21:59'),
+(60, 1, 0, 44, 36, 21, 25, 70002, 'Dabir', 'দবির', 'PA', 'পিএ', '01741202020', 'pa@gmail.com', 'pacc', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:33:50', '2020-11-09 10:38:00', NULL),
+(61, 1, 0, 43, 37, 21, 25, 701, 'Karim', 'করিম', 'ap', 'এপ', '01741606060', 'asdf@gmail.com', 'pacc', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:34:44', '2020-11-09 10:38:15', NULL),
+(62, 1, 0, 42, 38, 21, 25, 520, 'Kabir', 'কবির', 'AP', 'এপ', '01741505050', 'asdf@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-09 10:35:38', '2020-11-09 10:38:24', NULL),
+(63, 1, 0, 45, 35, 17, 25, 7002, 'Milon', 'মিলন', 'AP', 'এপি', '01741202020', 'assdf@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-19 08:21:59', '2020-11-19 08:30:06', NULL),
+(64, 1, 0, 45, 35, 17, 25, 6952, 'Khaleq', 'খালেক', 'DS', 'উস', '01741505050', 'khaleq@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-11-19 08:21:59', '2020-11-19 08:30:06', NULL),
+(65, 0, 0, 45, 35, 17, 25, 1200, 'ABM Michael', 'এবিএম মাইকেল', 'DD', 'ডিডি', '01254402010', 'manfn@mnanfnb.com', 'Rnagamati', 'রাঙামাটি', 0, 0, '', NULL, '2020-11-19 08:21:59', '2020-11-19 08:30:06', NULL),
+(66, 1, 0, 45, 39, 17, 26, 21554, 'DM John', 'ডিএম জন', 'DD', 'ডিডি', '101010101000', 'dm@gff.com', 'Jessore', 'যশোর', 0, 0, '', NULL, '2020-11-19 08:26:48', '2020-11-19 08:30:06', NULL),
+(67, 0, 0, 48, 40, 21, 25, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-11-23 08:14:56', '2020-11-23 08:24:31', '2020-11-23 08:24:31'),
+(68, 0, 0, 48, 40, 21, 25, 5840, 'Dr. Md. Abdul mannan', 'ড. মোঃ আব্দুল মান্নান', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mannan@gmail.com', 'Additional Divisional Commissioner office, Rajshahi Division, Rajshahi', 'অতিরিক্ত বিভাগীয় কমিশনার অফিস, রাজশাহী বিভাগ, রাজশাহী', 0, 0, '', NULL, '2020-11-23 08:14:56', '2020-11-23 08:24:31', '2020-11-23 08:24:31'),
+(69, 0, 0, 48, 40, 21, 25, 5905, 'Dr. Nasim Ahmed', 'ড. নাছিম আহমেদ', 'Joint Secreraty', 'যুগ্মসচিব', '01741607831', 'nasim@gmail.com', 'Bangladesh Road Transport Corporation', 'বাংলাদেশ সরক পরিবহন কর্পোরেশন', 0, 0, '', NULL, '2020-11-23 08:14:56', '2020-11-23 08:24:31', '2020-11-23 08:24:31'),
+(70, 0, 0, 48, 40, 21, 25, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-11-23 08:24:31', '2020-11-23 09:31:20', '2020-11-23 09:31:20'),
+(71, 0, 0, 48, 40, 21, 25, 5840, 'Dr. Md. Abdul mannan', 'ড. মোঃ আব্দুল মান্নান', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mannan@gmail.com', 'Additional Divisional Commissioner office, Rajshahi Division, Rajshahi', 'অতিরিক্ত বিভাগীয় কমিশনার অফিস, রাজশাহী বিভাগ, রাজশাহী', 0, 0, '', NULL, '2020-11-23 08:24:31', '2020-11-23 09:31:20', '2020-11-23 09:31:20'),
+(72, 0, 0, 48, 40, 21, 25, 5905, 'Dr. Nasim Ahmed', 'ড. নাছিম আহমেদ', 'Joint Secreraty', 'যুগ্মসচিব', '01741607831', 'nasim@gmail.com', 'Bangladesh Road Transport Corporation', 'বাংলাদেশ সরক পরিবহন কর্পোরেশন', 0, 0, '', NULL, '2020-11-23 08:24:31', '2020-11-23 09:31:20', '2020-11-23 09:31:20'),
+(73, 0, 0, 48, 40, 21, 25, 6043, 'Md. Mostafa Kamal Mojumder', 'মোঃ মোস্তফা কামাল মজুমদার', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mostafa@gmail.com', 'Bangladesh Land Port Authority', 'বাংলাদেশ স্থলবন্দর কর্তৃপক্ষ', 0, 0, '', NULL, '2020-11-23 08:24:31', '2020-11-23 09:31:20', '2020-11-23 09:31:20'),
+(74, 0, 0, 48, 40, 21, 25, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
+(75, 0, 0, 48, 40, 21, 25, 5840, 'Dr. Md. Abdul mannan', 'ড. মোঃ আব্দুল মান্নান', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mannan@gmail.com', 'Additional Divisional Commissioner office, Rajshahi Division, Rajshahi', 'অতিরিক্ত বিভাগীয় কমিশনার অফিস, রাজশাহী বিভাগ, রাজশাহী', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
+(76, 0, 0, 48, 40, 21, 25, 5905, 'Dr. Nasim Ahmed', 'ড. নাছিম আহমেদ', 'Joint Secreraty', 'যুগ্মসচিব', '01741607831', 'nasim@gmail.com', 'Bangladesh Road Transport Corporation', 'বাংলাদেশ সরক পরিবহন কর্পোরেশন', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
+(77, 0, 0, 48, 40, 21, 25, 6043, 'Md. Mostafa Kamal Mojumder', 'মোঃ মোস্তফা কামাল মজুমদার', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mostafa@gmail.com', 'Bangladesh Land Port Authority', 'বাংলাদেশ স্থলবন্দর কর্তৃপক্ষ', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
+(78, 0, 0, 48, 40, 21, 25, 6068, 'Md. Abdur Rouf', 'মোহাম্মদ আবদুর রউফ', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'rouf@gmail.com', 'Transit Development Project', 'ট্রানজিট ডেভেলপমেন্ট প্রজেক্ট', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
+(79, 0, 0, 48, 40, 21, 25, 6282, 'Zahir Rayhan', 'জহির রায়হান', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Anti-Corruption Commission', 'দুর্নীতি দমন কমিশন', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
+(80, 0, 0, 48, 40, 21, 25, 6252, 'Farjana Momotaz', 'ফারজানা মমতাজ', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Power Division', 'বিদ্যুৎ বিভাগ', 0, 0, '', NULL, '2020-11-23 09:31:20', '2020-11-23 09:42:43', '2020-11-23 09:42:43'),
+(81, 1, 0, 48, 40, 21, 25, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(82, 1, 0, 48, 40, 21, 25, 5840, 'Dr. Md. Abdul mannan', 'ড. মোঃ আব্দুল মান্নান', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mannan@gmail.com', 'Additional Divisional Commissioner office, Rajshahi Division, Rajshahi', 'অতিরিক্ত বিভাগীয় কমিশনার অফিস, রাজশাহী বিভাগ, রাজশাহী', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(83, 1, 0, 48, 40, 21, 25, 5905, 'Dr. Nasim Ahmed', 'ড. নাছিম আহমেদ', 'Joint Secreraty', 'যুগ্মসচিব', '01741607831', 'nasim@gmail.com', 'Bangladesh Road Transport Corporation', 'বাংলাদেশ সরক পরিবহন কর্পোরেশন', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(84, 1, 0, 48, 40, 21, 25, 6043, 'Md. Mostafa Kamal Mojumder', 'মোঃ মোস্তফা কামাল মজুমদার', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'mostafa@gmail.com', 'Bangladesh Land Port Authority', 'বাংলাদেশ স্থলবন্দর কর্তৃপক্ষ', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(85, 1, 0, 48, 40, 21, 25, 6068, 'Md. Abdur Rouf', 'মোহাম্মদ আবদুর রউফ', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'rouf@gmail.com', 'Transit Development Project', 'ট্রানজিট ডেভেলপমেন্ট প্রজেক্ট', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(86, 1, 0, 48, 40, 21, 25, 6282, 'Zahir Rayhan', 'জহির রায়হান', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Anti-Corruption Commission', 'দুর্নীতি দমন কমিশন', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(87, 1, 0, 48, 40, 21, 25, 6252, 'Farjana Momotaz', 'ফারজানা মমতাজ', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Power Division', 'বিদ্যুৎ বিভাগ', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(88, 1, 0, 48, 40, 21, 25, 6271, 'Fatima Rahim Vima', 'ফাতেমা রহিম ভীমা', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Finance Division', 'অর্থ বিভাগ', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(89, 1, 0, 48, 40, 21, 25, 6298, 'Shoyaib Ahmed Khan', 'শোয়াইব আহমাদ খান', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Wedge Earner Welfare Board', 'ওয়েজ আর্নার্স কল্যাণ বোর্ড', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(90, 1, 0, 48, 40, 21, 25, 6319, 'Syed Md. Nurul Basir', 'সৈয়দ মো: নুরুল বাসির', 'Joint Secretary', 'যুগ্মসচিব', '01751073800', 'shakirulbd999@gmail.com', 'Department of Social Services', 'সমাজসেবা অধিদপ্তর', 0, 0, '', NULL, '2020-11-23 09:42:43', '2020-11-23 10:13:44', NULL),
+(91, 1, 0, 49, 41, 21, 73, 6068, 'Md. Abdur Rouf', 'মোহাম্মদ আবদুর রউফ', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'rouf@gmail.com', 'Transit Development Project', 'ট্রানজিট', 0, 0, '', NULL, '2020-12-10 08:02:31', '2020-12-10 08:05:54', NULL),
+(92, 1, 0, 49, 42, 21, 72, 5666, 'Md. Oliullah NDC', 'জনাব মোঃ অলিউল্লাহ এনডিসি', 'Joint Secretary', 'যুগ্মসচিব', '01741607831', 'oliur@gmail.com', 'Ministry of Textiles and Jute', 'বস্ত্র ও পাট মন্ত্রণালয়', 0, 0, '', NULL, '2020-12-10 08:03:21', '2020-12-10 08:05:54', NULL),
+(93, 1, 0, 51, 43, 21, 72, 700030, 'Md. Rakibul Islam', 'মোঃ রাকিবুল', 'Assistant Programmer', 'সহকারী প্রোগ্রামার', '01741607831', 'asstprog6@mopa.gov.bd', 'PACC, MOPA', 'পিএসিসি', 0, 0, '', NULL, '2020-12-10 08:57:34', '2020-12-10 09:00:22', NULL),
+(94, 1, 0, 51, 44, 21, 73, 700029, 'S. M. Mohaimen Likhon', 'লিখর', 'Asst Prog', 'সহকারী প্রোগ্রামার', '01521481414', 'likhon@gmail.com', 'PACC', 'পিএসিসি', 0, 0, '', NULL, '2020-12-10 08:59:15', '2020-12-10 09:00:22', NULL),
+(95, 0, 0, 46, 45, 17, 72, 3434, 'asd asd fadf a', 'sdf asdf', 'f asdf asdf a', 'f asdf asdf', '01741607831', 'asdfasdf@asdfasdf.asdf', 'a sdf asdf', 'asdf asdf asdf', 2, 2, 'Male', '2020-12-01', '2020-12-24 05:12:35', '2020-12-24 05:38:05', '2020-12-24 05:38:05'),
+(96, 0, 0, 46, 45, 17, 72, 2563, 'a sdf asdf', 'asd asdf asdf', 'asd fasd f', 'asdf asdf asdf', '01741607831', 'asdfasdf@asdfasdf.com', 'asd fasdf as', 'df asdf asdf', 1, 3, 'Female', '2020-12-01', '2020-12-24 05:12:35', '2020-12-24 05:38:05', '2020-12-24 05:38:05'),
+(97, 0, 0, 46, 45, 17, 72, 3434, 'asd asd fadf a', 'sdf asdf', 'f asdf asdf a', 'f asdf asdf', '01741607831', 'asdfasdf@asdfasdf.asdf', 'a sdf asdf', 'asdf asdf asdf', 2, 2, 'Male', '2020-12-01', '2020-12-24 05:38:32', NULL, NULL),
+(98, 0, 0, 46, 45, 17, 72, 2563, 'a sdf asdf', 'asd asdf asdf', 'asd fasd f', 'asdf asdf asdf', '01741607831', 'asdfasdf@asdfasdf.com', 'asd fasdf as', 'df asdf asdf', 1, 3, 'Female', '2020-12-01', '2020-12-24 05:38:32', NULL, NULL),
+(99, 0, 0, 52, 46, 13, 72, 700030, 'asdf asd asdf', 'asd asd fasd', 'fasdf asdf', 'asd asd asdf', '01741607831', 'asdasdf@asdfads.asdf', 'asd fasdf asd', 'fasd asdf asdf', 33, 2, 'Male', '2020-12-01', '2020-12-24 05:42:22', '2020-12-24 05:42:28', '2020-12-24 05:42:28'),
+(100, 0, 0, 52, 46, 13, 72, 23343, 'asd asd asdf', 'asd asd', 'fasdf asdf', 'asdf asd', '01741607831', 'fasdf2@asdf.com', 'aasdfasdf', 'asdfasdf', 38, 3, 'Male', '2020-12-01', '2020-12-24 05:42:22', '2020-12-24 05:42:28', '2020-12-24 05:42:28'),
+(101, 0, 0, 52, 46, 13, 72, 700030, 'asdf asd asdf', 'asd asd fasd', 'fasdf asdf', 'asd asd asdf', '01741607831', 'asdasdf@asdfads.asdf', 'asd fasdf asd', 'fasd asdf asdf', 33, 2, 'Male', '2020-12-01', '2020-12-24 05:42:28', NULL, NULL),
+(102, 0, 0, 52, 46, 13, 72, 23343, 'asd asd asdf', 'asd asd', 'fasdf asdf', 'asdf asd', '01741607831', 'fasdf2@asdf.com', 'aasdfasdf', 'asdfasdf', 38, 3, 'Male', '2020-12-01', '2020-12-24 05:42:28', NULL, NULL),
+(103, 0, 0, 52, 47, 13, 15, 700030, 'Rakib', 'রাকিব', 'Asst Prog', 'সহকারী প্রোগ্রামার', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 38, 1, 'Male', '2021-06-13', '2021-06-13 10:24:00', '2021-06-13 10:24:10', '2021-06-13 10:24:10'),
+(104, 0, 0, 52, 47, 13, 15, 700030, 'Rakib', 'রাকিব', 'Asst Prog', 'সহকারী প্রোগ্রামার', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 38, 1, 'Male', '2021-06-13', '2021-06-13 10:24:10', NULL, NULL),
+(105, 1, 0, 53, 48, 21, 15, 700030, 'Rakib', 'রাকিব', 'AP', 'এপি', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 36, 1, 'Male', '1989-07-09', '2021-06-13 10:32:01', '2021-06-13 10:32:53', NULL),
+(106, 1, 0, 55, 49, 12, 11, 20551, 'Md. Abdul Mannan', 'জনাব আবদুল মান্নান', 'Senior assistant Secretary', 'সিনিয়র সহকারী প্রধান', '01741607831', 'mannan@gmail.com', 'Finance Division, Finance ministry', 'অর্থ বিভাগ, অর্থ মন্ত্রণালয়', 34, 2, 'Male', '1989-06-16', '2021-06-16 04:29:51', '2021-06-17 05:01:14', NULL),
+(107, 1, 0, 55, 49, 12, 11, 20561, 'Md. Tanjim', 'জনাব মোঃ তানজীম', 'Senior Assistant Secretary', 'বিশেষ ভারপ্রাপ্ত কর্মকর্তা (সিনিয়র সহকারী প্রধান)', '0155339322', 'tanjim@gmail.com', 'Mopa', 'জনপ্রশাসন মন্ত্রণালয় পিআরআরসি, কক্সবাজার', 34, 2, 'Male', '1989-06-09', '2021-06-16 04:29:51', '2021-06-17 05:01:14', NULL),
+(108, 0, 0, 55, 50, 12, 73, 20569, 'Sabina Yasmin', 'জনাব সাবিনা ইয়াসমিন', 'Senior Assistant Secretary', 'সিনিয়র সহকারী প্রধান', '01717362364', 'sabina@gmail.com', 'Finance Ministry', 'অর্থ বিভাগ, অর্থ মন্ত্রণালয়', 34, 2, 'Male', '1988-09-09', '2021-06-17 04:53:55', '2021-06-17 05:01:14', NULL),
+(109, 1, 0, 55, 50, 12, 73, 20570, 'Md. Kamruul Islam', 'মোঃ কামরুল ইসলাম', 'Senior Assistant Secretary', 'সিনিয়র সহকারী সচিব', '01710631161', 'kamrul@gmail.com', 'OSD', 'সিনিয়র সহকারী (বিশেষ ভারপ্রাপ্ত কর্মকর্তা)', 34, 2, 'Male', '1988-08-09', '2021-06-17 04:53:55', '2021-06-17 05:01:14', NULL),
+(110, 1, 0, 56, 51, 12, 11, 700030, 'Rakib', 'রাকিব', 'Assistant Commissioner', 'সহকারী কমিশনার', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 34, 2, 'Male', '1987-06-21', '2021-06-21 09:34:14', '2021-06-21 09:44:20', NULL),
+(111, 0, 0, 56, 51, 12, 11, 20551, 'Mannan', 'জনাব আবদুল মান্নান', 'Asst. Chief', 'সিনিয়র সহকারী প্রধান', '01741303030', 'mri.rakib2@gmail.com', 'Finance Ministry', 'অর্থ বিভাগ, অর্থ মন্ত্রণালয়', 34, 2, 'Male', '1988-06-08', '2021-06-21 09:34:14', '2021-06-21 09:44:20', NULL),
+(112, 2, 1, 54, 52, 0, 86, 700030, 'Rakib', 'রাকিব', 'Asst Prog', 'সপ্র', '01741607831', 'mri.rakib@gmail.com', 'PACC', 'পিএসিসি', 34, 2, 'Male', '1988-01-05', '2021-06-27 08:37:08', '2021-06-27 10:18:31', NULL),
+(113, 2, 1, 54, 52, 0, 86, 700029, 'Likhon', 'লিখন', 'Asst Prog', 'সপ্র', '01521481414', 'likhon@gmail.com', 'PACC', 'পিএসিসি', 35, 2, 'Male', '1985-06-01', '2021-06-27 08:37:08', '2021-06-27 10:18:31', NULL),
+(114, 2, 0, 54, 52, 0, 86, 700031, 'Hasan', 'হাসান', 'AS', 'সস', '01541202020', 'hasan@gmail.com', 'MOPA', 'জপ্র', 34, 2, 'Male', '1986-06-02', '2021-06-27 08:37:08', '2021-06-27 10:18:31', NULL),
+(115, 1, 0, 64, 53, 2, 86, 700030, 'asd', 'asdf', 'asd', 'asdf', '01741607831', 'mri.rakib@gmail.com', 'asdf', 'asdf', 34, 2, 'Male', '2021-06-21', '2021-06-27 10:49:44', '2021-06-27 10:49:51', NULL),
+(116, 1, 0, 64, 53, 2, 86, 700029, 'afasfda', 'asdf', 'asdf', 'asd', '01741607831', 'mri.rakib2@gmail.com', 'asdf', 'asdf', 37, 2, 'Male', '2021-06-01', '2021-06-27 10:49:44', '2021-06-27 10:49:51', NULL);
 
 -- --------------------------------------------------------
 
@@ -464,7 +472,7 @@ INSERT INTO `trainings` (`id`, `training_calender_id`, `organization_id`, `title
 (55, 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, 4, '2021-06-16 04:23:09', '2021-06-17 05:01:20'),
 (56, 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, 4, '2021-06-21 09:24:10', '2021-06-21 09:45:00'),
 (61, 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-06-23 09:52:56', '2021-06-23 09:52:56'),
-(64, 2, 2, 'asd sad asd', '12.032.02365011', '2021-06-17', '2021-06-09', '2021-06-17', '2021-06-22', '2021-06-30', NULL, 0, '2021-06-24 10:05:35', '2021-06-24 10:05:35');
+(64, 2, 2, 'asd sad asd', '12.032.02365011', '2021-06-17', '2021-06-09', '2021-06-17', '2021-06-22', '2021-06-30', NULL, 1, '2021-06-24 10:05:35', '2021-06-27 10:47:32');
 
 -- --------------------------------------------------------
 
@@ -535,9 +543,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `section`, `name_bangla`, `section_bangla`, `email`, `user_type`, `user_level`, `created_by`, `status`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', '', '', '', 'mri.rakib@gmail.com', 1, 0, NULL, 1, '2020-09-25 12:23:24', '$2y$10$jSL6eFclY0T5Ht2XQMkv9.UEOLWNuBD3r2t2mpCPe9VK2e0rcJfT.', 'FjPT1DgY5t6QP6H8APzYmsSGNgP4EI6G2kQT806KJOPrtUi8Zn4xDm7pkhnv', '2020-09-25 12:22:12', '2020-10-13 05:57:15'),
+(1, 'Super Admin', '', '', '', 'mri.rakib@gmail.com', 1, 0, NULL, 1, '2020-09-25 12:23:24', '$2y$10$jSL6eFclY0T5Ht2XQMkv9.UEOLWNuBD3r2t2mpCPe9VK2e0rcJfT.', 'LWUtKPV5BnmAmdgG8P4bvfhn19oMlYKfR88Yk4Jd394t5hMUMkruxAlwSiLa', '2020-09-25 12:22:12', '2020-10-13 05:57:15'),
 (2, 'Internal Training - 1', 'Internal Training', 'অভ্যন্তরীণ প্রশিক্ষণ-১ শাখা', 'অভ্যন্তরীণ প্রশিক্ষণ', 'itss1@mopa.gov.bd', 2, 0, NULL, 2, '2020-10-04 17:59:06', '$2y$10$9AupoyIIW2me25iyI6OWDu87cWBVOjywE38uFngDPx/xyPbbHYc.K', 'hwLsgmj3B3oxULh2YqivIaPfdpKKzwUUetKe1ltirPLRLNyqYQRT1GycXiW4', '2020-10-04 17:58:39', '2021-06-13 10:19:10'),
-(11, 'DC Dhaka', 'General', 'ডিসি ঢাকা', 'সাধারন', 'dcdhaka@mopa.gov.bd', 3, 1, 14, 1, NULL, '$2y$10$.0A0UocGyodpqh7q17s.6ehTbaWTVI8THVTBZmfGJVuLPkVIwdhna', 'DXa8KCY3zw5h5b9VqpvTt4Mi0OM3O19TiPZAvEop2UpK9sqQVKWSBg5I32ZL', '2020-10-05 17:39:48', '2020-11-24 08:54:22'),
+(11, 'DC Dhaka', 'General', 'ডিসি ঢাকা', 'সাধারন', 'dcdhaka@mopa.gov.bd', 3, 1, 14, 1, NULL, '$2y$10$.0A0UocGyodpqh7q17s.6ehTbaWTVI8THVTBZmfGJVuLPkVIwdhna', 'IZEk0GRGqNs4jH7FQ6lBeujwF2zCzkfJaWaSB2q0PaapZkNXKRGLK3TndKWg', '2020-10-05 17:39:48', '2020-11-24 08:54:22'),
 (12, 'Internal Training - 2', 'Internal Training', 'অভ্যন্তরীণ প্রশিক্ষণ-২ শাখা', 'অভ্যন্তরীণ প্রশিক্ষণ', 'it2@mopa.gov.bd', 2, 0, NULL, 1, NULL, '$2y$10$ePPYWc2OhqANfDkkUxj7Vu4nuvfuJvR0lDbeQNGiitkHOvVLpC.r2', NULL, '2020-10-05 18:11:56', '2020-11-25 07:28:00'),
 (13, 'Internal Training - 3', 'Internal Training', 'অভ্যন্তরীণ প্রশিক্ষণ-৩ শাখা', 'অভ্যন্তরীণ প্রশিক্ষণ', 'it3@mopa.gov.bd', 2, 0, NULL, 1, NULL, '$2y$10$qfY/MmtitoiMvjlGMSqMd.DbdF6xgQv8ltsl.QCcjNlKrmG1SfoV6', NULL, '2020-10-05 19:01:53', '2020-11-25 07:29:16'),
 (14, 'Foreign Training', 'Foreign Training', 'বিদেশ প্রশিক্ষণ শাখা', 'বিদেশ প্রশিক্ষণ', 'ft@mopa.gov.bd', 2, 0, NULL, 1, NULL, '$2y$10$QGc4dSM39jpcgxB0VBHSfuU0gwGXafrg9oWZIa4TzkbEyhuGk9NAe', 'gFrRqkfPabKM6IM5mdnUtPSG8Fjotf09tLoBHl4hceyJbuuy6ZsmEwCHSq5C', '2020-10-06 16:21:08', '2020-11-25 07:30:47'),
@@ -610,7 +618,8 @@ INSERT INTO `users` (`id`, `name`, `section`, `name_bangla`, `section_bangla`, `
 (82, 'DC Bhola', 'General', 'ডিসি ভোলা', 'সাধারন', 'dcbhola@mopa.gov.bd', 3, 1, 1, 1, NULL, '$2y$10$P4PFuspXF8oIKAsJtzEmTehET.8/x93BDffqpSGM3akM2ZVmEf5Ua', NULL, '2020-11-25 07:10:27', '2020-11-25 07:10:27'),
 (83, 'DC Patuakhali', 'General', 'ডিসি পটুয়াখালী', 'সাধারন', 'dcpatuakhali@mopa.gov.bd', 3, 1, 1, 1, NULL, '$2y$10$JLbSXyqbfNtxVe3hYUKrP.RqKIqU9qxHOXieGFYgDRPocw/QU0IPW', NULL, '2020-11-25 07:11:42', '2020-11-25 07:11:42'),
 (84, 'DC Barguna', 'General', 'ডিসি বরগুনা', 'সাধারন', 'dcbarguna@mopa.gov.bd', 3, 1, 1, 1, NULL, '$2y$10$Ve1IRjmXbMyurbmEN5boVObGeoBwsgX0bpEFV1LQ5RbEK/inoGtOa', NULL, '2020-11-25 07:13:10', '2020-11-25 07:13:10'),
-(85, 'DC Dhaka 2', 'Training 2', 'ডিসি ঢাকা ২', 'ট্রেনিং ২', 'dcdhaka2@mopa.gov.bd', 3, 2, 1, 1, NULL, '$2y$10$JOHDZTNIqXbL0N4S5eSRpeCCtfiYVdkGV2kP1R7OMRnVLy6yJT/PK', NULL, '2021-06-22 07:09:59', '2021-06-22 07:17:27');
+(85, 'DC Dhaka 2', 'Training 2', 'ডিসি ঢাকা ২', 'ট্রেনিং ২', 'dcdhaka2@mopa.gov.bd', 3, 2, 1, 1, NULL, '$2y$10$JOHDZTNIqXbL0N4S5eSRpeCCtfiYVdkGV2kP1R7OMRnVLy6yJT/PK', NULL, '2021-06-22 07:09:59', '2021-06-22 07:17:27'),
+(86, 'DC Dhaka', 'Admin', 'ডিসি ঢাকা', 'প্রশাসন', 'dc_dhaka_admin@mopa.gov.bd', 4, 2, 1, 1, NULL, '$2y$10$wa4zl6PUUhgKktHC..ePIefvoiy4n3j1gMF0ErNt73dFGkhDSEte2', NULL, '2021-06-27 04:36:01', '2021-06-27 04:36:01');
 
 -- --------------------------------------------------------
 
@@ -1062,7 +1071,10 @@ INSERT INTO `user_logs` (`id`, `user_id`, `description`, `action_time`, `ip_addr
 (556, 21, 'Training Calender create 5', '2021-06-24 04:26:24', '192.168.11.227', '2021-06-24 04:26:24', '2021-06-24 04:26:24'),
 (557, 12, 'Training create 62', '2021-06-24 09:33:29', '192.168.11.227', '2021-06-24 09:33:29', '2021-06-24 09:33:29'),
 (558, 12, 'Training create 63', '2021-06-24 10:01:47', '192.168.11.227', '2021-06-24 10:01:47', '2021-06-24 10:01:47'),
-(559, 12, 'Training create 64', '2021-06-24 10:05:35', '192.168.11.227', '2021-06-24 10:05:35', '2021-06-24 10:05:35');
+(559, 12, 'Training create 64', '2021-06-24 10:05:35', '192.168.11.227', '2021-06-24 10:05:35', '2021-06-24 10:05:35'),
+(560, 86, 'Nomination information save. Training id: 54', '2021-06-27 08:37:08', '192.168.11.227', '2021-06-27 08:37:08', '2021-06-27 08:37:08'),
+(561, 12, 'Training publish 64', '2021-06-27 10:47:32', '192.168.11.227', '2021-06-27 10:47:32', '2021-06-27 10:47:32'),
+(562, 86, 'Nomination information save. Training id: 64', '2021-06-27 10:49:44', '192.168.11.227', '2021-06-27 10:49:44', '2021-06-27 10:49:44');
 
 -- --------------------------------------------------------
 
@@ -1247,13 +1259,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `nominations`
 --
 ALTER TABLE `nominations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `nomination_details`
 --
 ALTER TABLE `nomination_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT for table `organizations`
@@ -1277,7 +1289,7 @@ ALTER TABLE `training_calenders`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT for table `user_institutes`
@@ -1295,7 +1307,7 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=560;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=563;
 
 --
 -- AUTO_INCREMENT for table `user_profiles`
