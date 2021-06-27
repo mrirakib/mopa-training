@@ -8,6 +8,7 @@ use App\Models\Organization;
 use App\Models\UserInstitute;
 use App\Models\Attachment;
 use App\Models\NominationDetail;
+use App\Models\Nomination;
 use App\Models\CadreList;
 use App\Models\TrainingCalender;
 
@@ -30,15 +31,21 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->user_type == 3){
+        if(isSuperAdmin()){
             $trainings = Training::orderBy('id', 'DESC')->get();
-        }elseif(Auth::user()->user_type == 2){
+        }
+        if(isAdmin()){
             $organization_ids = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
 
             $trainings = Training::whereIn('organization_id', $organization_ids)->orderBy('id', 'DESC')->get();
-        }else{
-            $trainings = Training::orderBy('id', 'DESC')->get();
         }
+        if(isApprovalAuthority()){
+            $trainings = Training::where('status', '>', 0)->orderBy('id', 'DESC')->get();
+        }
+
+        if(isEntryUser()){
+            $trainings = Training::where('status', '>', 0)->orderBy('id', 'DESC')->get();
+        }        
 
         return view('training.index', compact('trainings'));
     }
@@ -273,7 +280,7 @@ class TrainingController extends Controller
 
         $flag = false;
 
-        if(isAdmin() && trainingAuth($training)){
+        if(isAdmin()){
             $flag = true;
         }
 
@@ -342,14 +349,15 @@ class TrainingController extends Controller
 
     public function nominationTraining($training_id)
     {
-        if(!isApprovalAuthority()){
+        $flag = true;
+        if(isApprovalAuthority() || isEntryUser()){
+            $flag = false;
+        }
+        if($flag){
             return back();
         }
 
-
-        $training = Training::find($training_id);
-        // $training = Training::where('id', $training_id)->where('status', 1)->get();
-
+        $training = Training::findOrFail($training_id);
 
         if($training == NULL){
             Session::flash('Msgerror', 'This training is not available.');
@@ -365,6 +373,123 @@ class TrainingController extends Controller
         $cadre_lists = CadreList::get();
 
         return view('nomination.create', compact('training', 'nominations', 'cadre_lists'));
+    }
+
+    public function nominationTrainingShow($training_id)
+    {
+        $flag = true;
+        if(isApprovalAuthority() || isEntryUser()){
+            $flag = false;
+        }
+        if($flag){
+            return back();
+        }
+
+        $training = Training::findOrFail($training_id);
+        // $training = Training::where('id', $training_id)->where('status', 1)->get();
+
+
+        if($training == NULL){
+            Session::flash('Msgerror', 'This training is not available.');
+            return redirect('');
+        }
+        if($training->status != 1){
+            Session::flash('Msgerror', 'This training has already closed.');
+            return redirect('');
+        }
+
+        $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
+
+        $nomination = Nomination::where('training_id', $training_id)->first();
+        if($nomination->status > 2){
+            return view('nomination.view', compact('training', 'nominations', 'nomination'));
+        }else{
+            return view('nomination.view2', compact('training', 'nominations', 'nomination'));
+        }
+    }
+
+    public function nominationTrainingSendToApprovalAuthority($training_id)
+    {
+        $flag = true;
+        if(isApprovalAuthority() || isEntryUser()){
+            $flag = false;
+        }
+        if($flag){
+            return back();
+        }
+
+        $training = Training::findOrFail($training_id);
+
+        if($training == NULL){
+            Session::flash('Msgerror', 'This training is not available.');
+            return redirect('');
+        }
+        if($training->status != 1){
+            Session::flash('Msgerror', 'This training has already closed.');
+            return redirect('');
+        }
+
+        $nomination = Nomination::where('training_id', $training_id)->update(['status'=>1]);
+
+        $nomination_details = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->update(['status'=>1]);
+        $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
+
+        return redirect('nominationTrainingShow/'.$training_id);
+    }
+
+    public function nominationTrainingApprovedAndSendToAdmin($training_id)
+    {
+        $flag = true;
+        if(isApprovalAuthority() || isEntryUser()){
+            $flag = false;
+        }
+        if($flag){
+            return back();
+        }
+
+        $training = Training::findOrFail($training_id);
+
+        if($training == NULL){
+            Session::flash('Msgerror', 'This training is not available.');
+            return redirect('');
+        }
+        if($training->status != 1){
+            Session::flash('Msgerror', 'This training has already closed.');
+            return redirect('');
+        }
+
+        $nomination = Nomination::where('training_id', $training_id)->update(['status'=>2]);
+
+        $nomination_details = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->update(['status'=>2]);
+        $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
+
+        return redirect('nominationTrainingShow/'.$training_id);
+    }
+
+    public function nominationTrainingApproveDraft(Request $request)
+    {
+        $flag = true;
+        if(isApprovalAuthority() || isEntryUser()){
+            $flag = false;
+        }
+        if($flag){
+            return back();
+        }
+        $training_id = $request->input('training_id');
+        $id_no = $request->input('id_no');
+
+        $training = Training::findOrFail($training_id);
+
+        if($training == NULL){
+            Session::flash('Msgerror', 'This training is not available.');
+            return redirect('');
+        }
+
+        NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->whereIn('id', $id_no)->update(['stage_status' => 1]);
+
+        NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->whereNotIn('id', $id_no)->update(['stage_status' => 0]);
+
+        return redirect('nominationTrainingShow/'.$training_id);
     }
 
     public function trainingMakeFinal($training_id)
@@ -386,10 +511,6 @@ class TrainingController extends Controller
             Session::flash('Msgerror', 'Access Denied.');
             return redirect('/');
         }
-
-
-        // $training = Training::where('id', $training_id)->where('status', 1)->get();
-
 
         if($training == NULL){
             Session::flash('Msgerror', 'This training is not available. Do not try anymore.');
@@ -414,17 +535,4 @@ class TrainingController extends Controller
 
         return redirect('/training/'.$training_id)->with('Msgsuccess', 'Congratulations. Training process has finally finished.');
     }
-
-    // public function getAdminUserList(Request $request)
-    // {
-    //     $admin_users = User::where('user_type', 2)->where('status', 1)->get();
-
-    //     $i=1;
-    //     echo '<option value="0">Select One</option>';
-    //     foreach ( $admin_users as $value ):
-
-    //         echo '<option value="' . $value->id . '">' . $value->name . '-' . $value->email . '</option>';
-    //     endforeach;
-
-    // }
 }

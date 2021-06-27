@@ -63,7 +63,7 @@ class NominationController extends Controller
         if(!$nomination){
             $nomination = new Nomination();
             $nomination->training_id = $request->training_id;
-            $nomination->admin_id = $training->admin_id;
+            $nomination->organization_id = $training->organization_id;
             $nomination->user_id = Auth::user()->id;
             $nomination->status = 0;
             $nomination->save();            
@@ -75,7 +75,7 @@ class NominationController extends Controller
             $arrData[] = array(
                 "nomination_id" => $nomination->id,
                 "training_id" => $request->training_id,
-                "admin_id" => $training->admin_id,
+                "organization_id" => $training->organization_id,
                 "user_id" => Auth::user()->id,
                 "status" => 0,
                 "id_no" => $id_no[$key],
@@ -124,7 +124,6 @@ class NominationController extends Controller
         userlog('Candidate Selection save. Training id: '.$training_id);
 
         return redirect('/training/'.$training_id)->with('Msgsuccess', 'Candidate selection done successfully');
-
     }
 
     /**

@@ -91,7 +91,7 @@
                            @if($training->status == 0)
                            <a class="btn btn-success" href="/publishTraining/{{$training->id}}"><i class="fa fa-check"></i> Publish </a>
                            @endif
-                           @if($training->status == 1 && Auth::user()->user_type == 2)
+                           @if($training->status == 1 && isAdmin())
                            <a class="btn btn-info" href="/closeTraining/{{$training->id}}"><i class="fa fa-pencil"></i> Close </a>
                            <!-- <a class="btn btn-danger" href="/deleteTraining/{{$training->id}}"><i class="fa fa-times"></i> Delete </a> -->
                            @endif

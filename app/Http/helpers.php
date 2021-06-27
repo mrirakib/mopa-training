@@ -38,6 +38,12 @@
 		else
 			return false;
 	}
+    function isEntryUser(){
+        if(Auth::user()->user_type == 4)
+            return true;
+        else
+            return false;
+    }
 	function trainingAuth(Training $training){
 		if($training->admin_id == Auth::id())
 			return true;

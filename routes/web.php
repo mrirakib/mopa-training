@@ -40,6 +40,11 @@ Route::get('/publishTraining/{id}', 'TrainingController@publishTraining')->name(
 Route::get('/closeTraining/{id}', 'TrainingController@closeTraining')->name('closeTraining');
 Route::get('/deleteTraining/{id}', 'TrainingController@deleteTraining')->name('deleteTraining');
 Route::get('/nominationTraining/{id}', 'TrainingController@nominationTraining')->name('nominationTraining');
+Route::get('/nominationTrainingShow/{id}', 'TrainingController@nominationTrainingShow')->name('nominationTrainingShow');
+Route::get('/nominationTrainingSendToApprovalAuthority/{id}', 'TrainingController@nominationTrainingSendToApprovalAuthority')->name('nominationTrainingSendToApprovalAuthority');
+Route::get('/nominationTrainingApprovedAndSendToAdmin/{id}', 'TrainingController@nominationTrainingApprovedAndSendToAdmin')->name('nominationTrainingApprovedAndSendToAdmin');
+Route::post('/nominationTrainingApproveDraft', 'TrainingController@nominationTrainingApproveDraft')->name('nominationTrainingApproveDraft');
+
 Route::get('/training-make-final/{id}', 'TrainingController@trainingMakeFinal')->name('training-make-final');
 
 

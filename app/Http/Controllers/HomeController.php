@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Models\Training;
 use App\Models\GOInformation;
+use App\Models\UserInstitute;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -28,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->user_type == 1){
+        if(isSuperAdmin()){
             $total_training = Training::count();
             $draft_training = Training::where('status', 0)->count();
             $open_training = Training::where('status', 1)->count();
@@ -44,16 +45,18 @@ class HomeController extends Controller
             $user_super = User::where('user_type', 1)->count();
             $user_admin = User::where('user_type', 2)->count();
             $user_normal = User::where('user_type', 3)->count();            
-        }elseif(Auth::user()->user_type == 2){
-            $total_training = Training::where('admin_id', Auth::user()->id)->count();
-            $draft_training = Training::where('status', 0)->where('admin_id', Auth::user()->id)->count();
-            $open_training = Training::where('status', 1)->where('admin_id', Auth::user()->id)->count();
-            $close_training = Training::where('status', 2)->where('admin_id', Auth::user()->id)->count();
-            $primary_selection_training = Training::where('status', 3)->where('admin_id', Auth::user()->id)->count();
-            $final_selection_training = Training::where('status', 4)->where('admin_id', Auth::user()->id)->count();
+        }elseif(isAdmin()){
+            $organization_ids = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+
+            $total_training = Training::whereIn('organization_id', $organization_ids)->count();
+            $draft_training = Training::where('status', 0)->whereIn('organization_id', $organization_ids)->count();
+            $open_training = Training::where('status', 1)->whereIn('organization_id', $organization_ids)->count();
+            $close_training = Training::where('status', 2)->whereIn('organization_id', $organization_ids)->count();
+            $primary_selection_training = Training::where('status', 3)->whereIn('organization_id', $organization_ids)->count();
+            $final_selection_training = Training::where('status', 4)->whereIn('organization_id', $organization_ids)->count();
 
             $q = Training::query();
-            $q->where('admin_id', Auth::user()->id)->where('status', 4)->orderBy('id', 'DESC');
+            $q->whereIn('organization_id', $organization_ids)->where('status', 4)->orderBy('id', 'DESC');
             $q->whereHas('goInformation', function ($query) {
                     $query->where('status', '=', 0)->where('type', 1);
                 });
@@ -61,7 +64,7 @@ class HomeController extends Controller
             $go_bangla_draft = $q->count();
 
             $q = Training::query();
-            $q->where('admin_id', Auth::user()->id)->where('status', 4)->orderBy('id', 'DESC');
+            $q->whereIn('organization_id', $organization_ids)->where('status', 4)->orderBy('id', 'DESC');
             $q->whereHas('goInformation', function ($query) {
                     $query->where('status', '=', 1)->where('type', 1);
                 });
@@ -69,7 +72,7 @@ class HomeController extends Controller
             $go_bangla_final = $q->count();
 
             $q2 = Training::query();
-            $q2->where('admin_id', Auth::user()->id)->where('status', 4)->orderBy('id', 'DESC');
+            $q2->whereIn('organization_id', $organization_ids)->where('status', 4)->orderBy('id', 'DESC');
             $q2->whereHas('goInformation', function ($query) {
                     $query->where('status', '=', 0)->where('type', 2);
                 });
@@ -77,7 +80,7 @@ class HomeController extends Controller
             $go_english_draft = $q2->count();
 
             $q2 = Training::query();
-            $q2->where('admin_id', Auth::user()->id)->where('status', 4)->orderBy('id', 'DESC');
+            $q2->whereIn('organization_id', $organization_ids)->where('status', 4)->orderBy('id', 'DESC');
             $q2->whereHas('goInformation', function ($query) {
                     $query->where('status', '=', 1)->where('type', 2);
                 });

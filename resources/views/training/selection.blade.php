@@ -45,11 +45,12 @@
                                  <tr>
                                     <th class="th-sm">Sl</th>
                                     @if($training->status != 4)
-                                    <!-- <th class="th-sm">Select</th> -->
-                                    <th class="th-sm"><div class="checkbox select-all">
-                                      <label for="all">Select all</label>
-                                      <input id="all" type="checkbox" />
-                                    </div></th>
+                                    <th class="th-sm">
+                                       <div class="checkbox select-all">
+                                          <label for="all">Select all</label>
+                                          <input id="all" type="checkbox" />
+                                       </div>
+                                    </th>
                                     @endif
                                     <th class="th-sm">Office</th>
                                     <th class="th-sm">ID</th>
