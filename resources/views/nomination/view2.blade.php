@@ -66,10 +66,20 @@
                         <tr>
                            <td>{{$i++}}</td>
                            <td>
-                              @if($rowdata->stage_status == 1)
+                              @if($rowdata->status == 0)
+                              <span class="text-success">Entry</span>
+                              @elseif($rowdata->status == 1)
+                              <span class="text-success">Send to Approval Authority</span>
+                              @elseif($rowdata->status == 2)
+                              <span class="text-success">Approved by Approval Authority and send to Admin</span>
+                              @elseif($rowdata->status == 3)
+                              <span class="text-success">Not Selected</span>
+                              @elseif($rowdata->status == 4)
                               <span class="text-success">Selected</span>
-                              @else
-                              <span class="text-danger">Not Selected</span>
+                              @elseif($rowdata->status == 5)
+                              <span class="text-success">Join in Training</span>
+                              @elseif($rowdata->status == 6)
+                              <span class="text-success">Completed</span>
                               @endif
                            </td>
                            <td>
@@ -115,10 +125,10 @@
                         @endforeach
                      </tbody>
                   </table>
-                  @if(isEntryUser() && $nomination->status == 0)
+                  @if(isEntryUser() && (nominationDetailsStatusByUser($nomination->id) == 0) && count($nominations))
                   <a class="btn btn-info btn-slim" href="/nominationTrainingSendToApprovalAuthority/{{$training->id}}"><i class="fa fa-pencil"></i> Send to Approval Authority </a>
                   @endif
-                  @if(isApprovalAuthority() && $nomination->status == 1)
+                  @if(isApprovalAuthority() && $nomination->status == 1 && count($nominations))
                   <button type="submit" class="btn btn-primary btn-slim">Save as Draft</button>
                   <a class="btn btn-info btn-slim" href="/nominationTrainingApprovedAndSendToAdmin/{{$training->id}}"><i class="fa fa-pencil"></i> Approved and Send to Admin </a>
                   @endif

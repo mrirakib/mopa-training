@@ -2,6 +2,7 @@
 	use App\Models\Training;
     use App\Models\GOInformation;
     use App\Models\UserLog;
+    use App\Models\NominationDetail;
 
     function userlog($description){
         $log = new UserLog();
@@ -50,6 +51,16 @@
 		else
 			return false;
 	}
+    function nominationDetailsStatusByUser($nomination_id){
+        $nominationDetails = NominationDetail::where('nomination_id', $nomination_id)->where('user_id', Auth::id())->get();
+
+        if(count($nominationDetails) > 0){
+            $nomination = NominationDetail::where('nomination_id', $nomination_id)->where('user_id', Auth::id())->first();
+            return $nomination->status;
+        }else{
+            return -1;
+        }
+    }
     function GOInformationFinal($training_id){
         $training = Training::find($training_id);
 

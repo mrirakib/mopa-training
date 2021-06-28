@@ -11,6 +11,7 @@ use App\Models\NominationDetail;
 use App\Models\Nomination;
 use App\Models\CadreList;
 use App\Models\TrainingCalender;
+use App\Models\EntryUserApprovalAuthorityMapping;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -23,12 +24,6 @@ class TrainingController extends Controller
     {
         $this->middleware(['auth']);
     }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if(isSuperAdmin()){
@@ -388,8 +383,6 @@ class TrainingController extends Controller
         }
 
         $training = Training::findOrFail($training_id);
-        // $training = Training::where('id', $training_id)->where('status', 1)->get();
-
 
         if($training == NULL){
             Session::flash('Msgerror', 'This training is not available.');
@@ -399,10 +392,19 @@ class TrainingController extends Controller
             Session::flash('Msgerror', 'This training has already closed.');
             return redirect('');
         }
+        if(isEntryUser()){
+            $nominations = NominationDetail::where('training_id', $training_id)->where('user_id', Auth::user()->id)->where('deleted_at', null)->get();
+        }else{
+            $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
+        }
+        if(isEntryUser()){
+            $nomination = Nomination::where('training_id', $training_id)->where('user_id', Auth::id())->first();
+        }
+        else{
+            $user_ids = EntryUserApprovalAuthorityMapping::where('approval_authority_user_id', Auth::id())->pluck('entry_user_id')->all();
+            $nomination = Nomination::where('training_id', $training_id)->whereIn('user_id', $user_ids)->first();
+        }
 
-        $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
-
-        $nomination = Nomination::where('training_id', $training_id)->first();
         if($nomination->status > 2){
             return view('nomination.view', compact('training', 'nominations', 'nomination'));
         }else{

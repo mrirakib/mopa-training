@@ -48,17 +48,17 @@
 
                         <td class="text-center"> <?php if($attachmentinfo != ''){ ?> <a href="{{ asset('/upload/'.$attachmentinfo)}}" download="{{ asset('/upload/'.$attachmentinfo)}}"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:20px;"></i></a> <?php } ?> </td>
                         
-                        <?php if($rowdata->status == 1){ ?>
+                        @if($rowdata->status == 1)
                         <td class="font-weight-bold text-center text-success">Open</td>
                         <td> 
-                           @if(isEntryUser())
+                           @if(isEntryUser() && (nominationDetailsStatusByUser($rowdata->id) == 0))
                               <a class="btn btn-success btn-slim" href="/nominationTraining/{{$rowdata->id}}"><i class="fa fa-eye"></i> Action </a>
                            @endif
                            <a class="btn btn-info btn-slim" href="/nominationTrainingShow/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a></td>
-                        <?php } else { ?>
+                        @else
                         <td class="font-weight-bold text-center text-danger">Closed</td>
                         <td> <a class="btn btn-info btn-slim" href="/trainingdetails/{{$rowdata->id}}"><i class="fa fa-pencil"></i> View </a></td>
-                        <?php } ?>
+                        @endif
                      </tr>
                      @endforeach                     
                   </tbody>

@@ -63,7 +63,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="/img/logo.png" style="height: 45px;">
-                    <strong class=" text-white" style="font-size: 20px;">Ministry of Public Administration</strong>
+                    <strong class=" text-white" style="font-size: 20px;">Ministry of Public Administration </strong>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -88,7 +88,7 @@
                                 </li>
                             @endif -->
                         @else
-                            <li><a class="nav-link text-white" href="\" style="font-size: 20px;">Home</a></li>
+                            <li><a class="nav-link text-white" href="\" style="font-size: 20px;">Home {{Auth::user()->email}}</a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 20px;">
                                   Training
