@@ -139,12 +139,16 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    @if(Auth::user()->user_type == 2)
+                                    @if(isAdmin())
                                         <a class="dropdown-item" href="\userProfile\create">Profile</a>
                                     @endif
-                                    @if(Auth::user()->user_type <= 2)
+                                    @if(isSuperAdmin())
                                         <a class="dropdown-item" href="{{ route('register') }}">Create New User</a>
                                         <a class="dropdown-item" href="\userlist">User List</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="\entry-user-approval-authority">User Mapping List</a>
+                                        <a class="dropdown-item" href="\entry-user-approval-authority\create">New User Mapping</a>
+                                        <div class="dropdown-divider"></div>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('password.change') }}">Change password</a>
                                     <div class="dropdown-divider"></div>

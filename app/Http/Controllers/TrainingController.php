@@ -33,21 +33,23 @@ class TrainingController extends Controller
     {
         if(isSuperAdmin()){
             $trainings = Training::orderBy('id', 'DESC')->get();
+            return view('training.index', compact('trainings'));
         }
         if(isAdmin()){
             $organization_ids = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
 
             $trainings = Training::whereIn('organization_id', $organization_ids)->orderBy('id', 'DESC')->get();
+            return view('training.index', compact('trainings'));
         }
         if(isApprovalAuthority()){
             $trainings = Training::where('status', '>', 0)->orderBy('id', 'DESC')->get();
+            return view('training.index2', compact('trainings'));
         }
 
         if(isEntryUser()){
             $trainings = Training::where('status', '>', 0)->orderBy('id', 'DESC')->get();
-        }        
-
-        return view('training.index', compact('trainings'));
+            return view('training.index2', compact('trainings'));
+        }
     }
 
     /**

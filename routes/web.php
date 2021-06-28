@@ -106,3 +106,7 @@ Route::get('/get-user-institute-info','UserInstituteController@getUserInstituteI
 
 Route::resource('/trainingCalender', 'TrainingCalenderController');
 Route::get('/trainingCalender/{id}/publish', 'TrainingCalenderController@trainingCalenderPublish');
+
+
+Route::resource('/entry-user-approval-authority', 'EntryUserApprovalAuthorityMappingController');
+Route::get('/get-approval-authority-info','EntryUserApprovalAuthorityMappingController@getApprovalAuthorityInfo');

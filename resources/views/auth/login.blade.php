@@ -52,7 +52,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="" class="col-md-4 col-form-label text-md-right"></label>
                             <div class="col-md-6">
                                 <div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}">
@@ -64,7 +64,7 @@
                                     </span>
                                 @endif                                
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
