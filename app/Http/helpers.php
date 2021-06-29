@@ -2,7 +2,9 @@
 	use App\Models\Training;
     use App\Models\GOInformation;
     use App\Models\UserLog;
+    use App\Models\Nomination;
     use App\Models\NominationDetail;
+    use App\Models\UserInstitute;
 
     function userlog($description){
         $log = new UserLog();
@@ -46,19 +48,25 @@
             return false;
     }
 	function trainingAuth(Training $training){
-		if($training->admin_id == Auth::id())
+        $userInstituteIds = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+		if((array_search($training->organization_id, $userInstituteIds) !== false))
 			return true;
 		else
 			return false;
 	}
-    function nominationDetailsStatusByUser($nomination_id){
-        $nominationDetails = NominationDetail::where('nomination_id', $nomination_id)->where('user_id', Auth::id())->get();
+    function nominationDetailsStatusByUser($training_id){
+        $nomination = Nomination::where('training_id', $training_id)->where('user_id', Auth::id())->get();
 
-        if(count($nominationDetails) > 0){
-            $nomination = NominationDetail::where('nomination_id', $nomination_id)->where('user_id', Auth::id())->first();
+        if(count($nomination) > 0){
+            $nomination = Nomination::where('training_id', $training_id)->where('user_id', Auth::id())->first();
             return $nomination->status;
         }else{
-            return -1;
+            $training = Training::findOrFail($training_id);
+            if($training->status == 1){
+                return 0;
+            }else{
+                return -1;
+            }
         }
     }
     function GOInformationFinal($training_id){

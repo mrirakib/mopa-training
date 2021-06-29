@@ -46,12 +46,6 @@ class TrainingController extends Controller
             return view('training.index2', compact('trainings'));
         }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         if(!isAdmin()){
@@ -61,13 +55,6 @@ class TrainingController extends Controller
         $organizations = Organization::where('status', 1)->get();
         return view('training.create', compact('organizations'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         if(!isAdmin()){
@@ -107,13 +94,6 @@ class TrainingController extends Controller
 
         return redirect('training');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Training  $training
-     * @return \Illuminate\Http\Response
-     */
     public function show(Training $training)
     {
         $flag = false;
@@ -135,7 +115,18 @@ class TrainingController extends Controller
         if($training->status == 4){
             $nominations = NominationDetail::where('training_id', $training->id)->where('status', 1)->where('deleted_at', NULL)->get();
         }else{
-            $nominations = NominationDetail::where('training_id', $training->id)->where('deleted_at', NULL)->get();
+            $nominations = NominationDetail::where('training_id', $training->id)->where('status', 2)->where('deleted_at', NULL)->get();
+        }
+        if($training->status == 0){
+            $nominations = NominationDetail::where('training_id', $training->id)->where('status', 2)->where('deleted_at', NULL)->get();
+        }elseif($training->status == 1){
+            $nominations = NominationDetail::where('training_id', $training->id)->where('status', 2)->where('deleted_at', NULL)->get();
+        }elseif($training->status == 2){
+            $nominations = NominationDetail::where('training_id', $training->id)->whereIn('status', [2,3,4])->where('deleted_at', NULL)->get();
+        }elseif($training->status == 3){
+            $nominations = NominationDetail::where('training_id', $training->id)->whereIn('status', [3,4])->where('deleted_at', NULL)->get();
+        }elseif($training->status == 4){
+            $nominations = NominationDetail::where('training_id', $training->id)->where('status', 4)->where('deleted_at', NULL)->get();
         }
 
         if($training->status >= 2){
@@ -143,7 +134,6 @@ class TrainingController extends Controller
         }
         return view('training.show', compact('training', 'nominations'));
     }
-
     public function trainingdetails($training_id)
     {
         $training = Training::find($training_id);
@@ -166,17 +156,19 @@ class TrainingController extends Controller
             return back();
         }
 
-        $nominations = NominationDetail::where('training_id', $training->id)->where('user_id', Auth::user()->id)->where('deleted_at', NULL)->get();
+        if(isEntryUser()){
+            $nominations = NominationDetail::where('training_id', $training->id)->where('user_id', Auth::user()->id)->where('deleted_at', NULL)->get();
+        }
+        if(isApprovalAuthority()){
+            $entry_user_ids = EntryUserApprovalAuthorityMapping::where('approval_authority_user_id', Auth::id())->pluck('entry_user_id')->all();
+            $nominations = NominationDetail::where('training_id', $training->id)->whereIn('user_id', $entry_user_ids)->where('status', '>', 2)->where('deleted_at', NULL)->get();
+
+        // dd(Auth::id());
+        }
+
 
         return view('training.details', compact('training', 'nominations'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Training  $training
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Training $training)
     {
         $flag = false;
@@ -199,14 +191,6 @@ class TrainingController extends Controller
 
         return view('training.edit', compact('training', 'organizations'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Training  $training
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Training $training)
     {
         $flag = false;
@@ -255,13 +239,6 @@ class TrainingController extends Controller
 
         return redirect('training');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Training  $training
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Training $training)
     {
         //
@@ -343,7 +320,6 @@ class TrainingController extends Controller
 
         return redirect('training');
     }
-
     public function nominationTraining($training_id)
     {
         $flag = true;
@@ -371,7 +347,6 @@ class TrainingController extends Controller
 
         return view('nomination.create', compact('training', 'nominations', 'cadre_lists'));
     }
-
     public function nominationTrainingShow($training_id)
     {
         $flag = true;
@@ -393,25 +368,26 @@ class TrainingController extends Controller
             return redirect('');
         }
         if(isEntryUser()){
-            $nominations = NominationDetail::where('training_id', $training_id)->where('user_id', Auth::user()->id)->where('deleted_at', null)->get();
         }else{
-            $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
         }
         if(isEntryUser()){
             $nomination = Nomination::where('training_id', $training_id)->where('user_id', Auth::id())->first();
+            $nominations = NominationDetail::where('training_id', $training_id)->where('user_id', Auth::user()->id)->where('deleted_at', null)->get();
         }
         else{
             $user_ids = EntryUserApprovalAuthorityMapping::where('approval_authority_user_id', Auth::id())->pluck('entry_user_id')->all();
             $nomination = Nomination::where('training_id', $training_id)->whereIn('user_id', $user_ids)->first();
+            $nominations = NominationDetail::where('training_id', $training_id)->whereIn('user_id', $user_ids)->where('deleted_at', null)->get();
         }
 
-        if($nomination->status > 2){
+
+
+        if($nomination->status == 1 && isApprovalAuthority()){
             return view('nomination.view', compact('training', 'nominations', 'nomination'));
         }else{
             return view('nomination.view2', compact('training', 'nominations', 'nomination'));
         }
     }
-
     public function nominationTrainingSendToApprovalAuthority($training_id)
     {
         $flag = true;
@@ -433,14 +409,13 @@ class TrainingController extends Controller
             return redirect('');
         }
 
-        $nomination = Nomination::where('training_id', $training_id)->update(['status'=>1]);
+        $nomination = Nomination::where('training_id', $training_id)->where('user_id', Auth::id())->update(['status'=>1]);
 
-        $nomination_details = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->update(['status'=>1]);
-        $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
+        $nomination_details = NominationDetail::where('training_id', $training_id)->where('user_id', Auth::id())->where('deleted_at', null)->update(['status'=>1]);
+        // $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
 
         return redirect('nominationTrainingShow/'.$training_id);
     }
-
     public function nominationTrainingApprovedAndSendToAdmin($training_id)
     {
         $flag = true;
@@ -462,14 +437,15 @@ class TrainingController extends Controller
             return redirect('');
         }
 
-        $nomination = Nomination::where('training_id', $training_id)->update(['status'=>2]);
+        $user_ids = EntryUserApprovalAuthorityMapping::where('approval_authority_user_id', Auth::id())->pluck('entry_user_id')->all();
 
-        $nomination_details = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->update(['status'=>2]);
-        $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
+        $nomination = Nomination::where('training_id', $training_id)->whereIn('user_id', $user_ids)->update(['status'=>2]);
+
+        $nomination_details = NominationDetail::where('training_id', $training_id)->where('stage_status', 1)->whereIn('user_id', $user_ids)->where('deleted_at', null)->update(['status'=>2]);
+        // $nominations = NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->get();
 
         return redirect('nominationTrainingShow/'.$training_id);
     }
-
     public function nominationTrainingApproveDraft(Request $request)
     {
         $flag = true;
@@ -495,7 +471,6 @@ class TrainingController extends Controller
 
         return redirect('nominationTrainingShow/'.$training_id);
     }
-
     public function trainingMakeFinal($training_id)
     {
         $training = Training::find($training_id);

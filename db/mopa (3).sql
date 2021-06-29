@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2021 at 12:56 PM
+-- Generation Time: Jun 29, 2021 at 01:01 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -110,7 +110,9 @@ CREATE TABLE `entry_user_approval_authority_mappings` (
 --
 
 INSERT INTO `entry_user_approval_authority_mappings` (`id`, `approval_authority_user_id`, `entry_user_id`, `created_at`, `updated_at`) VALUES
-(1, 11, 86, '2021-06-28 07:11:19', '2021-06-28 07:57:05');
+(1, 11, 86, '2021-06-28 07:11:19', '2021-06-28 07:57:05'),
+(2, 73, 87, '2021-06-29 06:13:19', '2021-06-29 06:13:19'),
+(3, 69, 88, '2021-06-29 06:44:40', '2021-06-29 06:44:40');
 
 -- --------------------------------------------------------
 
@@ -224,8 +226,9 @@ CREATE TABLE `nominations` (
 --
 
 INSERT INTO `nominations` (`id`, `training_id`, `organization_id`, `user_id`, `status`, `created_at`, `updated_at`) VALUES
-(54, 65, 2, 86, 1, '2021-06-28 08:13:19', '2021-06-28 08:53:21'),
-(55, 65, 2, 87, 0, '2021-06-28 10:12:20', '2021-06-28 10:12:20');
+(54, 65, 2, 86, 2, '2021-06-28 08:13:19', '2021-06-29 06:36:53'),
+(55, 65, 2, 87, 2, '2021-06-28 10:12:20', '2021-06-29 06:37:03'),
+(56, 65, 2, 88, 2, '2021-06-29 07:00:49', '2021-06-29 07:04:08');
 
 -- --------------------------------------------------------
 
@@ -264,11 +267,13 @@ CREATE TABLE `nomination_details` (
 --
 
 INSERT INTO `nomination_details` (`id`, `status`, `stage_status`, `training_id`, `nomination_id`, `organization_id`, `user_id`, `id_no`, `name`, `name_bangla`, `designation`, `designation_bangla`, `contact_no`, `email`, `working_place`, `working_place_bangla`, `batch`, `cadre_id`, `gender`, `date_of_birth`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(117, 1, 0, 65, 54, 2, 86, 700030, 'Rakib', 'রাকিব', 'asdf', 'এপি', '01741607831', 'mri.rakib@gmail.com', 'asd', 'পিএসিসি', 34, 2, 'Male', '2021-06-01', '2021-06-28 08:13:19', '2021-06-28 08:53:21', NULL),
-(118, 1, 0, 65, 54, 2, 86, 700029, 'asd', 'তদ', 'asdf', 'কতদ', '01521481414', 'likhon@gmail.com', 'asdf', 'দত', 34, 2, 'Male', '2021-06-07', '2021-06-28 08:13:19', '2021-06-28 08:53:21', NULL),
-(119, 1, 0, 65, 54, 2, 86, 7025, 'asdf', 'কতদক', 'asdf', 'দতকদ;ক', '01521414141', 'asd@asdf.com', 'asdf', 'দকতদকত', 35, 2, 'Male', '2021-06-03', '2021-06-28 08:13:19', '2021-06-28 08:53:21', NULL),
-(120, 0, 0, 65, 55, 2, 87, 500029, 'asd', 'asd', 'asd', 'asd', '01741607831', 'asdf@asdf.asdf', 'asd', 'asdf', 35, 2, 'Male', '2021-06-08', '2021-06-28 10:12:20', NULL, NULL),
-(121, 0, 0, 65, 55, 2, 87, 500030, 'asd', 'asdf', 'asdf', 'sadf', '01741607831', 'asdf@asdf.asdf', 'asdf', 'sadf', 31, 2, 'Male', '2021-06-01', '2021-06-28 10:12:20', NULL, NULL);
+(117, 4, 1, 65, 54, 2, 86, 700030, 'Rakib', 'রাকিব', 'asdf', 'এপি', '01741607831', 'mri.rakib@gmail.com', 'asd', 'পিএসিসি', 34, 2, 'Male', '2021-06-01', '2021-06-28 08:13:19', '2021-06-29 10:19:15', NULL),
+(118, 1, 0, 65, 54, 2, 86, 700029, 'asd', 'তদ', 'asdf', 'কতদ', '01521481414', 'likhon@gmail.com', 'asdf', 'দত', 34, 2, 'Male', '2021-06-07', '2021-06-28 08:13:19', '2021-06-29 10:15:37', NULL),
+(119, 4, 1, 65, 54, 2, 86, 7025, 'asdf', 'কতদক', 'asdf', 'দতকদ;ক', '01521414141', 'asd@asdf.com', 'asdf', 'দকতদকত', 35, 2, 'Male', '2021-06-03', '2021-06-28 08:13:19', '2021-06-29 10:19:15', NULL),
+(120, 3, 1, 65, 55, 2, 87, 500029, 'asd', 'asd', 'asd', 'asd', '01741607831', 'asdf@asdf.asdf', 'asd', 'asdf', 35, 2, 'Male', '2021-06-08', '2021-06-28 10:12:20', '2021-06-29 10:19:15', NULL),
+(121, 4, 1, 65, 55, 2, 87, 500030, 'asd', 'asdf', 'asdf', 'sadf', '01741607831', 'asdf@asdf.asdf', 'asdf', 'sadf', 31, 2, 'Male', '2021-06-01', '2021-06-28 10:12:20', '2021-06-29 10:19:15', NULL),
+(122, 4, 1, 65, 56, 2, 88, 1, '1', '2', '1', '2', '01741607831', 'asdf@adf.asdf', '1', '2', 1, 1, 'Male', '2021-06-29', '2021-06-29 07:00:49', '2021-06-29 10:19:15', NULL),
+(123, 1, 0, 65, 56, 2, 88, 2, 'asdf', 'asd', 'asdf', 'asdf', '01741607831', 'asdf@asdf.asdf', 'asdf', 'asdf', 3, 3, 'Female', '2021-06-15', '2021-06-29 07:00:49', '2021-06-29 10:15:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -342,7 +347,7 @@ CREATE TABLE `trainings` (
 --
 
 INSERT INTO `trainings` (`id`, `training_calender_id`, `organization_id`, `title`, `issue_no`, `issue_date`, `application_start_date`, `application_end_date`, `training_start_date`, `training_end_date`, `remarks`, `status`, `created_at`, `updated_at`) VALUES
-(65, 1, 2, 'it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2', '116', '2021-06-01', '2021-06-09', '2021-06-17', '2021-06-22', '2021-06-30', NULL, 1, '2021-06-28 06:23:08', '2021-06-28 06:24:30');
+(65, 1, 2, 'it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2 it2', '116', '2021-06-01', '2021-06-09', '2021-06-17', '2021-06-22', '2021-06-30', NULL, 4, '2021-06-28 06:23:08', '2021-06-29 10:32:12');
 
 -- --------------------------------------------------------
 
@@ -413,10 +418,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `section`, `name_bangla`, `section_bangla`, `email`, `user_type`, `user_level`, `created_by`, `status`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', '', '', '', 'mri.rakib@gmail.com', 1, 0, NULL, 1, '2020-09-25 12:23:24', '$2y$10$jSL6eFclY0T5Ht2XQMkv9.UEOLWNuBD3r2t2mpCPe9VK2e0rcJfT.', 'grgwWBFZkrqAmAZLfrUiOP9oS7MoKatIDRw5uBgfj3gcY6ZU9NYOBQ1C1hed', '2020-09-25 12:22:12', '2020-10-13 05:57:15'),
+(1, 'Super Admin', '', '', '', 'mri.rakib@gmail.com', 1, 0, NULL, 1, '2020-09-25 12:23:24', '$2y$10$jSL6eFclY0T5Ht2XQMkv9.UEOLWNuBD3r2t2mpCPe9VK2e0rcJfT.', 'tpcr2zWkXQsyeZ4Dicygt4NcJhF6j4MfLEAXMfLyIRYXzMCcPoxo2T8ujZiN', '2020-09-25 12:22:12', '2020-10-13 05:57:15'),
 (2, 'Internal Training - 1', 'Internal Training', 'অভ্যন্তরীণ প্রশিক্ষণ-১ শাখা', 'অভ্যন্তরীণ প্রশিক্ষণ', 'itss1@mopa.gov.bd', 2, 0, NULL, 2, '2020-10-04 17:59:06', '$2y$10$9AupoyIIW2me25iyI6OWDu87cWBVOjywE38uFngDPx/xyPbbHYc.K', 'hwLsgmj3B3oxULh2YqivIaPfdpKKzwUUetKe1ltirPLRLNyqYQRT1GycXiW4', '2020-10-04 17:58:39', '2021-06-13 10:19:10'),
-(11, 'DC Dhaka', 'General', 'ডিসি ঢাকা', 'সাধারন', 'dcdhaka@mopa.gov.bd', 3, 1, 14, 1, NULL, '$2y$10$.0A0UocGyodpqh7q17s.6ehTbaWTVI8THVTBZmfGJVuLPkVIwdhna', 'NGbu048KNh1ojgaJh4zmzKM0BNPZstABwFJY2nXkVayYmdaCcd4ZHEMQqsIc', '2020-10-05 17:39:48', '2020-11-24 08:54:22'),
-(12, 'Internal Training - 2', 'Internal Training', 'অভ্যন্তরীণ প্রশিক্ষণ-২ শাখা', 'অভ্যন্তরীণ প্রশিক্ষণ', 'it2@mopa.gov.bd', 2, 0, NULL, 1, NULL, '$2y$10$ePPYWc2OhqANfDkkUxj7Vu4nuvfuJvR0lDbeQNGiitkHOvVLpC.r2', 'tkd2EOTIOyvrgmehIVMoHr5nl6WNXiczwvz9P49L8gdMPFCu4hnxsJabeepB', '2020-10-05 18:11:56', '2020-11-25 07:28:00'),
+(11, 'DC Dhaka', 'General', 'ডিসি ঢাকা', 'সাধারন', 'dcdhaka@mopa.gov.bd', 3, 1, 14, 1, NULL, '$2y$10$.0A0UocGyodpqh7q17s.6ehTbaWTVI8THVTBZmfGJVuLPkVIwdhna', 'Y1iicdgM3ezfuW8q3CdDX6sXM4jBVFtiPQSTUceST1ZPayElzT5fhKJlr97n', '2020-10-05 17:39:48', '2020-11-24 08:54:22'),
+(12, 'Internal Training - 2', 'Internal Training', 'অভ্যন্তরীণ প্রশিক্ষণ-২ শাখা', 'অভ্যন্তরীণ প্রশিক্ষণ', 'it2@mopa.gov.bd', 2, 0, NULL, 1, NULL, '$2y$10$ePPYWc2OhqANfDkkUxj7Vu4nuvfuJvR0lDbeQNGiitkHOvVLpC.r2', 'atRn3TsMPRPivfS3rczmvoyjtgXieGD0UcqiwYhRxYOGIs2cuOX4YTUDk6qY', '2020-10-05 18:11:56', '2020-11-25 07:28:00'),
 (13, 'Internal Training - 3', 'Internal Training', 'অভ্যন্তরীণ প্রশিক্ষণ-৩ শাখা', 'অভ্যন্তরীণ প্রশিক্ষণ', 'it3@mopa.gov.bd', 2, 0, NULL, 1, NULL, '$2y$10$qfY/MmtitoiMvjlGMSqMd.DbdF6xgQv8ltsl.QCcjNlKrmG1SfoV6', NULL, '2020-10-05 19:01:53', '2020-11-25 07:29:16'),
 (14, 'Foreign Training', 'Foreign Training', 'বিদেশ প্রশিক্ষণ শাখা', 'বিদেশ প্রশিক্ষণ', 'ft@mopa.gov.bd', 2, 0, NULL, 1, NULL, '$2y$10$QGc4dSM39jpcgxB0VBHSfuU0gwGXafrg9oWZIa4TzkbEyhuGk9NAe', 'gFrRqkfPabKM6IM5mdnUtPSG8Fjotf09tLoBHl4hceyJbuuy6ZsmEwCHSq5C', '2020-10-06 16:21:08', '2020-11-25 07:30:47'),
 (15, 'DC Narayanganj', 'General', 'ডিসি নারায়নগন্জ', 'সাধারন', 'dcnarayanganj@mopa.gov.bd', 3, 1, 14, 1, NULL, '$2y$10$hx.7VfOhWdh28xZnHD5OzOuVgKH6/XyHFblyGbfExmPnCi6nl/emS', 'LVX33OiUSwIxNpJId3wto3IBPsMRMV2lZCkB3VuDPNT1By0o3DhMMz54046Z', '2020-10-06 16:22:10', '2020-11-24 08:55:23'),
@@ -490,7 +495,8 @@ INSERT INTO `users` (`id`, `name`, `section`, `name_bangla`, `section_bangla`, `
 (84, 'DC Barguna', 'General', 'ডিসি বরগুনা', 'সাধারন', 'dcbarguna@mopa.gov.bd', 3, 1, 1, 1, NULL, '$2y$10$Ve1IRjmXbMyurbmEN5boVObGeoBwsgX0bpEFV1LQ5RbEK/inoGtOa', NULL, '2020-11-25 07:13:10', '2020-11-25 07:13:10'),
 (85, 'DC Dhaka 2', 'Training 2', 'ডিসি ঢাকা ২', 'ট্রেনিং ২', 'dcdhaka2@mopa.gov.bd', 3, 2, 1, 1, NULL, '$2y$10$JOHDZTNIqXbL0N4S5eSRpeCCtfiYVdkGV2kP1R7OMRnVLy6yJT/PK', NULL, '2021-06-22 07:09:59', '2021-06-22 07:17:27'),
 (86, 'DC Dhaka', 'Admin', 'ডিসি ঢাকা', 'প্রশাসন', 'dc_dhaka_admin@mopa.gov.bd', 4, 2, 1, 1, NULL, '$2y$10$wa4zl6PUUhgKktHC..ePIefvoiy4n3j1gMF0ErNt73dFGkhDSEte2', NULL, '2021-06-27 04:36:01', '2021-06-27 04:36:01'),
-(87, 'DC Office Jhenaidah', 'Admin', 'ডিসি অফিস, ঝিনাইদহ', 'প্রশাসন', 'dcjhenaidahadmin@mopa.gov.bd', 4, 2, 1, 1, NULL, '$2y$10$HcJivZSYl2nxnqW.rC29oO48HfZxR6wI4mbTypS1ranA7xBEW.T0K', NULL, '2021-06-28 08:29:49', '2021-06-28 08:29:49');
+(87, 'DC Office Jhenaidah', 'Admin', 'ডিসি অফিস, ঝিনাইদহ', 'প্রশাসন', 'dcjhenaidahadmin@mopa.gov.bd', 4, 2, 1, 1, NULL, '$2y$10$HcJivZSYl2nxnqW.rC29oO48HfZxR6wI4mbTypS1ranA7xBEW.T0K', 'C0gBAHtrfnf3uyqwe6VQOfKwJT5rcyZ33sH2IN5YqYkBP2jtUo5YfGu7eRJH', '2021-06-28 08:29:49', '2021-06-28 08:29:49'),
+(88, 'DC Kushtia', 'Training', 'ডিসি অফিস, কুষ্টিয়া', 'প্রশিক্ষন', 'dckushtiatraining@mopa.gov.bd', 4, 2, 1, 1, NULL, '$2y$10$/npqbhaCzwxK3g1GER3B9uYSOHUuJ6v3VGAgCqqw9VnFniqfBXPem', NULL, '2021-06-29 06:43:14', '2021-06-29 06:44:00');
 
 -- --------------------------------------------------------
 
@@ -569,7 +575,17 @@ INSERT INTO `user_logs` (`id`, `user_id`, `description`, `action_time`, `ip_addr
 (569, 1, 'Entry User and approval authority user Mapping Successfully', '2021-06-28 07:56:58', '127.0.0.1', '2021-06-28 07:56:58', '2021-06-28 07:56:58'),
 (570, 1, 'Entry User and approval authority user Mapping Successfully', '2021-06-28 07:57:05', '127.0.0.1', '2021-06-28 07:57:05', '2021-06-28 07:57:05'),
 (571, 86, 'Nomination information save. Training id: 65', '2021-06-28 08:13:19', '127.0.0.1', '2021-06-28 08:13:19', '2021-06-28 08:13:19'),
-(572, 87, 'Nomination information save. Training id: 65', '2021-06-28 10:12:20', '127.0.0.1', '2021-06-28 10:12:20', '2021-06-28 10:12:20');
+(572, 87, 'Nomination information save. Training id: 65', '2021-06-28 10:12:20', '127.0.0.1', '2021-06-28 10:12:20', '2021-06-28 10:12:20'),
+(573, 1, 'Entry User and approval authority user Mapping Successfully', '2021-06-29 06:13:19', '127.0.0.1', '2021-06-29 06:13:19', '2021-06-29 06:13:19'),
+(574, 1, 'User information update 88', '2021-06-29 06:44:00', '127.0.0.1', '2021-06-29 06:44:00', '2021-06-29 06:44:00'),
+(575, 1, 'Entry User and approval authority user Mapping Successfully', '2021-06-29 06:44:40', '127.0.0.1', '2021-06-29 06:44:40', '2021-06-29 06:44:40'),
+(576, 88, 'Nomination information save. Training id: 65', '2021-06-29 07:00:49', '127.0.0.1', '2021-06-29 07:00:49', '2021-06-29 07:00:49'),
+(577, 12, 'Training close 65', '2021-06-29 09:48:59', '127.0.0.1', '2021-06-29 09:48:59', '2021-06-29 09:48:59'),
+(578, 12, 'Candidate Selection save. Training id: 65', '2021-06-29 10:08:33', '127.0.0.1', '2021-06-29 10:08:33', '2021-06-29 10:08:33'),
+(579, 12, 'Candidate Selection save. Training id: 65', '2021-06-29 10:15:37', '127.0.0.1', '2021-06-29 10:15:37', '2021-06-29 10:15:37'),
+(580, 12, 'Candidate Selection save. Training id: 65', '2021-06-29 10:19:06', '127.0.0.1', '2021-06-29 10:19:06', '2021-06-29 10:19:06'),
+(581, 12, 'Candidate Selection save. Training id: 65', '2021-06-29 10:19:15', '127.0.0.1', '2021-06-29 10:19:15', '2021-06-29 10:19:15'),
+(582, 12, 'Training make final 65', '2021-06-29 10:32:12', '127.0.0.1', '2021-06-29 10:32:12', '2021-06-29 10:32:12');
 
 -- --------------------------------------------------------
 
@@ -736,7 +752,7 @@ ALTER TABLE `cadre_lists`
 -- AUTO_INCREMENT for table `entry_user_approval_authority_mappings`
 --
 ALTER TABLE `entry_user_approval_authority_mappings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -766,13 +782,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `nominations`
 --
 ALTER TABLE `nominations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `nomination_details`
 --
 ALTER TABLE `nomination_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `organizations`
@@ -796,7 +812,7 @@ ALTER TABLE `training_calenders`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `user_institutes`
@@ -814,7 +830,7 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=573;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=583;
 
 --
 -- AUTO_INCREMENT for table `user_profiles`

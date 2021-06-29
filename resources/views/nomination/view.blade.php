@@ -35,7 +35,7 @@
    <div class="row justify-content-center" style="margin-top: 5px;">
       <div class="col-md-12">
          <div class="card">
-            <div class="card-header">Nomination Table </div>
+            <div class="card-header">Nomination Table</div>
             <div class="card-body table-responsive">
                <form action = "/nominationTrainingApproveDraft" method = "POST" id="nominationTable">
                   {{ csrf_field() }}

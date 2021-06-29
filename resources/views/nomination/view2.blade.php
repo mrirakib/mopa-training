@@ -125,7 +125,7 @@
                         @endforeach
                      </tbody>
                   </table>
-                  @if(isEntryUser() && (nominationDetailsStatusByUser($nomination->id) == 0) && count($nominations))
+                  @if(isEntryUser() && (nominationDetailsStatusByUser($nomination->training_id) == 0) && count($nominations))
                   <a class="btn btn-info btn-slim" href="/nominationTrainingSendToApprovalAuthority/{{$training->id}}"><i class="fa fa-pencil"></i> Send to Approval Authority </a>
                   @endif
                   @if(isApprovalAuthority() && $nomination->status == 1 && count($nominations))

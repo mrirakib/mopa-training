@@ -22,7 +22,7 @@
             <div class="card-header">Training Candidate Selection</div>
             <div class="card-body">
                <p style="margin-bottom: 0px;"><b>Title</b> : {{$training->title}}</p>
-               <p class="mb-0"><b>Issue No</b> : {{$training->issue_no}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Issue Date</b> : {{date_format(new DateTime($training->issue_date), 'd-m-Y')}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Archive Date</b> : {{date_format(new DateTime($training->archive_date), 'd-m-Y')}}</p>
+               <p class="mb-0"><b>Issue No</b> : {{$training->issue_no}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Issue Date</b> : {{date_format(new DateTime($training->issue_date), 'd-m-Y')}}</p>
 
                <?php $attachmentinfo = $training->getAttachementInfo($training->id); ?>
 
@@ -71,7 +71,7 @@
                                     @if($training->status != 4)
                                     <td>
                                       <div class="checkbox rows">
-                                       <input type="checkbox" name="id_no[]" value="{{$rowdata->id}}" @if($rowdata->status == 1) checked @endif> <label></label>
+                                       <input type="checkbox" name="id_no[]" value="{{$rowdata->id}}" @if($rowdata->status == 4) checked @endif> <label></label>
                                      </div>
                                     </td>
                                     @endif

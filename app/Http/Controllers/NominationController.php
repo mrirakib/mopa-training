@@ -115,9 +115,9 @@ class NominationController extends Controller
         $training = Training::find($request->training_id);
 
 
-        NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->whereIn('id', $id_no)->update(['status' => 1]);
+        NominationDetail::whereIn('id', $id_no)->update(['status' => 4]);
 
-        NominationDetail::where('training_id', $training_id)->where('deleted_at', null)->whereNotIn('id', $id_no)->update(['status' => 0]);
+        NominationDetail::whereNotIn('id', $id_no)->where('status', '>=', 2)->update(['status' => 3]);
 
         Training::where('id', $training_id)->update(['status' => 3]);
 
