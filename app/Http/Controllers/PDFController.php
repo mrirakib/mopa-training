@@ -10,6 +10,7 @@ use App\Models\NominationDetail;
 use App\Models\GOInformationTemplate;
 use App\Models\GOInformation;
 use App\Models\UserProfile;
+use App\Models\UserInstitute;
 use App\User;
 use PDF;
 use Auth;
@@ -50,7 +51,7 @@ class PDFController extends Controller
 
 
         if(isAdmin()){
-            $training_ids = Training::where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
+            $training_ids = Training::where('status', 4)->where('admin_id', Auth::id())->pluck('id');
         }else{
             $training_ids = Training::where('status', 4)->pluck('id');
         }
@@ -105,21 +106,33 @@ class PDFController extends Controller
             Session::flash('Msgerror', 'No Training Found.');
             return redirect('/');
         }
-        if(($training->admin_id != Auth::user()->id) && (Auth::user()->user_type == 2)){
-            Session::flash('Msgerror', 'Access Denied.');
-            return redirect('/');
+        $flag = false;
+
+        $userInstituteIds = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+
+        if(isSuperAdmin()){
+            $flag = true;
+        }elseif(isAdmin() && (array_search($training->organization_id, $userInstituteIds) !== false)){
+            $flag = true;
+        }elseif(isApprovalAuthority()){
+            $flag = false;
         }
 
-        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied');
+            return back();
+        }
 
-        $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
+        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 4)->where('deleted_at', null)->get();
+
+        $profile = UserProfile::where('user_id', Auth::id())->where('status', 1)->first();
 
         if($profile == null){
-            if(Auth::user()->user_type == 1){
+            if(isSuperAdmin()){
                 Session::flash('Msgerror', 'Signatory information not found. Admin of this training should fill in the signatory information first.');
                 return redirect('/');
 
-            }elseif(Auth::user()->user_type == 2){
+            }elseif(isAdmin()){
                 Session::flash('Msgerror', 'Signatory information not found. Please fill in the signatory information then try again.');
                 return redirect('/userProfile/create');
             }else{
@@ -130,16 +143,16 @@ class PDFController extends Controller
 
 
         ////////////////////////////////////////
-        $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->first();
+        $goInformation = GOInformation::where('admin_id', Auth::id())->where('training_id', $training_id)->where('status', 1)->first();
         
         if($goInformation == null){
-            if(Auth::user()->user_type == 2){
-                $goInformation = GOInformationTemplate::where('admin_id', $training->admin_id)->first();
+            if(isAdmin()){
+                $goInformation = GOInformationTemplate::where('admin_id', Auth::id())->first();
 
                 if($goInformation == null){
                     return view('GOInformationTemplate.create');
                 }
-                if($goInformation->admin_id != Auth::user()->id){
+                if($goInformation->admin_id != Auth::id()){
                     return redirect('/');
                 }                
             }else{
@@ -180,21 +193,33 @@ class PDFController extends Controller
             Session::flash('Msgerror', 'No Training Found.');
             return redirect('/');
         }
-        if(($training->admin_id != Auth::user()->id) && (Auth::user()->user_type == 2)){
-            Session::flash('Msgerror', 'Access Denied.');
-            return redirect('/');
+        $flag = false;
+
+        $userInstituteIds = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+
+        if(isSuperAdmin()){
+            $flag = true;
+        }elseif(isAdmin() && (array_search($training->organization_id, $userInstituteIds) !== false)){
+            $flag = true;
+        }elseif(isApprovalAuthority()){
+            $flag = false;
         }
 
-        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied');
+            return back();
+        }
 
-        $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
+        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 4)->where('deleted_at', null)->get();
+
+        $profile = UserProfile::where('user_id', Auth::id())->where('status', 1)->first();
 
         if($profile == null){
-            if(Auth::user()->user_type == 1){
+            if(isSuperAdmin()){
                 Session::flash('Msgerror', 'Signatory information not found. Admin of this training should fill in the signatory information first.');
                 return redirect('/');
 
-            }elseif(Auth::user()->user_type == 2){
+            }elseif(isAdmin()){
                 Session::flash('Msgerror', 'Signatory information not found. Please fill in the signatory information then try again.');
                 return redirect('/userProfile/create');
             }else{
@@ -208,7 +233,7 @@ class PDFController extends Controller
         $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->first();
         
         if($goInformation == null){
-            if(Auth::user()->user_type == 2){
+            if(isAdmin()){
                 $goInformation = GOInformationTemplate::where('admin_id', $training->admin_id)->first();
 
                 if($goInformation == null){
@@ -257,21 +282,33 @@ class PDFController extends Controller
             Session::flash('Msgerror', 'No Training Found.');
             return redirect('/');
         }
-        if(($training->admin_id != Auth::user()->id) && (Auth::user()->user_type == 2)){
-            Session::flash('Msgerror', 'Access Denied.');
-            return redirect('/');
+        $flag = false;
+
+        $userInstituteIds = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+
+        if(isSuperAdmin()){
+            $flag = true;
+        }elseif(isAdmin() && (array_search($training->organization_id, $userInstituteIds) !== false)){
+            $flag = true;
+        }elseif(isApprovalAuthority()){
+            $flag = false;
         }
 
-        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied');
+            return back();
+        }
 
-        $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
+        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 4)->where('deleted_at', null)->get();
+
+        $profile = UserProfile::where('user_id', Auth::id())->where('status', 1)->first();
 
         if($profile == null){
-            if(Auth::user()->user_type == 1){
+            if(isSuperAdmin()){
                 Session::flash('Msgerror', 'Signatory information not found. Admin of this training should fill in the signatory information first.');
                 return redirect('/');
 
-            }elseif(Auth::user()->user_type == 2){
+            }elseif(isAdmin()){
                 Session::flash('Msgerror', 'Signatory information not found. Please fill in the signatory information then try again.');
                 return redirect('/userProfile/create');
             }else{
@@ -282,11 +319,11 @@ class PDFController extends Controller
 
 
         ////////////////////////////////////////
-        $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('status', 1)->where('type', 2)->first();
+        $goInformation = GOInformation::where('training_id', $training_id)->where('status', 1)->where('type', 2)->first();
         
         if($goInformation == null){
-            if(Auth::user()->user_type == 2){
-                $goInformation = GOInformationTemplate::where('admin_id', $training->admin_id)->where('type', 2)->first();
+            if(isAdmin()){
+                $goInformation = GOInformationTemplate::where('admin_id', Auth::id())->where('type', 2)->first();
 
                 if($goInformation == null){
                     return view('GOInformationTemplateEnglish.create');
@@ -332,21 +369,33 @@ class PDFController extends Controller
             Session::flash('Msgerror', 'No Training Found.');
             return redirect('/');
         }
-        if(($training->admin_id != Auth::user()->id) && (Auth::user()->user_type == 2)){
-            Session::flash('Msgerror', 'Access Denied.');
-            return redirect('/');
+        $flag = false;
+
+        $userInstituteIds = UserInstitute::where('user_id', Auth::id())->pluck('organization_id')->all();
+
+        if(isSuperAdmin()){
+            $flag = true;
+        }elseif(isAdmin() && (array_search($training->organization_id, $userInstituteIds) !== false)){
+            $flag = true;
+        }elseif(isApprovalAuthority()){
+            $flag = false;
         }
 
-        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
+        if(!$flag){
+            Session::flash('Msgerror', 'Access Denied');
+            return back();
+        }
 
-        $profile = UserProfile::where('user_id', $training->admin_id)->where('status', 1)->first();
+        $nominations = NominationDetail::where('training_id', $training_id)->where('status', 4)->where('deleted_at', null)->get();
+
+        $profile = UserProfile::where('user_id', Auth::id())->where('status', 1)->first();
 
         if($profile == null){
-            if(Auth::user()->user_type == 1){
+            if(isSuperAdmin()){
                 Session::flash('Msgerror', 'Signatory information not found. Admin of this training should fill in the signatory information first.');
                 return redirect('/');
 
-            }elseif(Auth::user()->user_type == 2){
+            }elseif(isAdmin()){
                 Session::flash('Msgerror', 'Signatory information not found. Please fill in the signatory information then try again.');
                 return redirect('/userProfile/create');
             }else{
@@ -357,16 +406,16 @@ class PDFController extends Controller
 
 
         ////////////////////////////////////////
-        $goInformation = GOInformation::where('admin_id', $training->admin_id)->where('training_id', $training_id)->where('type', 2)->first();
+        $goInformation = GOInformation::where('admin_id', Auth::id())->where('training_id', $training_id)->where('type', 2)->first();
         
         if($goInformation == null){
-            if(Auth::user()->user_type == 2){
-                $goInformation = GOInformationTemplate::where('admin_id', $training->admin_id)->where('type', 2)->first();
+            if(isAdmin()){
+                $goInformation = GOInformationTemplate::where('admin_id', Auth::id())->where('type', 2)->first();
 
                 if($goInformation == null){
                     return view('GOInformationTemplateEnglish.create');
                 }
-                if($goInformation->admin_id != Auth::user()->id){
+                if($goInformation->admin_id != Auth::id()){
                     return redirect('/');
                 }                
             }else{
@@ -412,7 +461,7 @@ class PDFController extends Controller
 
 
         if(isAdmin()){
-            $training_ids = Training::where('status', 4)->where('admin_id', Auth::user()->id)->pluck('id');
+            $training_ids = Training::where('status', 4)->where('admin_id', Auth::id())->pluck('id');
         }else{
             $training_ids = Training::where('status', 4)->pluck('id');
         }
@@ -494,7 +543,7 @@ class PDFController extends Controller
         }
 
         if($go_info_id != null){
-            if(Auth::user()->user_type == 1){
+            if(isSuperAdmin()){
                 $training_ids = GOInformation::where('id', $go_info_id)->pluck('training_id');
             }else{
                 $training_ids = GOInformation::where('id', $go_info_id)->pluck('training_id');
@@ -505,7 +554,7 @@ class PDFController extends Controller
             if($organization_id != 0){
                 $q2->where('organization_id', $organization_id);
             }
-            if(Auth::user()->user_type == 2){
+            if(isAdmin()){
                 $q2->where('admin_id', Auth::user()->id);
             }
             $training_ids = $q2->pluck('id');
@@ -576,35 +625,5 @@ class PDFController extends Controller
         $nominations = NominationDetail::where('training_id', $training_id)->where('status', 1)->where('deleted_at', null)->get();
 
         return view('pdf.training-govt-order2', compact('nominations'));
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }

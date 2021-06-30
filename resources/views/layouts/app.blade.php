@@ -96,7 +96,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="\training">Training List</a>
                                     @if(isAdmin())
-                                    <a class="dropdown-item" href="\training\create">Training Create</a>
+                                    <!-- <a class="dropdown-item" href="\training\create">Training Create</a> -->
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="\trainingCalender">Calender List</a>
                                     <a class="dropdown-item" href="\trainingCalender\create">Calender Create</a>
